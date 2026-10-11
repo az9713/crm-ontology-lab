@@ -1,0 +1,8 @@
+Id,Name,Email,Profile,IsActive,Region,MaxOpenLeads,LastModifiedDate,IsDeleted,_extracted_at
+mgr-cara,Cara Diaz,cara@example.com,Sales Manager,true,East,,2026-08-02T17:51:00.000+0000,false,2026-09-15T00:00:00.000+0000
+usr-sync,Integration User,sync@example.com,System Integration,true,East,,2026-08-10T12:28:00.000+0000,false,2026-09-15T00:00:00.000+0000
+rep-ben,Ben Okafor,ben@example.com,Sales Rep,true,east,5,2026-09-08T16:54:00.000+0000,false,2026-09-15T00:00:00.000+0000
+rep-gil,Gil Moss,gil@example.com,Sales Rep,false,East,5,2026-08-10T00:53:00.000+0000,false,2026-09-15T00:00:00.000+0000
+rep-fay,Fay Chen,fay@example.com,Sales Rep,true,West,3,2026-08-02T14:19:00.000+0000,false,2026-09-15T00:00:00.000+0000
+rep-eli,Eli Novak,eli@example.com,Sales Rep,true,WEST ,6,2026-08-03T16:30:00.000+0000,false,2026-09-15T00:00:00.000+0000
+rep-ana,Ana Lopez,ana@example.com,Sales Rep,true,East,5,2026-09-14T17:54:00.000+0000,false,2026-09-15T00:00:00.000+0000

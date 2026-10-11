@@ -1,0 +1,5 @@
+salesRepId,fullName,email,team,maxOpenLeads,openLeadCount
+rep-ana,Ana Lopez,ana@example.com,East,5,2
+rep-ben,Ben Okafor,ben@example.com,East,5,2
+rep-eli,Eli Novak,eli@example.com,West,6,1
+rep-fay,Fay Chen,fay@example.com,West,3,3

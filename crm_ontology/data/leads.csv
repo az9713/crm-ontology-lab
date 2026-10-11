@@ -1,0 +1,31 @@
+leadId,fullName,companyName,email,leadSource,status,ownerId,convertedAccountId,createdAt,createdBy
+lead-001,Alex Brooks,Atlas Mining,alex.brooks@atlasmining.example.com,referral,new,,,2026-06-21T18:56:00Z,rep-ben
+lead-002,Ivan Ford,Bright Dental,ivan.ford@brightdental.example.com,event,new,,,2026-05-27T19:49:00Z,mgr-cara
+lead-003,Pia Hill,Coral Travel,pia.hill@coraltravel.example.com,outbound,new,,,2026-05-25T13:22:00Z,mgr-cara
+lead-004,Ed Brooks,Dune Apparel,ed.brooks@duneapparel.example.com,event,new,,,2026-07-20T07:40:00Z,rep-ben
+lead-005,Fern Ito,Echo Audio,fern.ito@echoaudio.example.com,web,new,,,2026-08-04T05:59:00Z,rep-ana
+lead-006,Ed Lee,Falcon Security,ed.lee@falconsecurity.example.com,web,new,,,2026-05-13T13:50:00Z,rep-ben
+lead-007,Carl Lee,Glacier Water,carl.lee@glacierwater.example.com,event,new,,,2026-05-16T11:29:00Z,mgr-cara
+lead-008,Lena Diaz,Harbor Legal,lena.diaz@harborlegal.example.com,event,new,,,2026-07-30T03:05:00Z,mgr-cara
+lead-009,Hana Gray,Indigo Paints,hana.gray@indigopaints.example.com,referral,new,,,2026-08-05T06:20:00Z,rep-ana
+lead-010,Lena Lee,Jade Gardens,lena.lee@jadegardens.example.com,web,new,,,2026-09-18T14:28:00Z,rep-ana
+lead-011,Ivan Diaz,Kite Games,ivan.diaz@kitegames.example.com,event,assigned,rep-ana,,2026-06-03T12:05:00Z,rep-ana
+lead-012,Carl Diaz,Lotus Spa,carl.diaz@lotusspa.example.com,web,assigned,rep-ana,,2026-07-29T07:58:00Z,mgr-cara
+lead-013,Kai Diaz,Mesa Farms,kai.diaz@mesafarms.example.com,outbound,assigned,rep-ben,,2026-09-25T07:39:00Z,rep-ben
+lead-014,Lena Khan,Nova Labs,lena.khan@novalabs.example.com,web,assigned,rep-ben,,2026-08-26T10:45:00Z,rep-ben
+lead-015,Gus Hill,Atlas Mining,gus.hill@atlasmining.example.com,referral,assigned,rep-eli,,2026-06-06T02:18:00Z,rep-ana
+lead-016,Carl Lee,Bright Dental,carl.lee@brightdental.example.com,outbound,assigned,rep-fay,,2026-05-30T10:18:00Z,rep-ben
+lead-017,Carl Lee,Coral Travel,carl.lee@coraltravel.example.com,referral,assigned,rep-fay,,2026-08-13T19:40:00Z,mgr-cara
+lead-018,Ed James,Dune Apparel,ed.james@duneapparel.example.com,outbound,assigned,rep-fay,,2026-08-19T03:08:00Z,rep-ben
+lead-019,Pia Khan,Cedar Health,pia.khan@cedarhealth.example.com,event,converted,rep-ben,acct-003,2026-02-16T21:04:00Z,rep-ben
+lead-020,Sara Cruz,Granite Bank,sara.cruz@granitebank.example.com,web,converted,rep-ana,acct-007,2025-05-20T04:01:00Z,rep-ben
+lead-021,Dina Ito,Kestrel Aviation,dina.ito@kestrelaviation.example.com,referral,converted,rep-ben,acct-011,2025-08-20T20:41:00Z,mgr-cara
+lead-022,Gus Adams,Nimbus Cloud,gus.adams@nimbuscloud.example.com,event,converted,rep-eli,acct-014,2025-07-10T04:01:00Z,rep-ana
+lead-023,Raj Diaz,Pioneer Steel,raj.diaz@pioneersteel.example.com,event,converted,rep-ben,acct-016,2026-01-21T04:24:00Z,rep-ben
+lead-024,Nora Cruz,Redwood Logistics,nora.cruz@redwoodlogistics.example.com,web,converted,rep-eli,acct-018,2025-04-11T21:31:00Z,rep-ana
+lead-025,Omar Khan,Northwind Traders,omar.khan@northwindtraders.example.com,outbound,converted,rep-ana,acct-019,2026-07-18T06:32:00Z,rep-ben
+lead-026,Ed Ito,"Northwind Traders, Inc.",ed.ito@northwindtraders.example.com,referral,converted,rep-eli,acct-020,2026-06-20T18:23:00Z,rep-ben
+lead-027,Alex Hill,Mesa Farms,alex.hill@mesafarms.example.com,referral,disqualified,rep-ana,,2026-09-24T18:54:00Z,mgr-cara
+lead-028,Ed Hill,Nova Labs,ed.hill@novalabs.example.com,web,disqualified,rep-ben,,2026-05-06T21:54:00Z,rep-ana
+lead-029,Raj Ito,Atlas Mining,raj.ito@atlasmining.example.com,outbound,disqualified,rep-eli,,2026-08-29T04:53:00Z,mgr-cara
+lead-030,Hana Diaz,Bright Dental,hana.diaz@brightdental.example.com,event,disqualified,rep-fay,,2026-09-15T20:40:00Z,rep-ben

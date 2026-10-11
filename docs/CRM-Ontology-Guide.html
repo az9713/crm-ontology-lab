@@ -1,0 +1,483 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark">
+<title>CRM Ontology Guide</title>
+<style>
+  :root {
+    --bg: #0f172a; --card: #1e293b; --text: #e2e8f0; --text2: #cbd5e1; --muted: #94a3b8;
+    --orange: #fb923c; --teal: #2dd4bf; --border: #334155; --border2: #1e293b;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--text2); font: 16px/1.6 system-ui, -apple-system, "Segoe UI", sans-serif; }
+  .wrap { max-width: 1080px; margin: 0 auto; padding: 32px 16px 80px; }
+  h1 { color: var(--text); font-size: 2rem; margin: 0 0 4px; }
+  h2 { color: var(--text); font-size: 1.45rem; margin: 48px 0 12px; padding-top: 12px; border-top: 1px solid var(--border); }
+  h3 { color: var(--orange); font-size: 1.1rem; margin: 28px 0 8px; }
+  p, li { color: var(--text2); }
+  a { color: var(--teal); }
+  code { font: 0.88em ui-monospace, Consolas, monospace; color: var(--teal); background: #0b1222; padding: 1px 5px; border-radius: 4px; word-break: break-all; }
+  .sub { color: var(--muted); margin: 0 0 24px; }
+  .card { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 16px 20px; margin: 16px 0; }
+  .card h3 { margin-top: 4px; }
+  .note { border-left: 4px solid var(--orange); }
+  .ok { border-left: 4px solid var(--teal); }
+  table { width: 100%; border-collapse: collapse; margin: 12px 0; font-size: 0.92rem; }
+  .tbl { overflow-x: auto; }
+  th, td { text-align: left; vertical-align: top; padding: 8px 10px; border-bottom: 1px solid var(--border); }
+  th { color: var(--text); background: var(--card); font-weight: 600; }
+  td { color: var(--text2); }
+  nav.toc { columns: 2; column-gap: 32px; }
+  nav.toc a { display: block; padding: 2px 0; text-decoration: none; }
+  ol li, ul li { margin: 4px 0; }
+  .muted { color: var(--muted); }
+  .flow { display: flex; flex-wrap: wrap; gap: 8px; align-items: stretch; margin: 16px 0; }
+  .flow .box { flex: 1 1 140px; background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 10px 12px; }
+  .flow .box b { color: var(--teal); display: block; }
+  .flow .arrow { align-self: center; color: var(--orange); font-size: 1.4rem; }
+  .tag { display: inline-block; font-size: 0.75rem; padding: 1px 8px; border-radius: 999px; border: 1px solid var(--border); color: var(--muted); }
+  .tag.v { color: var(--teal); border-color: var(--teal); }
+  .tag.h { color: var(--orange); border-color: var(--orange); }
+  .tag.n { color: #f87171; border-color: #f87171; }
+  /* diagrams */
+  svg.fig { width: 100%; height: auto; display: block; background: var(--card); border: 1px solid var(--border); border-radius: 10px; }
+  svg .node rect { fill: #0f172a; stroke: var(--teal); stroke-width: 1.5; }
+  svg .node .t { fill: var(--text); font: 600 16px system-ui, sans-serif; }
+  svg .node .s { fill: var(--muted); font: 12px ui-monospace, Consolas, monospace; }
+  svg .edge line, svg .edge polyline { stroke: #64748b; stroke-width: 1.8; fill: none; }
+  svg .edge.mm line { stroke-dasharray: 6 4; }
+  svg .edge text, svg .lbl { fill: var(--text2); font: 11px system-ui, sans-serif; }
+  svg .card1 { fill: var(--orange); font: 700 12px system-ui, sans-serif; }
+  svg.onto .node { cursor: pointer; }
+  svg.onto:has(.node:hover) .edge { opacity: .2; }
+  svg.onto:has(#n-sr:hover) .edge.sr, svg.onto:has(#n-lead:hover) .edge.lead,
+  svg.onto:has(#n-acct:hover) .edge.acct, svg.onto:has(#n-opp:hover) .edge.opp,
+  svg.onto:has(#n-ct:hover) .edge.ct, svg.onto:has(#n-act:hover) .edge.act { opacity: 1; }
+  svg.onto:has(#n-sr:hover) .edge.sr line, svg.onto:has(#n-lead:hover) .edge.lead line,
+  svg.onto:has(#n-acct:hover) .edge.acct line, svg.onto:has(#n-opp:hover) .edge.opp line,
+  svg.onto:has(#n-ct:hover) .edge.ct line, svg.onto:has(#n-act:hover) .edge.act line { stroke: var(--orange); stroke-width: 3; }
+  svg .pill rect { fill: #0f172a; stroke: var(--teal); stroke-width: 1.5; }
+  svg .pill.off rect { stroke: #64748b; stroke-dasharray: 5 4; }
+  svg .pill text { fill: var(--text); font: 600 13px system-ui, sans-serif; }
+  svg .act-lbl { fill: var(--orange); font: 600 12px ui-monospace, Consolas, monospace; }
+  .chip { display: inline-block; min-width: 22px; text-align: center; font: 700 0.78rem ui-monospace, Consolas, monospace; padding: 1px 6px; border-radius: 4px; margin: 1px 2px 1px 0; }
+  .chip.c { background: #134e4a; color: var(--teal); }
+  .chip.m { background: #431407; color: var(--orange); }
+  .chip.r { background: #1e293b; color: var(--muted); border: 1px solid var(--border); }
+  .chip.l { background: #1e1b4b; color: #a5b4fc; }
+  td.mx { text-align: center; white-space: nowrap; }
+  svg.flow4 .box rect { fill: #0f172a; stroke: #475569; stroke-width: 1.5; }
+  svg.flow4 .box.tf rect { stroke: var(--orange); }
+  svg.flow4 .box.ac rect { stroke: #a5b4fc; }
+  svg.flow4 .box.ob rect { stroke: var(--teal); stroke-width: 2.5; }
+  svg .bt { fill: var(--text); font: 600 14px system-ui, sans-serif; }
+  svg .m { fill: var(--text2); font: 11.5px ui-monospace, Consolas, monospace; white-space: pre; }
+  svg .m.old { fill: #64748b; text-decoration: line-through; }
+  svg .hd { fill: var(--muted); font: 700 11px system-ui, sans-serif; letter-spacing: .08em; }
+  @media (max-width: 700px) { nav.toc { columns: 1; } .flow .arrow { display: none; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<h1>CRM Ontology Guide</h1>
+<p class="sub">A Palantir-style CRM ontology: what it is and how it is built. Written 2026-10-11.</p>
+<p class="sub">Independent learning project. Not affiliated with, endorsed by, or sponsored by Palantir Technologies. It contains no Palantir code, documentation or screenshots.</p>
+
+
+<nav class="toc card">
+  <a href="#glance">At a glance: four pictures</a>
+  <a href="#what">1. What the project is</a>
+  <a href="#pipeline">2. The pipeline, end to end</a>
+  <a href="#data">3. The data: raw, clean, planted defects</a>
+  <a href="#objects">4. Object types</a>
+  <a href="#links">5. Link types</a>
+  <a href="#actions">6. Action types</a>
+  <a href="#functions">7. The two functions</a>
+  <a href="#identity">8. Who can do what (identity rules)</a>
+  <a href="#deviations">9. Deviations and items not built</a>
+</nav>
+
+<!-- ============================================================ -->
+<h2 id="glance">At a glance: four pictures</h2>
+<p>An ontology is a graph. The nouns are object types. The relations are link types. The verbs are action types. Pictures 1–3 show the three parts. Picture 4 follows one record through the whole build. Counts are the objects on main (2026-10-11).</p>
+
+<h3>Picture 1 — The nouns and relations (object types and link types)</h3>
+<p>Each box is an object type. Each line is a link type. Move the pointer over a box: its links turn orange and the other links fade.</p>
+<svg class="fig onto" viewBox="0 0 1000 540" role="img" aria-label="CRM ontology graph: 6 object types and 9 link types">
+  <!-- edges first, so nodes draw on top -->
+  <g class="edge sr acct"><line x1="500" y1="102" x2="500" y2="208"/><text x="508" y="160">Owner - Account</text>
+    <text class="card1" x="508" y="120">1</text><text class="card1" x="508" y="202">N</text></g>
+  <g class="edge sr lead"><line x1="400" y1="80" x2="140" y2="208"/><text x="225" y="132" text-anchor="end">Owner - Lead</text>
+    <text class="card1" x="380" y="104">1</text><text class="card1" x="166" y="198">N</text></g>
+  <g class="edge sr opp"><line x1="600" y1="80" x2="860" y2="208"/><text x="775" y="132">Owner - Opportunity</text>
+    <text class="card1" x="612" y="104">1</text><text class="card1" x="826" y="198">N</text></g>
+  <g class="edge acct ct"><line x1="500" y1="292" x2="500" y2="418"/><text x="508" y="360">Account - Contact</text>
+    <text class="card1" x="508" y="310">1</text><text class="card1" x="508" y="412">N</text></g>
+  <g class="edge acct opp"><line x1="600" y1="250" x2="760" y2="250"/><text x="680" y="240" text-anchor="middle">Account - Opportunity</text>
+    <text class="card1" x="606" y="268">1</text><text class="card1" x="744" y="268">N</text></g>
+  <g class="edge lead acct"><line x1="240" y1="250" x2="400" y2="250"/><text x="320" y="228" text-anchor="middle">Converted account -</text><text x="320" y="241" text-anchor="middle">Source lead</text>
+    <text class="card1" x="246" y="268">N</text><text class="card1" x="386" y="268">1</text></g>
+  <g class="edge ct act"><line x1="600" y1="460" x2="760" y2="460"/><text x="680" y="450" text-anchor="middle">Contact - Activity</text>
+    <text class="card1" x="606" y="478">1</text><text class="card1" x="744" y="478">N</text></g>
+  <g class="edge opp act"><line x1="860" y1="292" x2="860" y2="418"/><text x="852" y="325" text-anchor="end">Opportunity - Activity</text>
+    <text class="card1" x="868" y="310">1</text><text class="card1" x="868" y="412">N</text></g>
+  <g class="edge mm ct opp"><line x1="600" y1="432" x2="760" y2="286"/><text x="690" y="384">Opportunity - Contact</text><text x="690" y="397">N:N via opportunity-contacts</text>
+    <text class="card1" x="612" y="420">N</text><text class="card1" x="738" y="300">N</text></g>
+
+  <g class="node" id="n-sr"><rect x="400" y="18" width="200" height="84" rx="8"/>
+    <text class="t" x="500" y="44" text-anchor="middle">Sales Rep</text><text class="s" x="500" y="66" text-anchor="middle">key salesRepId</text><text class="s" x="500" y="86" text-anchor="middle">4 objects · sales-reps</text></g>
+  <g class="node" id="n-lead"><rect x="40" y="208" width="200" height="84" rx="8"/>
+    <text class="t" x="140" y="234" text-anchor="middle">Lead</text><text class="s" x="140" y="256" text-anchor="middle">key leadId</text><text class="s" x="140" y="276" text-anchor="middle">30 objects · leads</text></g>
+  <g class="node" id="n-acct"><rect x="400" y="208" width="200" height="84" rx="8"/>
+    <text class="t" x="500" y="234" text-anchor="middle">Account</text><text class="s" x="500" y="256" text-anchor="middle">key accountId</text><text class="s" x="500" y="276" text-anchor="middle">20 objects · accounts</text></g>
+  <g class="node" id="n-opp"><rect x="760" y="208" width="200" height="84" rx="8"/>
+    <text class="t" x="860" y="234" text-anchor="middle">Opportunity</text><text class="s" x="860" y="256" text-anchor="middle">key opportunityId</text><text class="s" x="860" y="276" text-anchor="middle">25 objects · 2 sources</text></g>
+  <g class="node" id="n-ct"><rect x="400" y="418" width="200" height="84" rx="8"/>
+    <text class="t" x="500" y="444" text-anchor="middle">Contact</text><text class="s" x="500" y="466" text-anchor="middle">key contactId</text><text class="s" x="500" y="486" text-anchor="middle">40 objects · contacts</text></g>
+  <g class="node" id="n-act"><rect x="760" y="418" width="200" height="84" rx="8"/>
+    <text class="t" x="860" y="444" text-anchor="middle">Activity</text><text class="s" x="860" y="466" text-anchor="middle">key activityId</text><text class="s" x="860" y="486" text-anchor="middle">0 objects · edits-only</text></g>
+  <text class="lbl" x="20" y="530">Solid line: foreign key, many-to-one (N records point to 1). Dashed line: many-to-many, stored in a join dataset. "2 sources" = opportunities + esign-contracts.</text>
+</svg>
+<p>How to read it: the "N" end holds the foreign key. For example each Opportunity has one <code>ownerId</code>, so one Sales Rep owns N opportunities. Activity is the only type with no dataset; only the "Log activity" action creates Activity objects, so main has 0.</p>
+
+<h3>Picture 2 — The verbs (which action touches which object type)</h3>
+<p>Rows are the 8 action types. Columns are the object types and the many-to-many link. <span class="chip c">C</span> creates objects. <span class="chip m">M</span> modifies objects. <span class="chip l">L</span> adds a link. <span class="chip r">R</span> only reads (for a criterion or a count).</p>
+<div class="tbl"><table>
+<tr><th>Action</th><th>Sales Rep</th><th>Lead</th><th>Account</th><th>Contact</th><th>Opportunity</th><th>Activity</th><th>Contact–Opp link</th></tr>
+<tr><td><code>create-lead</code></td><td class="mx"></td><td class="mx"><span class="chip c">C</span></td><td class="mx"></td><td class="mx"></td><td class="mx"></td><td class="mx"></td><td class="mx"></td></tr>
+<tr><td><code>assign-lead</code></td><td class="mx"><span class="chip m">M</span> guard</td><td class="mx"><span class="chip m">M</span><span class="chip r">R</span> count</td><td class="mx"></td><td class="mx"></td><td class="mx"></td><td class="mx"></td><td class="mx"></td></tr>
+<tr><td><code>convert-lead</code></td><td class="mx"><span class="chip r">R</span> owner</td><td class="mx"><span class="chip m">M</span></td><td class="mx"><span class="chip c">C</span></td><td class="mx"><span class="chip c">C</span></td><td class="mx"><span class="chip c">C</span></td><td class="mx"></td><td class="mx"><span class="chip l">L</span></td></tr>
+<tr><td><code>advance-opportunity-stage</code></td><td class="mx"><span class="chip r">R</span> owner</td><td class="mx"></td><td class="mx"></td><td class="mx"></td><td class="mx"><span class="chip m">M</span></td><td class="mx"></td><td class="mx"></td></tr>
+<tr><td><code>apply-discount</code></td><td class="mx"><span class="chip r">R</span> owner</td><td class="mx"></td><td class="mx"></td><td class="mx"></td><td class="mx"><span class="chip m">M</span></td><td class="mx"></td><td class="mx"></td></tr>
+<tr><td><code>close-opportunity-won</code></td><td class="mx"><span class="chip r">R</span> owner</td><td class="mx"></td><td class="mx"></td><td class="mx"></td><td class="mx"><span class="chip m">M</span></td><td class="mx"></td><td class="mx"></td></tr>
+<tr><td><code>log-activity</code></td><td class="mx"></td><td class="mx"></td><td class="mx"></td><td class="mx"></td><td class="mx"></td><td class="mx"><span class="chip c">C</span></td><td class="mx"></td></tr>
+<tr><td><code>add-contact-to-opportunity</code></td><td class="mx"><span class="chip r">R</span> owner</td><td class="mx"></td><td class="mx"></td><td class="mx"><span class="chip r">R</span></td><td class="mx"><span class="chip r">R</span></td><td class="mx"></td><td class="mx"><span class="chip l">L</span></td></tr>
+</table></div>
+<p>How to read it: "guard" is the write to <code>lastLeadAssignedAt</code> that makes two concurrent assignments to one rep conflict. "count" is the run-time count of the rep's <code>assigned</code> leads. "owner" is the optional <code>owner</code> parameter that the owner-or-manager criterion reads. <code>convert-lead</code> is the widest action: it writes 4 object types and 1 link in one transaction. <code>log-activity</code> takes <code>contactId</code> and <code>opportunityId</code> as plain strings, so it reads no Contact or Opportunity object.</p>
+
+<h3>Picture 3 — The life of a lead and a deal (states and the actions that move them)</h3>
+<svg class="fig" viewBox="0 0 1000 330" role="img" aria-label="Lead status and opportunity stage lifecycle with the actions that change them">
+  <defs><marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#fb923c"/></marker></defs>
+  <text class="lbl" x="20" y="16" style="font-weight:600;fill:#e2e8f0">Lead.status</text>
+  <circle cx="60" cy="60" r="7" fill="#fb923c"/>
+  <g class="edge"><line x1="67" y1="60" x2="128" y2="60" marker-end="url(#ah)"/></g><text class="act-lbl" x="97" y="36" text-anchor="middle">create-lead</text>
+  <g class="pill"><rect x="130" y="40" width="130" height="40" rx="20"/><text x="195" y="65" text-anchor="middle">new · 10</text></g>
+  <g class="edge"><line x1="260" y1="60" x2="398" y2="60" marker-end="url(#ah)"/></g><text class="act-lbl" x="329" y="50" text-anchor="middle">assign-lead</text>
+  <g class="pill"><rect x="400" y="40" width="130" height="40" rx="20"/><text x="465" y="65" text-anchor="middle">assigned · 8</text></g>
+  <g class="edge"><line x1="530" y1="60" x2="668" y2="60" marker-end="url(#ah)"/></g><text class="act-lbl" x="599" y="50" text-anchor="middle">convert-lead</text>
+  <g class="pill"><rect x="670" y="40" width="130" height="40" rx="20"/><text x="735" y="65" text-anchor="middle">converted · 8</text></g>
+  <g class="pill off"><rect x="850" y="40" width="130" height="40" rx="20"/><text x="915" y="65" text-anchor="middle">disqualified · 4</text></g>
+  <text class="lbl" x="915" y="98" text-anchor="middle">set in the CRM only, no action</text>
+
+  <g class="edge"><polyline points="735,80 735,150 80,150 80,218" stroke-dasharray="6 4" marker-end="url(#ah)"/></g>
+  <text class="lbl" x="408" y="142" text-anchor="middle">convert-lead also creates an Account, a Contact, and an Opportunity in "prospecting"</text>
+
+  <text class="lbl" x="96" y="205" style="font-weight:600;fill:#e2e8f0">Opportunity.stage</text>
+  <g class="pill"><rect x="20" y="220" width="120" height="40" rx="20"/><text x="80" y="245" text-anchor="middle">prospecting · 4</text></g>
+  <g class="pill"><rect x="180" y="220" width="120" height="40" rx="20"/><text x="240" y="245" text-anchor="middle">qualification · 4</text></g>
+  <g class="pill"><rect x="340" y="220" width="120" height="40" rx="20"/><text x="400" y="245" text-anchor="middle">proposal · 5</text></g>
+  <g class="pill"><rect x="500" y="220" width="120" height="40" rx="20"/><text x="560" y="245" text-anchor="middle">negotiation · 5</text></g>
+  <g class="edge"><line x1="620" y1="240" x2="678" y2="240" marker-end="url(#ah)"/></g><text class="act-lbl" x="650" y="212" text-anchor="middle">close-opportunity-won</text>
+  <g class="pill"><rect x="680" y="220" width="120" height="40" rx="20"/><text x="740" y="245" text-anchor="middle">closedWon · 5</text></g>
+  <text class="lbl" x="740" y="278" text-anchor="middle">needs contractSigned = true</text>
+  <g class="pill off"><rect x="860" y="220" width="120" height="40" rx="20"/><text x="920" y="245" text-anchor="middle">closedLost · 2</text></g>
+  <text class="lbl" x="920" y="278" text-anchor="middle">set in the CRM only, no action</text>
+  <g class="edge"><polyline points="20,272 20,282 620,282 620,272"/></g>
+  <text class="act-lbl" x="320" y="302" text-anchor="middle">advance-opportunity-stage</text>
+  <text class="lbl" x="320" y="318" text-anchor="middle">moves a deal between any two of these 4 open stages; refused on closed deals</text>
+</svg>
+<p>How to read it: a solid teal pill is a state that an action can reach. A grey dashed pill is a state that only the source CRM sets; no action in this ontology writes it. The number is the count of objects in that state on main. <code>apply-discount</code>, <code>log-activity</code> and <code>add-contact-to-opportunity</code> do not change a state, so they are not in this picture.</p>
+
+<h3>Picture 4 — One object from source to screen (opp-014)</h3>
+<p>This picture follows one real record, <code>opp-014</code> "Pioneer Steel - Platform license", through every layer. The top two rows are the two source systems. The bottom row is what happens when a user runs an action on the finished object. All values are the real rows in <code>crm_ontology/data/raw/</code> and <code>crm_ontology/data/</code>.</p>
+<svg class="fig flow4" viewBox="0 0 1000 590" role="img" aria-label="Data flow for opp-014 from raw exports through transforms and clean datasets to the Opportunity object and an action edit">
+  <defs><marker id="ah4" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#fb923c"/></marker></defs>
+  <text class="hd" x="20" y="24">RAW (source export)</text>
+  <text class="hd" x="370" y="24">TRANSFORM (crm-transforms)</text>
+  <text class="hd" x="670" y="24">CLEAN DATASET</text>
+
+  <!-- CRM path -->
+  <g class="box"><rect x="20" y="36" width="310" height="140" rx="8"/>
+    <text class="bt" x="32" y="58">crm_opportunities</text>
+    <text class="m" x="32" y="80">2 rows with Id = opp-014:</text>
+    <text class="m old" x="32" y="100">09-15 extract: Proposal/Price Quote, 50</text>
+    <text class="m" x="32" y="120">10-01 extract: Negotiation/Review, 75</text>
+    <text class="m" x="32" y="140">Amount 357000 · OwnerId rep-ben</text>
+    <text class="m" x="32" y="160">(stale row = older LastModifiedDate)</text></g>
+  <g class="box tf"><rect x="370" y="36" width="260" height="140" rx="8"/>
+    <text class="bt" x="382" y="58">clean_opportunities()</text>
+    <text class="m" x="382" y="80">1. keep newest LastModifiedDate</text>
+    <text class="m" x="382" y="100">2. Negotiation/Review → negotiation</text>
+    <text class="m" x="382" y="120">3. Probability 75 → 0.75</text>
+    <text class="m" x="382" y="140">4. check: one row per key,</text>
+    <text class="m" x="382" y="160">   or the build fails</text></g>
+  <g class="box"><rect x="670" y="36" width="310" height="140" rx="8"/>
+    <text class="bt" x="682" y="58">opportunities</text>
+    <text class="m" x="682" y="80">opportunityId  opp-014</text>
+    <text class="m" x="682" y="100">stage          negotiation</text>
+    <text class="m" x="682" y="120">probability    0.75</text>
+    <text class="m" x="682" y="140">amount         357000</text>
+    <text class="m" x="682" y="160">ownerId        rep-ben</text></g>
+
+  <!-- e-sign path -->
+  <g class="box"><rect x="20" y="200" width="310" height="140" rx="8"/>
+    <text class="bt" x="32" y="222">esign_envelopes</text>
+    <text class="m" x="32" y="244">2 envelopes for this deal:</text>
+    <text class="m" x="32" y="264">env-1005  OPP-014  completed</text>
+    <text class="m" x="32" y="284">  completed_at 09/28/2026 12:25</text>
+    <text class="m old" x="32" y="304">env-1008  opp-014  voided</text>
+    <text class="m" x="32" y="324">(other system, other id format)</text></g>
+  <g class="box tf"><rect x="370" y="200" width="260" height="140" rx="8"/>
+    <text class="bt" x="382" y="222">clean_esign_contracts()</text>
+    <text class="m" x="382" y="244">1. OPP-014, opp-014 → opp-014</text>
+    <text class="m" x="382" y="264">2. drop voided (env-1008)</text>
+    <text class="m" x="382" y="284">3. drop deals the CRM lacks</text>
+    <text class="m" x="382" y="304">4. keep latest envelope</text>
+    <text class="m" x="382" y="324">5. 09/28/2026 → 2026-09-28</text></g>
+  <g class="box"><rect x="670" y="200" width="310" height="140" rx="8"/>
+    <text class="bt" x="682" y="222">esign-contracts</text>
+    <text class="m" x="682" y="244">opportunityId     opp-014</text>
+    <text class="m" x="682" y="264">contractSigned    true</text>
+    <text class="m" x="682" y="284">contractSignedOn  2026-09-28</text>
+    <text class="m" x="682" y="324">(reads clean opportunities too)</text></g>
+
+  <g class="edge"><line x1="330" y1="106" x2="368" y2="106" marker-end="url(#ah4)"/><line x1="630" y1="106" x2="668" y2="106" marker-end="url(#ah4)"/>
+    <line x1="330" y1="270" x2="368" y2="270" marker-end="url(#ah4)"/><line x1="630" y1="270" x2="668" y2="270" marker-end="url(#ah4)"/>
+    <polyline points="980,106 994,106 994,480"/><polyline points="980,270 994,270"/><polyline points="994,480 982,480" marker-end="url(#ah4)"/></g>
+  <text class="lbl" x="986" y="372" text-anchor="end">both datasources joined on opportunityId</text>
+
+  <!-- bottom row -->
+  <text class="hd" x="20" y="404">ACTION (a user clicks)</text>
+  <text class="hd" x="370" y="404">EDITS (stored by Foundry)</text>
+  <text class="hd" x="670" y="404">OBJECT (what every app sees)</text>
+  <g class="box ac"><rect x="20" y="416" width="310" height="160" rx="8"/>
+    <text class="bt" x="32" y="438">close-opportunity-won(opp-014)</text>
+    <text class="m" x="32" y="460">criteria, checked before any write:</text>
+    <text class="m" x="32" y="480">✓ stage is negotiation</text>
+    <text class="m" x="32" y="500">✓ contractSigned is true</text>
+    <text class="m" x="32" y="520">✓ caller owns it or is a manager</text>
+    <text class="m" x="32" y="540">one ✗ → refusal message, no write</text>
+    <text class="m" x="32" y="560">(opp-016, unsigned, is refused)</text></g>
+  <g class="box ac"><rect x="370" y="416" width="260" height="160" rx="8"/>
+    <text class="bt" x="382" y="438">edits for opp-014</text>
+    <text class="m" x="382" y="460">stage        → closedWon</text>
+    <text class="m" x="382" y="480">probability  → 1</text>
+    <text class="m" x="382" y="500">closedAt     → current time</text>
+    <text class="m" x="382" y="530">Datasets stay unchanged.</text>
+    <text class="m" x="382" y="550">Edits sit on top of them and</text>
+    <text class="m" x="382" y="570">survive the next build.</text></g>
+  <g class="box ob"><rect x="670" y="416" width="310" height="160" rx="8"/>
+    <text class="bt" x="682" y="438">Opportunity opp-014</text>
+    <text class="m" x="682" y="460">from opportunities: stage,</text>
+    <text class="m" x="682" y="480">  probability, amount, ownerId …</text>
+    <text class="m" x="682" y="500">from esign-contracts:</text>
+    <text class="m" x="682" y="520">  contractSigned, contractSignedOn</text>
+    <text class="m" x="682" y="540">from edits: the changed values</text>
+    <text class="m" x="682" y="560">links: Account acct-016, rep-ben</text></g>
+  <g class="edge"><line x1="330" y1="496" x2="368" y2="496" marker-end="url(#ah4)"/><line x1="630" y1="496" x2="668" y2="496" marker-end="url(#ah4)"/></g>
+</svg>
+<p>How to read it: the top half runs at <b>build time</b>. A build reads the raw exports and rewrites the clean datasets. The bottom half runs at <b>action time</b>. An action never writes a dataset; it writes edits, and Foundry shows the object as dataset values plus edits. That is why the project keeps <code>openLeadCount</code> transform-only: if an action also edited it, the edit would hide newer CRM values after the next build (Foundry's default "Apply user edits").</p>
+<p class="muted">State on main today: <code>opp-014</code> is still <code>negotiation</code>. The action was applied to it only on branch <code>crm-ontology-v1</code> on 2026-10-11, and branch test edits do not merge. So the bottom row shows what happens when someone runs the action on main. Money is a double in Foundry (357000); the local clean CSV writes it as 357000.00.</p>
+
+<!-- ============================================================ -->
+<h2 id="what">1. What the project is</h2>
+
+<p>The project teaches the Palantir Ontology. The method is to build a small CRM (customer relationship management) system "as close to Palantir's implementation as possible". A CRM records sales reps, the companies they sell to, the people at those companies, new leads, and deals.</p>
+
+<p>An ontology, in Palantir's sense, is a layer on top of tables. A table row becomes an <b>object</b> (for example one Opportunity). A foreign key becomes a <b>link</b> (Opportunity → Account). A permitted change becomes an <b>action</b> (for example "Close opportunity as won"). An action has rules that say what it writes, and criteria that say who can run it and when. Users and applications change data only through actions. So the business rules live in one place, not in each application.</p>
+
+<p>The project has two layers:</p>
+<ol>
+  <li><b>A local schema</b> in <code>crm_ontology/</code>. <code>build_ontology.py</code> writes <code>ontology.json</code> in Palantir's public <code>OntologyFullMetadata</code> shape: 6 object types, 9 link types, 8 action types, 1 interface. <code>check_ontology.py</code> validates it against Palantir's own SDK models (<code>foundry-platform-sdk</code> 1.108.0). Every key that is local design, not Palantir's public shape, starts with <code>x-local</code>.</li>
+  <li><b>A real build</b> on a free Foundry Developer Tier (AIP Now) enrollment. It holds 7 raw datasets, 7 clean datasets, 6 object types, 9 link types, 8 action types, 2 TypeScript functions and 2 user groups.</li>
+</ol>
+
+<div class="card ok">
+<h3>Status</h3>
+<p>The work was done on global branch <code>crm-ontology-v1</code>. Proposal "CRM ontology v1" was merged to main on 2026-10-11. The merge page showed 23 ontology entities Merged and <code>crm-functions</code> Merged.</p>
+<p>Today on main: Object Explorer shows Opportunity 25 objects, Sales Rep 4, Account 20, Activity 0. Activity is 0 because the test edits made on the branch do not merge to main.</p>
+</div>
+
+<!-- ============================================================ -->
+<h2 id="pipeline">2. The pipeline, end to end</h2>
+
+<p>In Foundry, data does not go straight into the ontology. A source system exports raw data. A transform cleans it. The object types read the clean output. Actions then write edits on top of the objects.</p>
+
+<div class="flow">
+  <div class="box"><b>7 raw datasets</b>201 rows. Two simulated source systems: a CRM (6 tables) and an e-signature system (1 table). All columns are strings.</div>
+  <div class="arrow">→</div>
+  <div class="box"><b>repo crm-transforms</b>7 Python lightweight transforms. Each output has a primary-key check that fails the build on a duplicate key.</div>
+  <div class="arrow">→</div>
+  <div class="box"><b>7 clean datasets</b>164 rows. Typed columns (date, timestamp, int, boolean, double).</div>
+  <div class="arrow">→</div>
+  <div class="box"><b>6 object types + 9 links</b>Each object type reads a clean dataset. Activity has no dataset.</div>
+  <div class="arrow">→</div>
+  <div class="box"><b>8 actions + 2 functions</b>The only way to change objects. Criteria use 2 user groups.</div>
+</div>
+
+<p><b>Lineage.</b> Five clean datasets each read one raw dataset. Two read a clean output too:</p>
+<ul>
+  <li><code>crm_users</code> + clean <code>leads</code> → <code>sales-reps</code>. The transform counts each rep's open leads from the clean leads.</li>
+  <li><code>esign_envelopes</code> + clean <code>opportunities</code> → <code>esign-contracts</code>. The transform drops envelopes for deals that the CRM does not know.</li>
+</ul>
+
+<p>For each of the 7 datasets, the MD5 of the sorted rows in Foundry equals the MD5 of the local file <code>crm_ontology/data/&lt;name&gt;.csv</code>.</p>
+
+<!-- ============================================================ -->
+<h2 id="data">3. The data: raw, clean, planted defects</h2>
+
+<h3>Raw datasets (source exports)</h3>
+<div class="tbl"><table>
+<tr><th>Dataset</th><th>Rows</th></tr>
+<tr><td><code>crm_users</code></td><td>7</td></tr>
+<tr><td><code>crm_accounts</code></td><td>25</td></tr>
+<tr><td><code>crm_contacts</code></td><td>44</td></tr>
+<tr><td><code>crm_leads</code></td><td>37</td></tr>
+<tr><td><code>crm_opportunities</code></td><td>30</td></tr>
+<tr><td><code>crm_opportunity_contact_roles</code></td><td>47</td></tr>
+<tr><td><code>esign_envelopes</code></td><td>11</td></tr>
+</table></div>
+
+<h3>Clean datasets (transform outputs, back the object types)</h3>
+<div class="tbl"><table>
+<tr><th>Dataset</th><th>Rows</th></tr>
+<tr><td><code>sales-reps</code></td><td>4</td></tr>
+<tr><td><code>accounts</code></td><td>20</td></tr>
+<tr><td><code>contacts</code></td><td>40</td></tr>
+<tr><td><code>leads</code></td><td>30 (10 new, 8 assigned, 8 converted, 4 disqualified)</td></tr>
+<tr><td><code>opportunities</code></td><td>25</td></tr>
+<tr><td><code>opportunity-contacts</code></td><td>38</td></tr>
+<tr><td><code>esign-contracts</code></td><td>7</td></tr>
+</table></div>
+
+<h3>What the transform cleans</h3>
+<p>The raw data contains realistic mess on purpose. A clean-only upload would look like a toy. Each row of this table is a rule in <code>clean_crm.py</code>.</p>
+<div class="tbl"><table>
+<tr><th>Mess</th><th>Where</th><th>Rule</th><th>What breaks without it</th></tr>
+<tr><td>Overlapping extracts</td><td>Full extract 2026-09-15 and incremental extract 2026-10-01. 19 stale versions: 3 accounts, 4 contacts, 7 leads, 5 opportunities.</td><td>Keep the newest <code>LastModifiedDate</code> per <code>Id</code>.</td><td>Duplicate primary keys, so the object type cannot use the dataset. Keep the oldest instead and <code>rep-fay</code> has 0 open leads, not 3.</td></tr>
+<tr><td>Soft delete</td><td><code>acct-900</code> test account, 1 contact role</td><td>Dedupe first, then drop <code>IsDeleted = true</code>.</td><td>Filter first and the older, undeleted <code>acct-900</code> row survives.</td></tr>
+<tr><td>Users who are not reps</td><td><code>mgr-cara</code>, <code>usr-sync</code>, <code>rep-gil</code> (inactive)</td><td>Keep <code>Profile = Sales Rep</code> and <code>IsActive = true</code>.</td><td>Three false SalesRep objects.</td></tr>
+<tr><td>Picklist labels</td><td>Lead status and source (37 rows each), stage (30)</td><td>Map labels to API values (<code>Closed Won</code> → <code>closedWon</code>).</td><td>Action criteria never match.</td></tr>
+<tr><td>Queue as owner</td><td>17 lead rows owned by <code>queue-unassigned</code></td><td>Queue → empty <code>ownerId</code>.</td><td>A link to a rep that does not exist.</td></tr>
+<tr><td>Null tokens</td><td><code>ConvertedAccountId</code>: 15 <code>NULL</code> text, 14 empty</td><td>Both → empty.</td><td>A link to an account called <code>NULL</code>.</td></tr>
+<tr><td>Derived columns</td><td><code>fullName</code>, <code>closedAt</code> (7 closed deals), <code>probability</code> (percent → fraction), <code>openLeadCount</code></td><td>Compute in the transform.</td><td>Missing or wrong properties.</td></tr>
+<tr><td>Format noise</td><td>18 websites, 4 names with trailing spaces, 15 + 9 emails, 33 phones in 4 formats, 2 regions, dates in two formats</td><td>Normalize.</td><td>Search, joins and the identity check do not match.</td></tr>
+<tr><td>One row per role</td><td>8 contact-deal pairs with a second role</td><td>Keep distinct pairs.</td><td>Duplicate rows in the many-to-many link table.</td></tr>
+<tr><td>Second source system</td><td>7 free-text deal references (<code>OPP-014</code>, <code>Opp 14</code>), 2 voided, 1 declined then resent, 1 unknown deal (<code>OPP-031</code>)</td><td>Normalize, drop voided and unknown, keep the latest per deal.</td><td>Wrong <code>contractSigned</code>. <code>opp-017</code> must get no row.</td></tr>
+</table></div>
+<p>Proof that the local check works: 8 deliberate bugs, applied one at a time, each make <code>python clean_crm.py</code> fail.</p>
+
+<h3>Planted items (not cleaned on purpose)</h3>
+<div class="tbl"><table>
+<tr><th>Item</th><th>Where</th><th>Lesson</th></tr>
+<tr><td>Duplicate company</td><td><code>acct-019</code> "Northwind Traders" and <code>acct-020</code> "Northwind Traders, Inc.": same website, different owners. Leads <code>lead-025</code> and <code>lead-026</code> were converted separately.</td><td>Cleaning fixes format. Deciding that two records are one company is identity resolution, a separate job (report §4.1).</td></tr>
+<tr><td>Missing contract row</td><td><code>opp-025</code> is <code>closedWon</code>, but <code>esign-contracts</code> has no row for it.</td><td>A second datasource can disagree with the first. The ontology shows the gap.</td></tr>
+<tr><td>Rep at limit</td><td><code>rep-fay</code>: <code>openLeadCount</code> 3 = <code>maxOpenLeads</code> 3.</td><td>"Assign lead" to her must fail.</td></tr>
+<tr><td>Contract states</td><td><code>opp-014</code>, <code>opp-015</code> negotiation + signed; <code>opp-016</code> negotiation + unsigned; <code>opp-017</code>, <code>opp-018</code> negotiation + no row.</td><td>Only <code>opp-014</code> and <code>opp-015</code> pass the "Close opportunity as won" criteria.</td></tr>
+</table></div>
+
+<!-- ============================================================ -->
+<h2 id="objects">4. Object types</h2>
+<p>All CRM ids in Foundry start with the namespace prefix <code>ea76tv21.</code> (for example <code>ea76tv21.opportunity</code>). Property ids are the camelCase names from <code>ontology.json</code>. Counts are on main today.</p>
+<div class="tbl"><table>
+<tr><th>Object type</th><th>Objects</th><th>Backing data</th><th>Properties</th></tr>
+<tr><td><b>Sales Rep</b></td><td>4</td><td><code>sales-reps</code></td><td><code>salesRepId</code> (key), <code>fullName</code>, <code>email</code>, <code>team</code>, <code>maxOpenLeads</code>, <code>openLeadCount</code>, <code>foundryUserId</code>, <code>lastLeadAssignedAt</code> (edit-only guard, written by "Assign lead")</td></tr>
+<tr><td><b>Account</b></td><td>20</td><td><code>accounts</code></td><td><code>accountId</code> (key), <code>name</code>, <code>industry</code>, <code>website</code>, <code>annualRevenue</code>, <code>ownerId</code>, <code>createdAt</code></td></tr>
+<tr><td><b>Contact</b></td><td>40 (dataset rows; not shown as a shortcut today)</td><td><code>contacts</code></td><td><code>contactId</code> (key), <code>fullName</code>, <code>email</code>, <code>phone</code>, <code>jobTitle</code>, <code>accountId</code></td></tr>
+<tr><td><b>Lead</b></td><td>30 (dataset rows)</td><td><code>leads</code></td><td><code>leadId</code> (key), <code>fullName</code>, <code>companyName</code>, <code>email</code>, <code>leadSource</code>, <code>status</code>, <code>ownerId</code>, <code>convertedAccountId</code>, <code>createdAt</code>, <code>createdBy</code></td></tr>
+<tr><td><b>Opportunity</b></td><td>25</td><td>Two datasources joined on <code>opportunityId</code>: <code>opportunities</code> (CRM) and <code>esign-contracts</code> (e-signature)</td><td>13 properties: <code>opportunityId</code> (key), <code>name</code>, <code>accountId</code>, <code>ownerId</code>, <code>stage</code>, <code>amount</code>, <code>closeDate</code>, <code>probability</code>, <code>discountPct</code>, <code>lastStageChangeAt</code>, <code>closedAt</code>, <code>contractSigned</code>, <code>contractSignedOn</code>. The contract fields are empty when the e-signature system has no row.</td></tr>
+<tr><td><b>Activity</b></td><td>0</td><td>None (edits-only). Only "Log activity" creates objects.</td><td><code>activityId</code> (key), <code>subject</code>, <code>activityType</code>, <code>notes</code>, <code>occurredAt</code>, <code>loggedBy</code>, <code>contactId</code>, <code>opportunityId</code></td></tr>
+</table></div>
+
+<!-- ============================================================ -->
+<h2 id="links">5. Link types</h2>
+<p>Eight links are foreign keys (many-to-one). One link is many-to-many and reads the <code>opportunity-contacts</code> dataset as a join table.</p>
+<div class="tbl"><table>
+<tr><th>Display name in Foundry</th><th>Id</th><th>How it joins</th></tr>
+<tr><td>Owner - Account</td><td><code>ea76tv21.sales-rep-to-account</code></td><td><code>Account.ownerId</code> → <code>SalesRep</code></td></tr>
+<tr><td>Owner - Lead</td><td><code>ea76tv21.sales-rep-to-lead</code></td><td><code>Lead.ownerId</code> → <code>SalesRep</code></td></tr>
+<tr><td>Owner - Opportunity</td><td><code>ea76tv21.sales-rep-to-opportunity</code></td><td><code>Opportunity.ownerId</code> → <code>SalesRep</code></td></tr>
+<tr><td>Account - Contact</td><td><code>ea76tv21.account-to-contact</code></td><td><code>Contact.accountId</code> → <code>Account</code></td></tr>
+<tr><td>Account - Opportunity</td><td><code>ea76tv21.account-to-opportunity</code></td><td><code>Opportunity.accountId</code> → <code>Account</code></td></tr>
+<tr><td>Converted account - Source lead</td><td><code>ea76tv21.account-to-source-lead</code></td><td><code>Lead.convertedAccountId</code> → <code>Account</code></td></tr>
+<tr><td>Contact - Activity</td><td><code>ea76tv21.contact-to-activity</code></td><td><code>Activity.contactId</code> → <code>Contact</code></td></tr>
+<tr><td>Opportunity - Activity</td><td><code>ea76tv21.opportunity-to-activity</code></td><td><code>Activity.opportunityId</code> → <code>Opportunity</code></td></tr>
+<tr><td>Opportunity - Contact</td><td><code>ea76tv21.contact-opportunity</code></td><td>MANY_TO_MANY on <code>opportunity-contacts</code>. <code>onlyAllowPrivilegedEdits: true</code>; this did not block "Add contact to opportunity".</td></tr>
+</table></div>
+
+<!-- ============================================================ -->
+<h2 id="actions">6. Action types</h2>
+<p>Each action has <b>rules</b> (what it writes) and <b>submission criteria</b> (who can run it, and on which records). When a criterion fails, Foundry shows the failure message and writes nothing.</p>
+<div class="tbl"><table>
+<tr><th>Action (API name)</th><th>What it does</th><th>Rules and criteria as built</th><th>Lesson</th></tr>
+<tr><td><b>Create lead</b><br><code>create-lead</code></td><td>Creates an unassigned lead with status <code>new</code>.</td><td>Create object. <code>status</code> static <code>new</code>, <code>createdAt</code> current time, <code>createdBy</code> current user. <code>leadId</code> is still a typed parameter. Criteria: groups includesAny <code>sales-rep</code>, <code>sales-manager</code>.</td><td>Logic rules only copy values.</td></tr>
+<tr><td><b>Assign lead</b><br><code>assign-lead</code></td><td>Assigns a new lead to a rep who is under the open-lead limit.</td><td>Function rule <code>assignLead</code>, "1.0.0 range". Snapshot isolation. Criteria: organization AND groups includesAny <code>sales-manager</code> ("Only a sales manager can assign leads.") AND lead status = <code>new</code> ("Only a lead with status 'new' can be assigned.").</td><td>Count at run time and write a guard, or two managers can overfill one rep (write skew, report §8.4).</td></tr>
+<tr><td><b>Convert lead</b><br><code>convert-lead</code></td><td>Turns an assigned lead into an Account, a Contact and an Opportunity.</td><td>Function rule <code>convertLead</code>, "1.0.0 range". Optional <code>Owner</code> parameter. Criteria: org AND ANY(manager; ALL(<code>Owner.foundryUserId</code> = current user, <code>Owner.salesRepId</code> = <code>lead.ownerId</code>)) AND lead status = <code>assigned</code>.</td><td>One action edits several object types. It does not deduplicate accounts (report §4.1).</td></tr>
+<tr><td><b>Advance opportunity stage</b><br><code>advance-opportunity-stage</code></td><td>Moves an open deal to another open stage.</td><td>Modify object. <code>lastStageChangeAt</code> current time. <code>stage</code> is one of the 4 open stages. Criteria: stage is not <code>closedWon</code> and not <code>closedLost</code>; owner or manager.</td><td>Criteria block changes to closed deals.</td></tr>
+<tr><td><b>Apply discount</b><br><code>apply-discount</code></td><td>Sets the discount. 20% or more needs a manager.</td><td>Modify object. <code>discountPct</code> required, range 0–50 inclusive. Criteria: owner or manager; ANY(manager, <code>discountPct</code> &lt; 20) ("A discount of 20 or more needs a sales manager.").</td><td>Validation (0–50) is not authorization (20+ needs a manager), report §2.</td></tr>
+<tr><td><b>Close opportunity as won</b><br><code>close-opportunity-won</code></td><td>Closes a negotiated deal that has a signed contract.</td><td>Modify object. <code>stage</code> static <code>closedWon</code>, <code>probability</code> static 1, <code>closedAt</code> current time. Criteria: stage is <code>negotiation</code>, <code>contractSigned</code> is true; owner or manager. No billing webhook.</td><td>Uses data from the second datasource.</td></tr>
+<tr><td><b>Log activity</b><br><code>log-activity</code></td><td>Records a call, email, meeting or note.</td><td>Create object on the edits-only type. All values are typed parameters (<code>contactId</code> and <code>opportunityId</code> are strings). Criteria: groups includesAny <code>sales-rep</code>, <code>sales-manager</code>.</td><td>An edits-only object type exists only through actions.</td></tr>
+<tr><td><b>Add contact to opportunity</b><br><code>add-contact-to-opportunity</code></td><td>Links a contact to a deal.</td><td>Add link on the many-to-many link. Criteria: owner or manager.</td><td>Create-link works only on many-to-many links.</td></tr>
+</table></div>
+
+<h3>Test results recorded on 2026-10-11</h3>
+<ul>
+  <li>As a member of <code>sales-rep</code> only (the test user = <code>rep-ana</code>): own record with <code>owner</code> = <code>rep-ana</code> VALID. No <code>owner</code>, another rep's record, or <code>owner</code> = <code>rep-fay</code>: INVALID "Only the record owner or a sales manager can do this."</li>
+  <li>Discount 10 VALID. Discount 25 INVALID "A discount of 20 or more needs a sales manager." Discount 60 also fails the 0–50 range.</li>
+  <li>"Assign lead" as a rep: INVALID "Only a sales manager can assign leads." "Create lead": VALID. In no group: "Create lead" INVALID "Only a sales rep or a sales manager can do this."</li>
+  <li>As a manager: all 14 validate-only cases VALID except discount 60. This was checked again on main after the merge.</li>
+  <li>On the branch: <code>assign-lead</code> lead-001 → <code>rep-fay</code> refused "rep-fay already has 3 of 3 open leads." <code>close-opportunity-won</code> VALID only for <code>opp-014</code>, <code>opp-015</code>.</li>
+</ul>
+
+<!-- ============================================================ -->
+<h2 id="functions">7. The two functions</h2>
+<p>Repo <code>crm-functions</code>, TypeScript v1. Code: <code>crm-functions/functions-typescript/src/index.ts</code>, class <code>CrmFunctions</code>.</p>
+<div class="tbl"><table>
+<tr><th>Function</th><th>What it does</th></tr>
+<tr><td><code>assignLead(lead, rep)</code></td><td>Refuses a lead that is not <code>new</code>. Counts the rep's leads with status <code>assigned</code> at run time. Refuses when the count ≥ <code>maxOpenLeads</code>. Sets the owner and status. Writes <code>rep.lastLeadAssignedAt</code> as a guard, so two concurrent assignments to one rep edit the same object and conflict.</td></tr>
+<tr><td><code>convertLead(lead, opportunityName, amount, closeDate, owner?)</code></td><td>Refuses a lead that is not <code>assigned</code> and an amount ≤ 0. Creates <code>acct-&lt;leadId&gt;</code>, <code>ct-&lt;leadId&gt;</code>, <code>opp-&lt;leadId&gt;</code> (stage <code>prospecting</code>, probability 0.1), links the contact to the deal, and sets the lead to <code>converted</code>.</td></tr>
+</table></div>
+<p><b>Why <code>openLeadCount</code> is not edited (decision 2026-10-10, option 3).</b> The transform is its only writer. If an action also wrote it, the next build and the action edit could disagree, and Foundry's default "Apply user edits" would keep the edit over a newer CRM value. So <code>assignLead</code> counts the leads itself.</p>
+
+<!-- ============================================================ -->
+<h2 id="identity">8. Who can do what (identity rules)</h2>
+<p>Two user groups exist: <code>sales-rep</code> and <code>sales-manager</code>. The test user is in both. Only one Foundry user exists.</p>
+<p><b>The problem.</b> <code>ownerId</code> holds CRM ids such as <code>rep-ana</code>, not Foundry user ids. Criteria cannot follow links.</p>
+<p><b>The fix.</b></p>
+<ol>
+  <li>The transform adds <code>foundryUserId</code> to <code>sales-reps</code> (<code>FOUNDRY_USERS</code> in <code>crm-transforms/transforms-python/src/myproject/datasets/crm.py</code>). Only <code>rep-ana</code> maps to a user.</li>
+  <li>Each owner-checked action gets an optional object parameter <code>owner</code> (SalesRep).</li>
+  <li>The criterion is ANY( current user in <code>sales-manager</code>, ALL( <code>owner.foundryUserId</code> = current user id, <code>owner.salesRepId</code> = <code>&lt;record&gt;.ownerId</code> ) ).</li>
+</ol>
+<p>The second condition binds <code>owner</code> to the record. So a caller cannot pass another rep to pass the check.</p>
+<div class="tbl"><table>
+<tr><th>Who</th><th>Actions</th></tr>
+<tr><td>Managers only</td><td>Assign lead</td></tr>
+<tr><td>Record owner or manager</td><td>Convert lead, Advance opportunity stage, Apply discount, Close opportunity as won, Add contact to opportunity</td></tr>
+<tr><td>Any member of <code>sales-rep</code> or <code>sales-manager</code></td><td>Create lead, Log activity</td></tr>
+</table></div>
+
+<!-- ============================================================ -->
+<h2 id="deviations">9. Deviations and items not built</h2>
+<h3>Deviations from the local design</h3>
+<ul>
+  <li><b>Money is double, not decimal.</b> The local schema uses decimal; the Foundry build stores money as double. SUM(<code>annualRevenue</code>) = 5058000000 in Foundry and locally.</li>
+  <li><b>Functions are TypeScript v1, not Python.</b></li>
+  <li><b>Action API names are kebab-case</b> (<code>create-lead</code>). Foundry accepted all 8.</li>
+</ul>
+<h3>Not built, by decision on 2026-10-11</h3>
+<div class="tbl"><table>
+<tr><th>Item</th><th>Why</th></tr>
+<tr><td><code>OwnedRecord</code> interface</td><td>No action needs it. Learning value only.</td></tr>
+<tr><td>Field checks (email regex, text length); unique identifier, current time, current user on Create lead and Log activity</td><td>Left out of this build.</td></tr>
+<tr><td>Concurrency test of Assign lead</td><td>It needs two calls at the same moment. Snapshot isolation and the guard write are configured, but no test proves the conflict.</td></tr>
+<tr><td><code>notifyBilling</code> webhook on Close opportunity as won</td><td>No billing system exists to call.</td></tr>
+</table></div>
+
+
+</div>
+</body>
+</html>

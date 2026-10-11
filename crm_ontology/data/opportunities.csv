@@ -1,0 +1,26 @@
+opportunityId,name,accountId,ownerId,stage,amount,closeDate,probability,discountPct,lastStageChangeAt,closedAt
+opp-001,Evergreen Solar - Pilot,acct-005,rep-ana,prospecting,42000.00,2027-01-04,0.1,0.0,2026-09-04T08:55:00Z,
+opp-002,Iris Optics - Support renewal,acct-009,rep-fay,prospecting,347000.00,2026-11-18,0.1,0.0,2026-09-02T21:31:00Z,
+opp-003,Lumen Energy - Pilot,acct-012,rep-ana,prospecting,78000.00,2026-11-12,0.1,0.0,2026-08-03T18:44:00Z,
+opp-004,Fable Books - Platform license,acct-006,rep-ben,prospecting,208000.00,2026-12-12,0.1,0.0,2026-08-31T16:31:00Z,
+opp-005,Juniper Retail - Support renewal,acct-010,rep-eli,qualification,366000.00,2026-12-05,0.25,15.0,2026-08-18T16:22:00Z,
+opp-006,Blue Harbor Foods - Expansion,acct-002,rep-ana,qualification,105000.00,2026-11-25,0.25,5.0,2026-09-04T12:26:00Z,
+opp-007,Lumen Energy - Platform license,acct-012,rep-ana,qualification,178000.00,2026-12-20,0.25,10.0,2026-09-24T11:31:00Z,
+opp-008,Evergreen Solar - Expansion,acct-005,rep-ana,qualification,174000.00,2026-12-16,0.25,15.0,2026-09-01T23:23:00Z,
+opp-009,"Northwind Traders, Inc. - Platform license",acct-020,rep-eli,proposal,62000.00,2027-01-19,0.5,0.0,2026-09-11T06:31:00Z,
+opp-010,Delta Freight - Platform license,acct-004,rep-ana,proposal,140000.00,2026-11-14,0.5,0.0,2026-08-04T20:26:00Z,
+opp-011,Maple Insurance - Pilot,acct-013,rep-fay,proposal,391000.00,2026-10-27,0.5,10.0,2026-08-03T17:49:00Z,
+opp-012,Blue Harbor Foods - Pilot,acct-002,rep-ana,proposal,212000.00,2026-10-30,0.5,15.0,2026-08-06T00:56:00Z,
+opp-013,Nimbus Cloud - Onboarding package,acct-014,rep-eli,proposal,258000.00,2027-01-08,0.5,5.0,2026-08-02T06:26:00Z,
+opp-014,Pioneer Steel - Platform license,acct-016,rep-ben,negotiation,357000.00,2026-11-03,0.75,10.0,2026-09-24T14:29:00Z,
+opp-015,Helix Biotech - Pilot,acct-008,rep-ben,negotiation,13000.00,2026-12-31,0.75,0.0,2026-08-03T21:32:00Z,
+opp-016,Iris Optics - Platform license,acct-009,rep-fay,negotiation,316000.00,2027-01-28,0.75,0.0,2026-08-09T15:07:00Z,
+opp-017,Granite Bank - Platform license,acct-007,rep-ana,negotiation,237000.00,2026-10-12,0.75,5.0,2026-09-25T14:59:00Z,
+opp-018,Northwind Traders - Pilot,acct-019,rep-ana,negotiation,323000.00,2026-10-27,0.75,0.0,2026-08-25T09:45:00Z,
+opp-019,Quartz Media - Platform license,acct-017,rep-fay,closedLost,87000.00,2026-09-14,0.0,0.0,2026-08-27T15:52:00Z,2026-08-27T15:52:00Z
+opp-020,Kestrel Aviation - Pilot,acct-011,rep-ben,closedLost,326000.00,2026-09-11,0.0,15.0,2026-09-18T17:07:00Z,2026-09-18T17:07:00Z
+opp-021,Orchid Hotels - Pilot,acct-015,rep-eli,closedWon,233000.00,2026-08-29,1.0,0.0,2026-08-12T16:59:00Z,2026-08-12T16:59:00Z
+opp-022,Cedar Health - Platform license,acct-003,rep-ben,closedWon,133000.00,2026-09-28,1.0,0.0,2026-09-12T12:10:00Z,2026-09-12T12:10:00Z
+opp-023,Acme Robotics - Onboarding package,acct-001,rep-ben,closedWon,102000.00,2026-08-29,1.0,10.0,2026-09-28T06:45:00Z,2026-09-28T06:45:00Z
+opp-024,Redwood Logistics - Platform license,acct-018,rep-eli,closedWon,342000.00,2026-08-09,1.0,10.0,2026-09-14T08:45:00Z,2026-09-14T08:45:00Z
+opp-025,Orchid Hotels - Onboarding package,acct-015,rep-eli,closedWon,206000.00,2026-08-29,1.0,5.0,2026-08-18T07:07:00Z,2026-08-18T07:07:00Z

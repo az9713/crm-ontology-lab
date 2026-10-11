@@ -1,0 +1,21 @@
+accountId,name,industry,website,annualRevenue,ownerId,createdAt
+acct-001,Acme Robotics,Media,acmerobotics.example.com,487000000.00,rep-ben,2025-08-24T01:47:00Z
+acct-002,Blue Harbor Foods,Manufacturing,blueharborfoods.example.com,39000000.00,rep-ana,2025-09-08T04:07:00Z
+acct-003,Cedar Health,Manufacturing,cedarhealth.example.com,467000000.00,rep-ben,2026-02-23T21:04:00Z
+acct-004,Delta Freight,Finance,deltafreight.example.com,216000000.00,rep-ana,2025-11-11T20:55:00Z
+acct-005,Evergreen Solar,Retail,evergreensolar.example.com,219000000.00,rep-ana,2025-01-15T04:42:00Z
+acct-006,Fable Books,Food,fablebooks.example.com,487000000.00,rep-ben,2025-04-26T02:36:00Z
+acct-007,Granite Bank,Aviation,granitebank.example.com,487000000.00,rep-ana,2025-05-23T04:01:00Z
+acct-008,Helix Biotech,Finance,helixbiotech.example.com,27000000.00,rep-ben,2026-02-19T05:00:00Z
+acct-009,Iris Optics,Healthcare,irisoptics.example.com,150000000.00,rep-fay,2025-12-31T05:33:00Z
+acct-010,Juniper Retail,Food,juniperretail.example.com,294000000.00,rep-eli,2025-06-01T00:44:00Z
+acct-011,Kestrel Aviation,Healthcare,kestrelaviation.example.com,54000000.00,rep-ben,2025-09-05T20:41:00Z
+acct-012,Lumen Energy,Retail,lumenenergy.example.com,366000000.00,rep-ana,2025-05-30T21:58:00Z
+acct-013,Maple Insurance,Aviation,mapleinsurance.example.com,107000000.00,rep-fay,2025-03-31T05:52:00Z
+acct-014,Nimbus Cloud,Finance,nimbuscloud.example.com,399000000.00,rep-eli,2025-07-19T04:01:00Z
+acct-015,Orchid Hotels,Biotech,orchidhotels.example.com,187000000.00,rep-eli,2025-11-07T17:52:00Z
+acct-016,Pioneer Steel,Technology,pioneersteel.example.com,401000000.00,rep-ben,2026-02-01T04:24:00Z
+acct-017,Quartz Media,Energy,quartzmedia.example.com,270000000.00,rep-fay,2024-12-21T12:17:00Z
+acct-018,Redwood Logistics,Technology,redwoodlogistics.example.com,231000000.00,rep-eli,2025-05-07T21:31:00Z
+acct-019,Northwind Traders,Retail,northwindtraders.example.com,85000000.00,rep-ana,2026-08-16T06:32:00Z
+acct-020,"Northwind Traders, Inc.",Retail,northwindtraders.example.com,85000000.00,rep-eli,2026-07-09T18:23:00Z

@@ -1,0 +1,26 @@
+Id,Name,Industry,Website,AnnualRevenue,OwnerId,CreatedDate,LastModifiedDate,IsDeleted,_extracted_at
+acct-900,Test Account - DO NOT USE,,test.example.com,0,usr-sync,2026-06-22T15:40:00.000+0000,2026-09-29T19:41:00.000+0000,true,2026-10-01T00:00:00.000+0000
+acct-007,Granite Bank,Aviation,http://granitebank.example.com,487000000,rep-ana,2025-05-23T04:01:00.000+0000,2026-09-06T07:32:00.000+0000,false,2026-09-15T00:00:00.000+0000
+acct-003,Cedar Health,Manufacturing,http://cedarhealth.example.com,467000000,rep-eli,2026-02-23T21:04:00.000+0000,2026-08-09T07:40:00.000+0000,false,2026-09-15T00:00:00.000+0000
+acct-900,Test Account - DO NOT USE,,test.example.com,0,usr-sync,2026-06-22T15:40:00.000+0000,2026-08-04T05:25:00.000+0000,false,2026-09-15T00:00:00.000+0000
+acct-012,Lumen Energy,Retail,WWW.LUMENENERGY.EXAMPLE.COM,366000000,rep-ben,2025-05-30T21:58:00.000+0000,2026-08-13T21:17:00.000+0000,false,2026-09-15T00:00:00.000+0000
+acct-017,Quartz Media,Energy,quartzmedia.example.com,270000000,rep-fay,2024-12-21T12:17:00.000+0000,2026-08-08T16:12:00.000+0000,false,2026-09-15T00:00:00.000+0000
+acct-008,Helix Biotech,Finance,WWW.HELIXBIOTECH.EXAMPLE.COM,27000000,rep-ben,2026-02-19T05:00:00.000+0000,2026-09-20T00:04:00.000+0000,false,2026-10-01T00:00:00.000+0000
+acct-012,Lumen Energy,Retail,WWW.LUMENENERGY.EXAMPLE.COM,366000000,rep-ana,2025-05-30T21:58:00.000+0000,2026-09-22T13:04:00.000+0000,false,2026-10-01T00:00:00.000+0000
+acct-016,Pioneer Steel ,Technology,WWW.PIONEERSTEEL.EXAMPLE.COM,401000000,rep-ben,2026-02-01T04:24:00.000+0000,2026-08-08T15:11:00.000+0000,false,2026-09-15T00:00:00.000+0000
+acct-018,Redwood Logistics,Technology,https://www.redwoodlogistics.example.com/,231000000,rep-eli,2025-05-07T21:31:00.000+0000,2026-08-07T20:24:00.000+0000,false,2026-09-15T00:00:00.000+0000
+acct-005,Evergreen Solar,Retail,evergreensolar.example.com,219000000,rep-ana,2025-01-15T04:42:00.000+0000,2026-08-08T20:17:00.000+0000,false,2026-09-15T00:00:00.000+0000
+acct-009,Iris Optics,Healthcare,irisoptics.example.com,150000000,rep-fay,2025-12-31T05:33:00.000+0000,2026-09-07T02:01:00.000+0000,false,2026-09-15T00:00:00.000+0000
+acct-008,Helix Biotech,Finance,WWW.HELIXBIOTECH.EXAMPLE.COM,27000000,rep-eli,2026-02-19T05:00:00.000+0000,2026-08-07T03:54:00.000+0000,false,2026-09-15T00:00:00.000+0000
+acct-013,Maple Insurance,Aviation,mapleinsurance.example.com,107000000,rep-fay,2025-03-31T05:52:00.000+0000,2026-09-02T09:21:00.000+0000,false,2026-09-15T00:00:00.000+0000
+acct-002,Blue Harbor Foods,Manufacturing,https://www.blueharborfoods.example.com/,39000000,rep-ana,2025-09-08T04:07:00.000+0000,2026-08-10T00:49:00.000+0000,false,2026-09-15T00:00:00.000+0000
+acct-014,Nimbus Cloud,Finance,https://www.nimbuscloud.example.com/,399000000,rep-eli,2025-07-19T04:01:00.000+0000,2026-08-07T03:08:00.000+0000,false,2026-09-15T00:00:00.000+0000
+acct-010,Juniper Retail,Food,https://www.juniperretail.example.com/,294000000,rep-eli,2025-06-01T00:44:00.000+0000,2026-08-04T06:59:00.000+0000,false,2026-09-15T00:00:00.000+0000
+acct-019,Northwind Traders,Retail,http://northwindtraders.example.com,85000000,rep-ana,2026-08-16T06:32:00.000+0000,2026-08-07T13:13:00.000+0000,false,2026-09-15T00:00:00.000+0000
+acct-003,Cedar Health,Manufacturing,http://cedarhealth.example.com,467000000,rep-ben,2026-02-23T21:04:00.000+0000,2026-09-23T10:28:00.000+0000,false,2026-10-01T00:00:00.000+0000
+acct-001,Acme Robotics ,Media,acmerobotics.example.com,487000000,rep-ben,2025-08-24T01:47:00.000+0000,2026-08-01T01:12:00.000+0000,false,2026-09-15T00:00:00.000+0000
+acct-011,Kestrel Aviation ,Healthcare,http://kestrelaviation.example.com,54000000,rep-ben,2025-09-05T20:41:00.000+0000,2026-08-08T12:45:00.000+0000,false,2026-09-15T00:00:00.000+0000
+acct-006,Fable Books ,Food,https://www.fablebooks.example.com/,487000000,rep-ben,2025-04-26T02:36:00.000+0000,2026-09-09T02:45:00.000+0000,false,2026-09-15T00:00:00.000+0000
+acct-004,Delta Freight,Finance,WWW.DELTAFREIGHT.EXAMPLE.COM,216000000,rep-ana,2025-11-11T20:55:00.000+0000,2026-09-08T00:42:00.000+0000,false,2026-09-15T00:00:00.000+0000
+acct-020,"Northwind Traders, Inc.",Retail,WWW.NORTHWINDTRADERS.EXAMPLE.COM,85000000,rep-eli,2026-07-09T18:23:00.000+0000,2026-08-05T18:19:00.000+0000,false,2026-09-15T00:00:00.000+0000
+acct-015,Orchid Hotels,Biotech,http://orchidhotels.example.com,187000000,rep-eli,2025-11-07T17:52:00.000+0000,2026-08-12T03:00:00.000+0000,false,2026-09-15T00:00:00.000+0000

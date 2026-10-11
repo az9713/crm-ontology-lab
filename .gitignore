@@ -1,0 +1,13 @@
+# credentials and private material: never commit
+.env
+*.env
+.ignore/
+*token*
+# Palantir repository templates stay in Foundry
+gradlew
+gradlew.bat
+gradle/
+.palantir-scripts/
+# Python
+__pycache__/
+*.pyc

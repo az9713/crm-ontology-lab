@@ -1,0 +1,2974 @@
+{
+  "ontology": {
+    "apiName": "crm",
+    "displayName": "CRM",
+    "rid": "ri.ontology.local.ontology.crm",
+    "description": "Local Palantir-style CRM ontology for learning. Not a Palantir artifact."
+  },
+  "objectTypes": {
+    "SalesRep": {
+      "objectType": {
+        "apiName": "SalesRep",
+        "displayName": "Sales Rep",
+        "status": "ACTIVE",
+        "description": "A person who owns leads, accounts and opportunities.",
+        "pluralDisplayName": "Sales Reps",
+        "icon": {
+          "type": "blueprint",
+          "name": "people",
+          "color": "#4C90F0"
+        },
+        "primaryKey": "salesRepId",
+        "properties": {
+          "salesRepId": {
+            "displayName": "Sales rep ID",
+            "dataType": {
+              "type": "string"
+            },
+            "rid": "ri.ontology.local.property.SalesRep.salesRepId",
+            "status": {
+              "type": "active"
+            },
+            "visibility": "NORMAL",
+            "dataConstraints": {
+              "nullability": "NOT_NULLABLE"
+            },
+            "description": "Same value as the user ID."
+          },
+          "fullName": {
+            "displayName": "Full name",
+            "dataType": {
+              "type": "string"
+            },
+            "rid": "ri.ontology.local.property.SalesRep.fullName",
+            "status": {
+              "type": "active"
+            },
+            "visibility": "NORMAL",
+            "dataConstraints": {
+              "nullability": "NOT_NULLABLE"
+            }
+          },
+          "email": {
+            "displayName": "Email",
+            "dataType": {
+              "type": "string"
+            },
+            "rid": "ri.ontology.local.property.SalesRep.email",
+            "status": {
+              "type": "active"
+            },
+            "visibility": "NORMAL",
+            "dataConstraints": {
+              "nullability": "NULLABLE"
+            }
+          },
+          "team": {
+            "displayName": "Team",
+            "dataType": {
+              "type": "string"
+            },
+            "rid": "ri.ontology.local.property.SalesRep.team",
+            "status": {
+              "type": "active"
+            },
+            "visibility": "NORMAL",
+            "dataConstraints": {
+              "nullability": "NULLABLE"
+            }
+          },
+          "maxOpenLeads": {
+            "displayName": "Maximum open leads",
+            "dataType": {
+              "type": "integer"
+            },
+            "rid": "ri.ontology.local.property.SalesRep.maxOpenLeads",
+            "status": {
+              "type": "active"
+            },
+            "visibility": "NORMAL",
+            "dataConstraints": {
+              "nullability": "NOT_NULLABLE"
+            }
+          },
+          "openLeadCount": {
+            "displayName": "Open lead count",
+            "dataType": {
+              "type": "integer"
+            },
+            "rid": "ri.ontology.local.property.SalesRep.openLeadCount",
+            "status": {
+              "type": "active"
+            },
+            "visibility": "NORMAL",
+            "dataConstraints": {
+              "nullability": "NOT_NULLABLE"
+            },
+            "description": "Guard counter. Every lead assignment and conversion writes it, so concurrent assignments conflict (report section 8.4)."
+          }
+        },
+        "rid": "ri.ontology.local.object-type.SalesRep",
+        "titleProperty": "fullName",
+        "visibility": "NORMAL",
+        "aliases": [],
+        "datasources": [
+          {
+            "rid": "ri.ontology.local.datasource.SalesRep.sales-reps",
+            "definition": {
+              "type": "dataset",
+              "datasetRid": "ri.foundry.local.dataset.sales-reps",
+              "propertyMapping": {
+                "salesRepId": {
+                  "type": "column",
+                  "column": "salesRepId"
+                },
+                "fullName": {
+                  "type": "column",
+                  "column": "fullName"
+                },
+                "email": {
+                  "type": "column",
+                  "column": "email"
+                },
+                "team": {
+                  "type": "column",
+                  "column": "team"
+                },
+                "maxOpenLeads": {
+                  "type": "column",
+                  "column": "maxOpenLeads"
+                },
+                "openLeadCount": {
+                  "type": "column",
+                  "column": "openLeadCount"
+                }
+              }
+            }
+          }
+        ]
+      },
+      "linkTypes": [
+        {
+          "apiName": "accounts",
+          "displayName": "Accounts",
+          "status": "ACTIVE",
+          "objectTypeApiName": "Account",
+          "cardinality": "MANY",
+          "linkTypeRid": "ri.ontology.local.link-type.account-owner"
+        },
+        {
+          "apiName": "leads",
+          "displayName": "Leads",
+          "status": "ACTIVE",
+          "objectTypeApiName": "Lead",
+          "cardinality": "MANY",
+          "linkTypeRid": "ri.ontology.local.link-type.lead-owner"
+        },
+        {
+          "apiName": "opportunities",
+          "displayName": "Opportunities",
+          "status": "ACTIVE",
+          "objectTypeApiName": "Opportunity",
+          "cardinality": "MANY",
+          "linkTypeRid": "ri.ontology.local.link-type.opportunity-owner"
+        }
+      ],
+      "implementsInterfaces": [],
+      "implementsInterfaces2": {},
+      "sharedPropertyTypeMapping": {},
+      "x-localConflictResolution": "APPLY_USER_EDITS"
+    },
+    "Account": {
+      "objectType": {
+        "apiName": "Account",
+        "displayName": "Account",
+        "status": "ACTIVE",
+        "description": "A company that is a customer or a possible customer.",
+        "pluralDisplayName": "Accounts",
+        "icon": {
+          "type": "blueprint",
+          "name": "office",
+          "color": "#238551"
+        },
+        "primaryKey": "accountId",
+        "properties": {
+          "accountId": {
+            "displayName": "Account ID",
+            "dataType": {
+              "type": "string"
+            },
+            "rid": "ri.ontology.local.property.Account.accountId",
+            "status": {
+              "type": "active"
+            },
+            "visibility": "NORMAL",
+            "dataConstraints": {
+              "nullability": "NOT_NULLABLE"
+            }
+          },
+          "name": {
+            "displayName": "Name",
+            "dataType": {
+              "type": "string"
+            },
+            "rid": "ri.ontology.local.property.Account.name",
+            "status": {
+              "type": "active"
+            },
+            "visibility": "NORMAL",
+            "dataConstraints": {
+              "nullability": "NOT_NULLABLE"
+            }
+          },
+          "industry": {
+            "displayName": "Industry",
+            "dataType": {
+              "type": "string"
+            },
+            "rid": "ri.ontology.local.property.Account.industry",
+            "status": {
+              "type": "active"
+            },
+            "visibility": "NORMAL",
+            "dataConstraints": {
+              "nullability": "NULLABLE"
+            }
+          },
+          "website": {
+            "displayName": "Website",
+            "dataType": {
+              "type": "string"
+            },
+            "rid": "ri.ontology.local.property.Account.website",
+            "status": {
+              "type": "active"
+            },
+            "visibility": "NORMAL",
+            "dataConstraints": {
+              "nullability": "NULLABLE"
+            }
+          },
+          "annualRevenue": {
+            "displayName": "Annual revenue",
+            "dataType": {
+              "type": "decimal",
+              "precision": 18,
+              "scale": 2
+            },
+            "rid": "ri.ontology.local.property.Account.annualRevenue",
+            "status": {
+              "type": "active"
+            },
+            "visibility": "NORMAL",
+            "dataConstraints": {
+              "nullability": "NULLABLE"
+            },
+            "description": "Currency USD. JSON-encoded as a string."
+          },
+          "ownerId": {
+            "displayName": "Owner",
+            "dataType": {
+              "type": "string"
+            },
+            "rid": "ri.ontology.local.property.Account.ownerId",
+            "status": {
+              "type": "active"
+            },
+            "visibility": "NORMAL",
+            "dataConstraints": {
+              "nullability": "NULLABLE"
+            },
+            "description": "Foreign key to SalesRep."
+          },
+          "createdAt": {
+            "displayName": "Created at",
+            "dataType": {
+              "type": "timestamp"
+            },
+            "rid": "ri.ontology.local.property.Account.createdAt",
+            "status": {
+              "type": "active"
+            },
+            "visibility": "NORMAL",
+            "dataConstraints": {
+              "nullability": "NULLABLE"
+            }
+          }
+        },
+        "rid": "ri.ontology.local.object-type.Account",
+        "titleProperty": "name",
+        "visibility": "NORMAL",
+        "aliases": [],
+        "datasources": [
+          {
+            "rid": "ri.ontology.local.datasource.Account.accounts",
+            "definition": {
+              "type": "dataset",
+              "datasetRid": "ri.foundry.local.dataset.accounts",
+              "propertyMapping": {
+                "accountId": {
+                  "type": "column",
+                  "column": "accountId"
+                },
+                "name": {
+                  "type": "column",
+                  "column": "name"
+                },
+                "industry": {
+                  "type": "column",
+                  "column": "industry"
+                },
+                "website": {
+                  "type": "column",
+                  "column": "website"
+                },
+                "annualRevenue": {
+                  "type": "column",
+                  "column": "annualRevenue"
+                },
+                "ownerId": {
+                  "type": "column",
+                  "column": "ownerId"
+                },
+                "createdAt": {
+                  "type": "column",
+                  "column": "createdAt"
+                }
+              }
+            }
+          }
+        ]
+      },
+      "linkTypes": [
+        {
+          "apiName": "contacts",
+          "displayName": "Contacts",
+          "status": "ACTIVE",
+          "objectTypeApiName": "Contact",
+          "cardinality": "MANY",
+          "linkTypeRid": "ri.ontology.local.link-type.contact-account"
+        },
+        {
+          "apiName": "opportunities",
+          "displayName": "Opportunities",
+          "status": "ACTIVE",
+          "objectTypeApiName": "Opportunity",
+          "cardinality": "MANY",
+          "linkTypeRid": "ri.ontology.local.link-type.opportunity-account"
+        },
+        {
+          "apiName": "owner",
+          "displayName": "Owner",
+          "status": "ACTIVE",
+          "objectTypeApiName": "SalesRep",
+          "cardinality": "ONE",
+          "linkTypeRid": "ri.ontology.local.link-type.account-owner",
+          "foreignKeyPropertyApiName": "ownerId"
+        },
+        {
+          "apiName": "sourceLeads",
+          "displayName": "Source leads",
+          "status": "ACTIVE",
+          "objectTypeApiName": "Lead",
+          "cardinality": "MANY",
+          "linkTypeRid": "ri.ontology.local.link-type.lead-converted-account"
+        }
+      ],
+      "implementsInterfaces": [
+        "OwnedRecord"
+      ],
+      "implementsInterfaces2": {
+        "OwnedRecord": {
+          "apiName": "OwnedRecord",
+          "rid": "ri.ontology.local.interface-type.OwnedRecord",
+          "properties": {
+            "recordOwnerId": "ownerId"
+          },
+          "propertiesV2": {
+            "recordOwnerId": {
+              "type": "localPropertyImplementation",
+              "propertyApiName": "ownerId"
+            }
+          },
+          "links": {
+            "owner": [
+              "owner"
+            ]
+          },
+          "actionTypes": {}
+        }
+      },
+      "sharedPropertyTypeMapping": {
+        "recordOwnerId": "ownerId"
+      },
+      "x-localConflictResolution": "APPLY_USER_EDITS"
+    },
+    "Contact": {
+      "objectType": {
+        "apiName": "Contact",
+        "displayName": "Contact",
+        "status": "ACTIVE",
+        "description": "A person at an account.",
+        "pluralDisplayName": "Contacts",
+        "icon": {
+          "type": "blueprint",
+          "name": "person",
+          "color": "#7961DB"
+        },
+        "primaryKey": "contactId",
+        "properties": {
+          "contactId": {
+            "displayName": "Contact ID",
+            "dataType": {
+              "type": "string"
+            },
+            "rid": "ri.ontology.local.property.Contact.contactId",
+            "status": {
+              "type": "active"
+            },
+            "visibility": "NORMAL",
+            "dataConstraints": {
+              "nullability": "NOT_NULLABLE"
+            }
+          },
+          "fullName": {
+            "displayName": "Full name",
+            "dataType": {
+              "type": "string"
+            },
+            "rid": "ri.ontology.local.property.Contact.fullName",
+            "status": {
+              "type": "active"
+            },
+            "visibility": "NORMAL",
+            "dataConstraints": {
+              "nullability": "NOT_NULLABLE"
+            }
+          },
+          "email": {
+            "displayName": "Email",
+            "dataType": {
+              "type": "string"
+            },
+            "rid": "ri.ontology.local.property.Contact.email",
+            "status": {
+              "type": "active"
+            },
+            "visibility": "NORMAL",
+            "dataConstraints": {
+              "nullability": "NULLABLE"
+            }
+          },
+          "phone": {
+            "displayName": "Phone",
+            "dataType": {
+              "type": "string"
+            },
+            "rid": "ri.ontology.local.property.Contact.phone",
+            "status": {
+              "type": "active"
+            },
+            "visibility": "NORMAL",
+            "dataConstraints": {
+              "nullability": "NULLABLE"
+            }
+          },
+          "jobTitle": {
+            "displayName": "Job title",
+            "dataType": {
+              "type": "string"
+            },
+            "rid": "ri.ontology.local.property.Contact.jobTitle",
+            "status": {
+              "type": "active"
+            },
+            "visibility": "NORMAL",
+            "dataConstraints": {
+              "nullability": "NULLABLE"
+            }
+          },
+          "accountId": {
+            "displayName": "Account",
+            "dataType": {
+              "type": "string"
+            },
+            "rid": "ri.ontology.local.property.Contact.accountId",
+            "status": {
+              "type": "active"
+            },
+            "visibility": "NORMAL",
+            "dataConstraints": {
+              "nullability": "NULLABLE"
+            },
+            "description": "Foreign key to Account."
+          }
+        },
+        "rid": "ri.ontology.local.object-type.Contact",
+        "titleProperty": "fullName",
+        "visibility": "NORMAL",
+        "aliases": [],
+        "datasources": [
+          {
+            "rid": "ri.ontology.local.datasource.Contact.contacts",
+            "definition": {
+              "type": "dataset",
+              "datasetRid": "ri.foundry.local.dataset.contacts",
+              "propertyMapping": {
+                "contactId": {
+                  "type": "column",
+                  "column": "contactId"
+                },
+                "fullName": {
+                  "type": "column",
+                  "column": "fullName"
+                },
+                "email": {
+                  "type": "column",
+                  "column": "email"
+                },
+                "phone": {
+                  "type": "column",
+                  "column": "phone"
+                },
+                "jobTitle": {
+                  "type": "column",
+                  "column": "jobTitle"
+                },
+                "accountId": {
+                  "type": "column",
+                  "column": "accountId"
+                }
+              }
+            }
+          }
+        ]
+      },
+      "linkTypes": [
+        {
+          "apiName": "account",
+          "displayName": "Account",
+          "status": "ACTIVE",
+          "objectTypeApiName": "Account",
+          "cardinality": "ONE",
+          "linkTypeRid": "ri.ontology.local.link-type.contact-account",
+          "foreignKeyPropertyApiName": "accountId"
+        },
+        {
+          "apiName": "activities",
+          "displayName": "Activities",
+          "status": "ACTIVE",
+          "objectTypeApiName": "Activity",
+          "cardinality": "MANY",
+          "linkTypeRid": "ri.ontology.local.link-type.activity-contact"
+        },
+        {
+          "apiName": "opportunities",
+          "displayName": "Opportunities",
+          "status": "ACTIVE",
+          "objectTypeApiName": "Opportunity",
+          "cardinality": "MANY",
+          "linkTypeRid": "ri.ontology.local.link-type.contact-opportunity"
+        }
+      ],
+      "implementsInterfaces": [],
+      "implementsInterfaces2": {},
+      "sharedPropertyTypeMapping": {},
+      "x-localConflictResolution": "APPLY_USER_EDITS"
+    },
+    "Lead": {
+      "objectType": {
+        "apiName": "Lead",
+        "displayName": "Lead",
+        "status": "ACTIVE",
+        "description": "A possible customer that nobody has qualified yet.",
+        "pluralDisplayName": "Leads",
+        "icon": {
+          "type": "blueprint",
+          "name": "new-person",
+          "color": "#C87619"
+        },
+        "primaryKey": "leadId",
+        "properties": {
+          "leadId": {
+            "displayName": "Lead ID",
+            "dataType": {
+              "type": "string"
+            },
+            "rid": "ri.ontology.local.property.Lead.leadId",
+            "status": {
+              "type": "active"
+            },
+            "visibility": "NORMAL",
+            "dataConstraints": {
+              "nullability": "NOT_NULLABLE"
+            }
+          },
+          "fullName": {
+            "displayName": "Full name",
+            "dataType": {
+              "type": "string"
+            },
+            "rid": "ri.ontology.local.property.Lead.fullName",
+            "status": {
+              "type": "active"
+            },
+            "visibility": "NORMAL",
+            "dataConstraints": {
+              "nullability": "NOT_NULLABLE"
+            }
+          },
+          "companyName": {
+            "displayName": "Company name",
+            "dataType": {
+              "type": "string"
+            },
+            "rid": "ri.ontology.local.property.Lead.companyName",
+            "status": {
+              "type": "active"
+            },
+            "visibility": "NORMAL",
+            "dataConstraints": {
+              "nullability": "NULLABLE"
+            }
+          },
+          "email": {
+            "displayName": "Email",
+            "dataType": {
+              "type": "string"
+            },
+            "rid": "ri.ontology.local.property.Lead.email",
+            "status": {
+              "type": "active"
+            },
+            "visibility": "NORMAL",
+            "dataConstraints": {
+              "nullability": "NULLABLE"
+            }
+          },
+          "leadSource": {
+            "displayName": "Lead source",
+            "dataType": {
+              "type": "string"
+            },
+            "rid": "ri.ontology.local.property.Lead.leadSource",
+            "status": {
+              "type": "active"
+            },
+            "visibility": "NORMAL",
+            "dataConstraints": {
+              "nullability": "NULLABLE"
+            }
+          },
+          "status": {
+            "displayName": "Status",
+            "dataType": {
+              "type": "string"
+            },
+            "rid": "ri.ontology.local.property.Lead.status",
+            "status": {
+              "type": "active"
+            },
+            "visibility": "NORMAL",
+            "dataConstraints": {
+              "nullability": "NOT_NULLABLE"
+            },
+            "description": "new | assigned | converted | disqualified"
+          },
+          "ownerId": {
+            "displayName": "Owner",
+            "dataType": {
+              "type": "string"
+            },
+            "rid": "ri.ontology.local.property.Lead.ownerId",
+            "status": {
+              "type": "active"
+            },
+            "visibility": "NORMAL",
+            "dataConstraints": {
+              "nullability": "NULLABLE"
+            },
+            "description": "Foreign key to SalesRep. Empty until assigned."
+          },
+          "convertedAccountId": {
+            "displayName": "Converted account",
+            "dataType": {
+              "type": "string"
+            },
+            "rid": "ri.ontology.local.property.Lead.convertedAccountId",
+            "status": {
+              "type": "active"
+            },
+            "visibility": "NORMAL",
+            "dataConstraints": {
+              "nullability": "NULLABLE"
+            },
+            "description": "Foreign key to Account. Set by convert-lead."
+          },
+          "createdAt": {
+            "displayName": "Created at",
+            "dataType": {
+              "type": "timestamp"
+            },
+            "rid": "ri.ontology.local.property.Lead.createdAt",
+            "status": {
+              "type": "active"
+            },
+            "visibility": "NORMAL",
+            "dataConstraints": {
+              "nullability": "NULLABLE"
+            }
+          },
+          "createdBy": {
+            "displayName": "Created by",
+            "dataType": {
+              "type": "string"
+            },
+            "rid": "ri.ontology.local.property.Lead.createdBy",
+            "status": {
+              "type": "active"
+            },
+            "visibility": "NORMAL",
+            "dataConstraints": {
+              "nullability": "NULLABLE"
+            }
+          }
+        },
+        "rid": "ri.ontology.local.object-type.Lead",
+        "titleProperty": "fullName",
+        "visibility": "NORMAL",
+        "aliases": [],
+        "datasources": [
+          {
+            "rid": "ri.ontology.local.datasource.Lead.leads",
+            "definition": {
+              "type": "dataset",
+              "datasetRid": "ri.foundry.local.dataset.leads",
+              "propertyMapping": {
+                "leadId": {
+                  "type": "column",
+                  "column": "leadId"
+                },
+                "fullName": {
+                  "type": "column",
+                  "column": "fullName"
+                },
+                "companyName": {
+                  "type": "column",
+                  "column": "companyName"
+                },
+                "email": {
+                  "type": "column",
+                  "column": "email"
+                },
+                "leadSource": {
+                  "type": "column",
+                  "column": "leadSource"
+                },
+                "status": {
+                  "type": "column",
+                  "column": "status"
+                },
+                "ownerId": {
+                  "type": "column",
+                  "column": "ownerId"
+                },
+                "convertedAccountId": {
+                  "type": "column",
+                  "column": "convertedAccountId"
+                },
+                "createdAt": {
+                  "type": "column",
+                  "column": "createdAt"
+                },
+                "createdBy": {
+                  "type": "column",
+                  "column": "createdBy"
+                }
+              }
+            }
+          }
+        ]
+      },
+      "linkTypes": [
+        {
+          "apiName": "owner",
+          "displayName": "Owner",
+          "status": "ACTIVE",
+          "objectTypeApiName": "SalesRep",
+          "cardinality": "ONE",
+          "linkTypeRid": "ri.ontology.local.link-type.lead-owner",
+          "foreignKeyPropertyApiName": "ownerId"
+        },
+        {
+          "apiName": "convertedAccount",
+          "displayName": "Converted account",
+          "status": "ACTIVE",
+          "objectTypeApiName": "Account",
+          "cardinality": "ONE",
+          "linkTypeRid": "ri.ontology.local.link-type.lead-converted-account",
+          "foreignKeyPropertyApiName": "convertedAccountId"
+        }
+      ],
+      "implementsInterfaces": [
+        "OwnedRecord"
+      ],
+      "implementsInterfaces2": {
+        "OwnedRecord": {
+          "apiName": "OwnedRecord",
+          "rid": "ri.ontology.local.interface-type.OwnedRecord",
+          "properties": {
+            "recordOwnerId": "ownerId"
+          },
+          "propertiesV2": {
+            "recordOwnerId": {
+              "type": "localPropertyImplementation",
+              "propertyApiName": "ownerId"
+            }
+          },
+          "links": {
+            "owner": [
+              "owner"
+            ]
+          },
+          "actionTypes": {}
+        }
+      },
+      "sharedPropertyTypeMapping": {
+        "recordOwnerId": "ownerId"
+      },
+      "x-localConflictResolution": "APPLY_USER_EDITS"
+    },
+    "Opportunity": {
+      "objectType": {
+        "apiName": "Opportunity",
+        "displayName": "Opportunity",
+        "status": "ACTIVE",
+        "description": "A possible sale. Two datasources: the CRM table and the e-signature system, joined column-wise on opportunityId.",
+        "pluralDisplayName": "Opportunities",
+        "icon": {
+          "type": "blueprint",
+          "name": "dollar",
+          "color": "#29A634"
+        },
+        "primaryKey": "opportunityId",
+        "properties": {
+          "opportunityId": {
+            "displayName": "Opportunity ID",
+            "dataType": {
+              "type": "string"
+            },
+            "rid": "ri.ontology.local.property.Opportunity.opportunityId",
+            "status": {
+              "type": "active"
+            },
+            "visibility": "NORMAL",
+            "dataConstraints": {
+              "nullability": "NOT_NULLABLE"
+            }
+          },
+          "name": {
+            "displayName": "Name",
+            "dataType": {
+              "type": "string"
+            },
+            "rid": "ri.ontology.local.property.Opportunity.name",
+            "status": {
+              "type": "active"
+            },
+            "visibility": "NORMAL",
+            "dataConstraints": {
+              "nullability": "NOT_NULLABLE"
+            }
+          },
+          "accountId": {
+            "displayName": "Account",
+            "dataType": {
+              "type": "string"
+            },
+            "rid": "ri.ontology.local.property.Opportunity.accountId",
+            "status": {
+              "type": "active"
+            },
+            "visibility": "NORMAL",
+            "dataConstraints": {
+              "nullability": "NOT_NULLABLE"
+            },
+            "description": "Foreign key to Account."
+          },
+          "ownerId": {
+            "displayName": "Owner",
+            "dataType": {
+              "type": "string"
+            },
+            "rid": "ri.ontology.local.property.Opportunity.ownerId",
+            "status": {
+              "type": "active"
+            },
+            "visibility": "NORMAL",
+            "dataConstraints": {
+              "nullability": "NULLABLE"
+            },
+            "description": "Foreign key to SalesRep."
+          },
+          "stage": {
+            "displayName": "Stage",
+            "dataType": {
+              "type": "string"
+            },
+            "rid": "ri.ontology.local.property.Opportunity.stage",
+            "status": {
+              "type": "active"
+            },
+            "visibility": "NORMAL",
+            "dataConstraints": {
+              "nullability": "NOT_NULLABLE"
+            },
+            "description": "prospecting | qualification | proposal | negotiation | closedWon | closedLost"
+          },
+          "amount": {
+            "displayName": "Amount",
+            "dataType": {
+              "type": "decimal",
+              "precision": 18,
+              "scale": 2
+            },
+            "rid": "ri.ontology.local.property.Opportunity.amount",
+            "status": {
+              "type": "active"
+            },
+            "visibility": "NORMAL",
+            "dataConstraints": {
+              "nullability": "NULLABLE"
+            },
+            "description": "Currency USD. JSON-encoded as a string."
+          },
+          "closeDate": {
+            "displayName": "Expected close date",
+            "dataType": {
+              "type": "date"
+            },
+            "rid": "ri.ontology.local.property.Opportunity.closeDate",
+            "status": {
+              "type": "active"
+            },
+            "visibility": "NORMAL",
+            "dataConstraints": {
+              "nullability": "NULLABLE"
+            }
+          },
+          "probability": {
+            "displayName": "Win probability",
+            "dataType": {
+              "type": "double"
+            },
+            "rid": "ri.ontology.local.property.Opportunity.probability",
+            "status": {
+              "type": "active"
+            },
+            "visibility": "NORMAL",
+            "dataConstraints": {
+              "nullability": "NULLABLE"
+            },
+            "description": "A represented estimate between 0 and 1, not a fact about the customer (report section 4.3)."
+          },
+          "discountPct": {
+            "displayName": "Discount percent",
+            "dataType": {
+              "type": "double"
+            },
+            "rid": "ri.ontology.local.property.Opportunity.discountPct",
+            "status": {
+              "type": "active"
+            },
+            "visibility": "NORMAL",
+            "dataConstraints": {
+              "nullability": "NULLABLE"
+            }
+          },
+          "lastStageChangeAt": {
+            "displayName": "Last stage change",
+            "dataType": {
+              "type": "timestamp"
+            },
+            "rid": "ri.ontology.local.property.Opportunity.lastStageChangeAt",
+            "status": {
+              "type": "active"
+            },
+            "visibility": "NORMAL",
+            "dataConstraints": {
+              "nullability": "NULLABLE"
+            }
+          },
+          "closedAt": {
+            "displayName": "Closed at",
+            "dataType": {
+              "type": "timestamp"
+            },
+            "rid": "ri.ontology.local.property.Opportunity.closedAt",
+            "status": {
+              "type": "active"
+            },
+            "visibility": "NORMAL",
+            "dataConstraints": {
+              "nullability": "NULLABLE"
+            }
+          },
+          "contractSigned": {
+            "displayName": "Contract signed",
+            "dataType": {
+              "type": "boolean"
+            },
+            "rid": "ri.ontology.local.property.Opportunity.contractSigned",
+            "status": {
+              "type": "active"
+            },
+            "visibility": "NORMAL",
+            "dataConstraints": {
+              "nullability": "NULLABLE"
+            },
+            "description": "From the e-signature system datasource. Empty when that system has no row for this opportunity (report section 2, multi-datasource)."
+          },
+          "contractSignedOn": {
+            "displayName": "Contract signed on",
+            "dataType": {
+              "type": "date"
+            },
+            "rid": "ri.ontology.local.property.Opportunity.contractSignedOn",
+            "status": {
+              "type": "active"
+            },
+            "visibility": "NORMAL",
+            "dataConstraints": {
+              "nullability": "NULLABLE"
+            }
+          }
+        },
+        "rid": "ri.ontology.local.object-type.Opportunity",
+        "titleProperty": "name",
+        "visibility": "NORMAL",
+        "aliases": [],
+        "datasources": [
+          {
+            "rid": "ri.ontology.local.datasource.Opportunity.opportunities",
+            "definition": {
+              "type": "dataset",
+              "datasetRid": "ri.foundry.local.dataset.opportunities",
+              "propertyMapping": {
+                "opportunityId": {
+                  "type": "column",
+                  "column": "opportunityId"
+                },
+                "name": {
+                  "type": "column",
+                  "column": "name"
+                },
+                "accountId": {
+                  "type": "column",
+                  "column": "accountId"
+                },
+                "ownerId": {
+                  "type": "column",
+                  "column": "ownerId"
+                },
+                "stage": {
+                  "type": "column",
+                  "column": "stage"
+                },
+                "amount": {
+                  "type": "column",
+                  "column": "amount"
+                },
+                "closeDate": {
+                  "type": "column",
+                  "column": "closeDate"
+                },
+                "probability": {
+                  "type": "column",
+                  "column": "probability"
+                },
+                "discountPct": {
+                  "type": "column",
+                  "column": "discountPct"
+                },
+                "lastStageChangeAt": {
+                  "type": "column",
+                  "column": "lastStageChangeAt"
+                },
+                "closedAt": {
+                  "type": "column",
+                  "column": "closedAt"
+                }
+              }
+            }
+          },
+          {
+            "rid": "ri.ontology.local.datasource.Opportunity.esign-contracts",
+            "definition": {
+              "type": "dataset",
+              "datasetRid": "ri.foundry.local.dataset.esign-contracts",
+              "propertyMapping": {
+                "opportunityId": {
+                  "type": "column",
+                  "column": "opportunityId"
+                },
+                "contractSigned": {
+                  "type": "column",
+                  "column": "contractSigned"
+                },
+                "contractSignedOn": {
+                  "type": "column",
+                  "column": "contractSignedOn"
+                }
+              }
+            }
+          }
+        ]
+      },
+      "linkTypes": [
+        {
+          "apiName": "account",
+          "displayName": "Account",
+          "status": "ACTIVE",
+          "objectTypeApiName": "Account",
+          "cardinality": "ONE",
+          "linkTypeRid": "ri.ontology.local.link-type.opportunity-account",
+          "foreignKeyPropertyApiName": "accountId"
+        },
+        {
+          "apiName": "owner",
+          "displayName": "Owner",
+          "status": "ACTIVE",
+          "objectTypeApiName": "SalesRep",
+          "cardinality": "ONE",
+          "linkTypeRid": "ri.ontology.local.link-type.opportunity-owner",
+          "foreignKeyPropertyApiName": "ownerId"
+        },
+        {
+          "apiName": "activities",
+          "displayName": "Activities",
+          "status": "ACTIVE",
+          "objectTypeApiName": "Activity",
+          "cardinality": "MANY",
+          "linkTypeRid": "ri.ontology.local.link-type.activity-opportunity"
+        },
+        {
+          "apiName": "contacts",
+          "displayName": "Contacts",
+          "status": "ACTIVE",
+          "objectTypeApiName": "Contact",
+          "cardinality": "MANY",
+          "linkTypeRid": "ri.ontology.local.link-type.contact-opportunity"
+        }
+      ],
+      "implementsInterfaces": [
+        "OwnedRecord"
+      ],
+      "implementsInterfaces2": {
+        "OwnedRecord": {
+          "apiName": "OwnedRecord",
+          "rid": "ri.ontology.local.interface-type.OwnedRecord",
+          "properties": {
+            "recordOwnerId": "ownerId"
+          },
+          "propertiesV2": {
+            "recordOwnerId": {
+              "type": "localPropertyImplementation",
+              "propertyApiName": "ownerId"
+            }
+          },
+          "links": {
+            "owner": [
+              "owner"
+            ]
+          },
+          "actionTypes": {}
+        }
+      },
+      "sharedPropertyTypeMapping": {
+        "recordOwnerId": "ownerId"
+      },
+      "x-localConflictResolution": "APPLY_USER_EDITS"
+    },
+    "Activity": {
+      "objectType": {
+        "apiName": "Activity",
+        "displayName": "Activity",
+        "status": "ACTIVE",
+        "description": "A call, email, meeting or note. Edits-only: created only by actions, no source table.",
+        "pluralDisplayName": "Activities",
+        "icon": {
+          "type": "blueprint",
+          "name": "comment",
+          "color": "#738091"
+        },
+        "primaryKey": "activityId",
+        "properties": {
+          "activityId": {
+            "displayName": "Activity ID",
+            "dataType": {
+              "type": "string"
+            },
+            "rid": "ri.ontology.local.property.Activity.activityId",
+            "status": {
+              "type": "active"
+            },
+            "visibility": "NORMAL",
+            "dataConstraints": {
+              "nullability": "NOT_NULLABLE"
+            }
+          },
+          "subject": {
+            "displayName": "Subject",
+            "dataType": {
+              "type": "string"
+            },
+            "rid": "ri.ontology.local.property.Activity.subject",
+            "status": {
+              "type": "active"
+            },
+            "visibility": "NORMAL",
+            "dataConstraints": {
+              "nullability": "NOT_NULLABLE"
+            }
+          },
+          "activityType": {
+            "displayName": "Type",
+            "dataType": {
+              "type": "string"
+            },
+            "rid": "ri.ontology.local.property.Activity.activityType",
+            "status": {
+              "type": "active"
+            },
+            "visibility": "NORMAL",
+            "dataConstraints": {
+              "nullability": "NOT_NULLABLE"
+            },
+            "description": "call | email | meeting | note"
+          },
+          "notes": {
+            "displayName": "Notes",
+            "dataType": {
+              "type": "string"
+            },
+            "rid": "ri.ontology.local.property.Activity.notes",
+            "status": {
+              "type": "active"
+            },
+            "visibility": "NORMAL",
+            "dataConstraints": {
+              "nullability": "NULLABLE"
+            }
+          },
+          "occurredAt": {
+            "displayName": "Occurred at",
+            "dataType": {
+              "type": "timestamp"
+            },
+            "rid": "ri.ontology.local.property.Activity.occurredAt",
+            "status": {
+              "type": "active"
+            },
+            "visibility": "NORMAL",
+            "dataConstraints": {
+              "nullability": "NOT_NULLABLE"
+            }
+          },
+          "loggedBy": {
+            "displayName": "Logged by",
+            "dataType": {
+              "type": "string"
+            },
+            "rid": "ri.ontology.local.property.Activity.loggedBy",
+            "status": {
+              "type": "active"
+            },
+            "visibility": "NORMAL",
+            "dataConstraints": {
+              "nullability": "NULLABLE"
+            },
+            "description": "User ID from currentUser."
+          },
+          "contactId": {
+            "displayName": "Contact",
+            "dataType": {
+              "type": "string"
+            },
+            "rid": "ri.ontology.local.property.Activity.contactId",
+            "status": {
+              "type": "active"
+            },
+            "visibility": "NORMAL",
+            "dataConstraints": {
+              "nullability": "NULLABLE"
+            },
+            "description": "Foreign key to Contact."
+          },
+          "opportunityId": {
+            "displayName": "Opportunity",
+            "dataType": {
+              "type": "string"
+            },
+            "rid": "ri.ontology.local.property.Activity.opportunityId",
+            "status": {
+              "type": "active"
+            },
+            "visibility": "NORMAL",
+            "dataConstraints": {
+              "nullability": "NULLABLE"
+            },
+            "description": "Foreign key to Opportunity."
+          }
+        },
+        "rid": "ri.ontology.local.object-type.Activity",
+        "titleProperty": "subject",
+        "visibility": "NORMAL",
+        "aliases": [],
+        "datasources": [
+          {
+            "rid": "ri.ontology.local.datasource.Activity.edits-only",
+            "definition": {
+              "type": "editsOnly"
+            }
+          }
+        ]
+      },
+      "linkTypes": [
+        {
+          "apiName": "contact",
+          "displayName": "Contact",
+          "status": "ACTIVE",
+          "objectTypeApiName": "Contact",
+          "cardinality": "ONE",
+          "linkTypeRid": "ri.ontology.local.link-type.activity-contact",
+          "foreignKeyPropertyApiName": "contactId"
+        },
+        {
+          "apiName": "opportunity",
+          "displayName": "Opportunity",
+          "status": "ACTIVE",
+          "objectTypeApiName": "Opportunity",
+          "cardinality": "ONE",
+          "linkTypeRid": "ri.ontology.local.link-type.activity-opportunity",
+          "foreignKeyPropertyApiName": "opportunityId"
+        }
+      ],
+      "implementsInterfaces": [],
+      "implementsInterfaces2": {},
+      "sharedPropertyTypeMapping": {},
+      "x-localConflictResolution": "APPLY_USER_EDITS"
+    }
+  },
+  "actionTypes": {
+    "create-lead": {
+      "apiName": "create-lead",
+      "displayName": "Create lead",
+      "description": "Create an unassigned lead with status 'new'.",
+      "status": "ACTIVE",
+      "parameters": {
+        "fullName": {
+          "displayName": "Full name",
+          "dataType": {
+            "type": "string"
+          },
+          "required": true,
+          "validation": {
+            "defaultValidation": {
+              "allowedValues": {
+                "type": "text",
+                "gte": 1,
+                "lte": 200
+              }
+            }
+          }
+        },
+        "companyName": {
+          "displayName": "Company name",
+          "dataType": {
+            "type": "string"
+          },
+          "required": true
+        },
+        "email": {
+          "displayName": "Email",
+          "dataType": {
+            "type": "string"
+          },
+          "required": true,
+          "validation": {
+            "defaultValidation": {
+              "allowedValues": {
+                "type": "text",
+                "regex": "[^@ ]+@[^@ ]+\\.[^@ ]+",
+                "configuredFailureMessage": "Enter a valid email address."
+              }
+            }
+          }
+        },
+        "leadSource": {
+          "displayName": "Lead source",
+          "dataType": {
+            "type": "string"
+          },
+          "required": true,
+          "validation": {
+            "defaultValidation": {
+              "allowedValues": {
+                "type": "oneOf",
+                "otherValuesAllowed": false,
+                "options": [
+                  {
+                    "displayName": "web",
+                    "value": "web"
+                  },
+                  {
+                    "displayName": "referral",
+                    "value": "referral"
+                  },
+                  {
+                    "displayName": "event",
+                    "value": "event"
+                  },
+                  {
+                    "displayName": "outbound",
+                    "value": "outbound"
+                  }
+                ]
+              }
+            }
+          }
+        }
+      },
+      "rid": "ri.ontology.local.action-type.create-lead",
+      "operations": [
+        {
+          "type": "createObject",
+          "objectTypeApiName": "Lead"
+        }
+      ],
+      "toolDescription": "Create a new unassigned sales lead."
+    },
+    "assign-lead": {
+      "apiName": "assign-lead",
+      "displayName": "Assign lead",
+      "description": "Assign a new lead to a sales rep if the rep is under their open-lead limit.",
+      "status": "ACTIVE",
+      "parameters": {
+        "lead": {
+          "displayName": "Lead",
+          "dataType": {
+            "type": "object",
+            "objectApiName": "Lead",
+            "objectTypeApiName": "Lead"
+          },
+          "required": true
+        },
+        "rep": {
+          "displayName": "Sales rep",
+          "dataType": {
+            "type": "object",
+            "objectApiName": "SalesRep",
+            "objectTypeApiName": "SalesRep"
+          },
+          "required": true
+        }
+      },
+      "rid": "ri.ontology.local.action-type.assign-lead",
+      "operations": [
+        {
+          "type": "modifyObject",
+          "objectTypeApiName": "Lead"
+        },
+        {
+          "type": "modifyObject",
+          "objectTypeApiName": "SalesRep"
+        }
+      ],
+      "toolDescription": "Assign a new lead to a sales rep. Fails if the rep already has maxOpenLeads open leads."
+    },
+    "convert-lead": {
+      "apiName": "convert-lead",
+      "displayName": "Convert lead",
+      "description": "Turn an assigned lead into an Account, a Contact and an Opportunity.",
+      "status": "ACTIVE",
+      "parameters": {
+        "lead": {
+          "displayName": "Lead",
+          "dataType": {
+            "type": "object",
+            "objectApiName": "Lead",
+            "objectTypeApiName": "Lead"
+          },
+          "required": true
+        },
+        "opportunityName": {
+          "displayName": "Opportunity name",
+          "dataType": {
+            "type": "string"
+          },
+          "required": true
+        },
+        "amount": {
+          "displayName": "Amount (USD)",
+          "dataType": {
+            "type": "decimal"
+          },
+          "required": true,
+          "validation": {
+            "defaultValidation": {
+              "allowedValues": {
+                "type": "range",
+                "gt": {
+                  "type": "static",
+                  "value": "0"
+                }
+              }
+            }
+          }
+        },
+        "closeDate": {
+          "displayName": "Expected close date",
+          "dataType": {
+            "type": "date"
+          },
+          "required": true
+        }
+      },
+      "rid": "ri.ontology.local.action-type.convert-lead",
+      "operations": [
+        {
+          "type": "createObject",
+          "objectTypeApiName": "Account"
+        },
+        {
+          "type": "createObject",
+          "objectTypeApiName": "Contact"
+        },
+        {
+          "type": "createObject",
+          "objectTypeApiName": "Opportunity"
+        },
+        {
+          "type": "modifyObject",
+          "objectTypeApiName": "Lead"
+        },
+        {
+          "type": "modifyObject",
+          "objectTypeApiName": "SalesRep"
+        },
+        {
+          "type": "createLink",
+          "linkTypeApiNameAtoB": "opportunities",
+          "linkTypeApiNameBtoA": "contacts",
+          "aSideObjectTypeApiName": "Contact",
+          "bSideObjectTypeApiName": "Opportunity"
+        }
+      ],
+      "toolDescription": "Convert an assigned lead into an account, contact and opportunity."
+    },
+    "advance-opportunity-stage": {
+      "apiName": "advance-opportunity-stage",
+      "displayName": "Advance opportunity stage",
+      "description": "Move an open opportunity to another open stage.",
+      "status": "ACTIVE",
+      "parameters": {
+        "opportunity": {
+          "displayName": "Opportunity",
+          "dataType": {
+            "type": "object",
+            "objectApiName": "Opportunity",
+            "objectTypeApiName": "Opportunity"
+          },
+          "required": true
+        },
+        "newStage": {
+          "displayName": "New stage",
+          "dataType": {
+            "type": "string"
+          },
+          "required": true,
+          "validation": {
+            "defaultValidation": {
+              "allowedValues": {
+                "type": "oneOf",
+                "otherValuesAllowed": false,
+                "options": [
+                  {
+                    "displayName": "prospecting",
+                    "value": "prospecting"
+                  },
+                  {
+                    "displayName": "qualification",
+                    "value": "qualification"
+                  },
+                  {
+                    "displayName": "proposal",
+                    "value": "proposal"
+                  },
+                  {
+                    "displayName": "negotiation",
+                    "value": "negotiation"
+                  }
+                ]
+              }
+            }
+          }
+        }
+      },
+      "rid": "ri.ontology.local.action-type.advance-opportunity-stage",
+      "operations": [
+        {
+          "type": "modifyObject",
+          "objectTypeApiName": "Opportunity"
+        }
+      ]
+    },
+    "apply-discount": {
+      "apiName": "apply-discount",
+      "displayName": "Apply discount",
+      "description": "Set the discount on an opportunity. 20% or more needs a sales manager.",
+      "status": "ACTIVE",
+      "parameters": {
+        "opportunity": {
+          "displayName": "Opportunity",
+          "dataType": {
+            "type": "object",
+            "objectApiName": "Opportunity",
+            "objectTypeApiName": "Opportunity"
+          },
+          "required": true
+        },
+        "discountPct": {
+          "displayName": "Discount percent",
+          "dataType": {
+            "type": "double"
+          },
+          "required": true,
+          "validation": {
+            "defaultValidation": {
+              "allowedValues": {
+                "type": "range",
+                "gte": {
+                  "type": "static",
+                  "value": 0
+                },
+                "lte": {
+                  "type": "static",
+                  "value": 50
+                }
+              }
+            }
+          }
+        }
+      },
+      "rid": "ri.ontology.local.action-type.apply-discount",
+      "operations": [
+        {
+          "type": "modifyObject",
+          "objectTypeApiName": "Opportunity"
+        }
+      ]
+    },
+    "close-opportunity-won": {
+      "apiName": "close-opportunity-won",
+      "displayName": "Close opportunity as won",
+      "description": "Close a negotiated opportunity that has a signed contract.",
+      "status": "ACTIVE",
+      "parameters": {
+        "opportunity": {
+          "displayName": "Opportunity",
+          "dataType": {
+            "type": "object",
+            "objectApiName": "Opportunity",
+            "objectTypeApiName": "Opportunity"
+          },
+          "required": true
+        }
+      },
+      "rid": "ri.ontology.local.action-type.close-opportunity-won",
+      "operations": [
+        {
+          "type": "modifyObject",
+          "objectTypeApiName": "Opportunity"
+        }
+      ],
+      "toolDescription": "Close an opportunity as won. Billing is notified after the commit; check its status before telling the user billing is done."
+    },
+    "log-activity": {
+      "apiName": "log-activity",
+      "displayName": "Log activity",
+      "description": "Record a call, email, meeting or note against a contact.",
+      "status": "ACTIVE",
+      "parameters": {
+        "contact": {
+          "displayName": "Contact",
+          "dataType": {
+            "type": "object",
+            "objectApiName": "Contact",
+            "objectTypeApiName": "Contact"
+          },
+          "required": true
+        },
+        "opportunity": {
+          "displayName": "Opportunity",
+          "dataType": {
+            "type": "object",
+            "objectApiName": "Opportunity",
+            "objectTypeApiName": "Opportunity"
+          },
+          "required": false
+        },
+        "activityType": {
+          "displayName": "Type",
+          "dataType": {
+            "type": "string"
+          },
+          "required": true,
+          "validation": {
+            "defaultValidation": {
+              "allowedValues": {
+                "type": "oneOf",
+                "otherValuesAllowed": false,
+                "options": [
+                  {
+                    "displayName": "call",
+                    "value": "call"
+                  },
+                  {
+                    "displayName": "email",
+                    "value": "email"
+                  },
+                  {
+                    "displayName": "meeting",
+                    "value": "meeting"
+                  },
+                  {
+                    "displayName": "note",
+                    "value": "note"
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "subject": {
+          "displayName": "Subject",
+          "dataType": {
+            "type": "string"
+          },
+          "required": true,
+          "validation": {
+            "defaultValidation": {
+              "allowedValues": {
+                "type": "text",
+                "gte": 1,
+                "lte": 200
+              }
+            }
+          }
+        },
+        "notes": {
+          "displayName": "Notes",
+          "dataType": {
+            "type": "string"
+          },
+          "required": false
+        }
+      },
+      "rid": "ri.ontology.local.action-type.log-activity",
+      "operations": [
+        {
+          "type": "createObject",
+          "objectTypeApiName": "Activity"
+        }
+      ]
+    },
+    "add-contact-to-opportunity": {
+      "apiName": "add-contact-to-opportunity",
+      "displayName": "Add contact to opportunity",
+      "description": "Link a contact to an opportunity (many-to-many).",
+      "status": "ACTIVE",
+      "parameters": {
+        "contact": {
+          "displayName": "Contact",
+          "dataType": {
+            "type": "object",
+            "objectApiName": "Contact",
+            "objectTypeApiName": "Contact"
+          },
+          "required": true
+        },
+        "opportunity": {
+          "displayName": "Opportunity",
+          "dataType": {
+            "type": "object",
+            "objectApiName": "Opportunity",
+            "objectTypeApiName": "Opportunity"
+          },
+          "required": true
+        }
+      },
+      "rid": "ri.ontology.local.action-type.add-contact-to-opportunity",
+      "operations": [
+        {
+          "type": "createLink",
+          "linkTypeApiNameAtoB": "opportunities",
+          "linkTypeApiNameBtoA": "contacts",
+          "aSideObjectTypeApiName": "Contact",
+          "bSideObjectTypeApiName": "Opportunity"
+        }
+      ]
+    }
+  },
+  "actionTypesFullMetadata": {
+    "create-lead": {
+      "actionType": {
+        "apiName": "create-lead",
+        "displayName": "Create lead",
+        "description": "Create an unassigned lead with status 'new'.",
+        "status": "ACTIVE",
+        "parameters": {
+          "fullName": {
+            "displayName": "Full name",
+            "dataType": {
+              "type": "string"
+            },
+            "required": true,
+            "validation": {
+              "defaultValidation": {
+                "allowedValues": {
+                  "type": "text",
+                  "gte": 1,
+                  "lte": 200
+                }
+              }
+            }
+          },
+          "companyName": {
+            "displayName": "Company name",
+            "dataType": {
+              "type": "string"
+            },
+            "required": true
+          },
+          "email": {
+            "displayName": "Email",
+            "dataType": {
+              "type": "string"
+            },
+            "required": true,
+            "validation": {
+              "defaultValidation": {
+                "allowedValues": {
+                  "type": "text",
+                  "regex": "[^@ ]+@[^@ ]+\\.[^@ ]+",
+                  "configuredFailureMessage": "Enter a valid email address."
+                }
+              }
+            }
+          },
+          "leadSource": {
+            "displayName": "Lead source",
+            "dataType": {
+              "type": "string"
+            },
+            "required": true,
+            "validation": {
+              "defaultValidation": {
+                "allowedValues": {
+                  "type": "oneOf",
+                  "otherValuesAllowed": false,
+                  "options": [
+                    {
+                      "displayName": "web",
+                      "value": "web"
+                    },
+                    {
+                      "displayName": "referral",
+                      "value": "referral"
+                    },
+                    {
+                      "displayName": "event",
+                      "value": "event"
+                    },
+                    {
+                      "displayName": "outbound",
+                      "value": "outbound"
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "rid": "ri.ontology.local.action-type.create-lead",
+        "operations": [
+          {
+            "type": "createObject",
+            "objectTypeApiName": "Lead"
+          }
+        ],
+        "toolDescription": "Create a new unassigned sales lead."
+      },
+      "fullLogicRules": [
+        {
+          "type": "createObject",
+          "objectTypeApiName": "Lead",
+          "structPropertyArguments": {},
+          "propertyArguments": {
+            "leadId": {
+              "type": "uniqueIdentifier"
+            },
+            "fullName": {
+              "type": "parameterId",
+              "parameterId": "fullName"
+            },
+            "companyName": {
+              "type": "parameterId",
+              "parameterId": "companyName"
+            },
+            "email": {
+              "type": "parameterId",
+              "parameterId": "email"
+            },
+            "leadSource": {
+              "type": "parameterId",
+              "parameterId": "leadSource"
+            },
+            "status": {
+              "type": "staticValue",
+              "value": "new"
+            },
+            "createdAt": {
+              "type": "currentTime"
+            },
+            "createdBy": {
+              "type": "currentUser"
+            }
+          }
+        }
+      ],
+      "x-localSubmissionCriteria": [
+        {
+          "operator": "all",
+          "conditions": [
+            {
+              "type": "currentUser",
+              "field": "groupIds",
+              "operator": "includesAny",
+              "value": {
+                "static": [
+                  "sales-rep",
+                  "sales-manager"
+                ]
+              }
+            }
+          ],
+          "failureMessage": "Only sales users can do this."
+        }
+      ]
+    },
+    "assign-lead": {
+      "actionType": {
+        "apiName": "assign-lead",
+        "displayName": "Assign lead",
+        "description": "Assign a new lead to a sales rep if the rep is under their open-lead limit.",
+        "status": "ACTIVE",
+        "parameters": {
+          "lead": {
+            "displayName": "Lead",
+            "dataType": {
+              "type": "object",
+              "objectApiName": "Lead",
+              "objectTypeApiName": "Lead"
+            },
+            "required": true
+          },
+          "rep": {
+            "displayName": "Sales rep",
+            "dataType": {
+              "type": "object",
+              "objectApiName": "SalesRep",
+              "objectTypeApiName": "SalesRep"
+            },
+            "required": true
+          }
+        },
+        "rid": "ri.ontology.local.action-type.assign-lead",
+        "operations": [
+          {
+            "type": "modifyObject",
+            "objectTypeApiName": "Lead"
+          },
+          {
+            "type": "modifyObject",
+            "objectTypeApiName": "SalesRep"
+          }
+        ],
+        "toolDescription": "Assign a new lead to a sales rep. Fails if the rep already has maxOpenLeads open leads."
+      },
+      "fullLogicRules": [
+        {
+          "type": "function",
+          "functionRid": "ri.function-registry.local.function.assignLead",
+          "functionVersion": "1.0.0",
+          "functionInputValues": {
+            "lead": {
+              "type": "parameterId",
+              "parameterId": "lead"
+            },
+            "rep": {
+              "type": "parameterId",
+              "parameterId": "rep"
+            }
+          }
+        }
+      ],
+      "x-localSubmissionCriteria": [
+        {
+          "operator": "all",
+          "conditions": [
+            {
+              "type": "currentUser",
+              "field": "groupIds",
+              "operator": "includesAny",
+              "value": {
+                "static": [
+                  "sales-manager"
+                ]
+              }
+            }
+          ],
+          "failureMessage": "Only a sales manager can assign leads."
+        },
+        {
+          "operator": "all",
+          "conditions": [
+            {
+              "type": "parameter",
+              "parameterId": "lead",
+              "property": "status",
+              "operator": "is",
+              "value": {
+                "static": "new"
+              }
+            }
+          ],
+          "failureMessage": "Only a lead with status 'new' can be assigned."
+        }
+      ]
+    },
+    "convert-lead": {
+      "actionType": {
+        "apiName": "convert-lead",
+        "displayName": "Convert lead",
+        "description": "Turn an assigned lead into an Account, a Contact and an Opportunity.",
+        "status": "ACTIVE",
+        "parameters": {
+          "lead": {
+            "displayName": "Lead",
+            "dataType": {
+              "type": "object",
+              "objectApiName": "Lead",
+              "objectTypeApiName": "Lead"
+            },
+            "required": true
+          },
+          "opportunityName": {
+            "displayName": "Opportunity name",
+            "dataType": {
+              "type": "string"
+            },
+            "required": true
+          },
+          "amount": {
+            "displayName": "Amount (USD)",
+            "dataType": {
+              "type": "decimal"
+            },
+            "required": true,
+            "validation": {
+              "defaultValidation": {
+                "allowedValues": {
+                  "type": "range",
+                  "gt": {
+                    "type": "static",
+                    "value": "0"
+                  }
+                }
+              }
+            }
+          },
+          "closeDate": {
+            "displayName": "Expected close date",
+            "dataType": {
+              "type": "date"
+            },
+            "required": true
+          }
+        },
+        "rid": "ri.ontology.local.action-type.convert-lead",
+        "operations": [
+          {
+            "type": "createObject",
+            "objectTypeApiName": "Account"
+          },
+          {
+            "type": "createObject",
+            "objectTypeApiName": "Contact"
+          },
+          {
+            "type": "createObject",
+            "objectTypeApiName": "Opportunity"
+          },
+          {
+            "type": "modifyObject",
+            "objectTypeApiName": "Lead"
+          },
+          {
+            "type": "modifyObject",
+            "objectTypeApiName": "SalesRep"
+          },
+          {
+            "type": "createLink",
+            "linkTypeApiNameAtoB": "opportunities",
+            "linkTypeApiNameBtoA": "contacts",
+            "aSideObjectTypeApiName": "Contact",
+            "bSideObjectTypeApiName": "Opportunity"
+          }
+        ],
+        "toolDescription": "Convert an assigned lead into an account, contact and opportunity."
+      },
+      "fullLogicRules": [
+        {
+          "type": "function",
+          "functionRid": "ri.function-registry.local.function.convertLead",
+          "functionVersion": "1.0.0",
+          "functionInputValues": {
+            "lead": {
+              "type": "parameterId",
+              "parameterId": "lead"
+            },
+            "opportunityName": {
+              "type": "parameterId",
+              "parameterId": "opportunityName"
+            },
+            "amount": {
+              "type": "parameterId",
+              "parameterId": "amount"
+            },
+            "closeDate": {
+              "type": "parameterId",
+              "parameterId": "closeDate"
+            }
+          }
+        }
+      ],
+      "x-localSubmissionCriteria": [
+        {
+          "operator": "all",
+          "conditions": [
+            {
+              "type": "parameter",
+              "parameterId": "lead",
+              "property": "status",
+              "operator": "is",
+              "value": {
+                "static": "assigned"
+              }
+            }
+          ],
+          "failureMessage": "Only an assigned lead can be converted."
+        },
+        {
+          "operator": "any",
+          "conditions": [
+            {
+              "type": "currentUser",
+              "field": "userId",
+              "operator": "is",
+              "value": {
+                "parameterId": "lead",
+                "property": "ownerId"
+              }
+            },
+            {
+              "type": "currentUser",
+              "field": "groupIds",
+              "operator": "includesAny",
+              "value": {
+                "static": [
+                  "sales-manager"
+                ]
+              }
+            }
+          ],
+          "failureMessage": "Only the record owner or a sales manager can do this."
+        }
+      ]
+    },
+    "advance-opportunity-stage": {
+      "actionType": {
+        "apiName": "advance-opportunity-stage",
+        "displayName": "Advance opportunity stage",
+        "description": "Move an open opportunity to another open stage.",
+        "status": "ACTIVE",
+        "parameters": {
+          "opportunity": {
+            "displayName": "Opportunity",
+            "dataType": {
+              "type": "object",
+              "objectApiName": "Opportunity",
+              "objectTypeApiName": "Opportunity"
+            },
+            "required": true
+          },
+          "newStage": {
+            "displayName": "New stage",
+            "dataType": {
+              "type": "string"
+            },
+            "required": true,
+            "validation": {
+              "defaultValidation": {
+                "allowedValues": {
+                  "type": "oneOf",
+                  "otherValuesAllowed": false,
+                  "options": [
+                    {
+                      "displayName": "prospecting",
+                      "value": "prospecting"
+                    },
+                    {
+                      "displayName": "qualification",
+                      "value": "qualification"
+                    },
+                    {
+                      "displayName": "proposal",
+                      "value": "proposal"
+                    },
+                    {
+                      "displayName": "negotiation",
+                      "value": "negotiation"
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "rid": "ri.ontology.local.action-type.advance-opportunity-stage",
+        "operations": [
+          {
+            "type": "modifyObject",
+            "objectTypeApiName": "Opportunity"
+          }
+        ]
+      },
+      "fullLogicRules": [
+        {
+          "type": "modifyObject",
+          "objectToModify": "opportunity",
+          "structPropertyArguments": {},
+          "propertyArguments": {
+            "stage": {
+              "type": "parameterId",
+              "parameterId": "newStage"
+            },
+            "lastStageChangeAt": {
+              "type": "currentTime"
+            }
+          }
+        }
+      ],
+      "x-localSubmissionCriteria": [
+        {
+          "operator": "any",
+          "conditions": [
+            {
+              "type": "currentUser",
+              "field": "userId",
+              "operator": "is",
+              "value": {
+                "parameterId": "opportunity",
+                "property": "ownerId"
+              }
+            },
+            {
+              "type": "currentUser",
+              "field": "groupIds",
+              "operator": "includesAny",
+              "value": {
+                "static": [
+                  "sales-manager"
+                ]
+              }
+            }
+          ],
+          "failureMessage": "Only the record owner or a sales manager can do this."
+        },
+        {
+          "operator": "none",
+          "conditions": [
+            {
+              "type": "parameter",
+              "parameterId": "opportunity",
+              "property": "stage",
+              "operator": "isIncludedIn",
+              "value": {
+                "static": [
+                  "closedWon",
+                  "closedLost"
+                ]
+              }
+            }
+          ],
+          "failureMessage": "A closed opportunity cannot change stage."
+        }
+      ]
+    },
+    "apply-discount": {
+      "actionType": {
+        "apiName": "apply-discount",
+        "displayName": "Apply discount",
+        "description": "Set the discount on an opportunity. 20% or more needs a sales manager.",
+        "status": "ACTIVE",
+        "parameters": {
+          "opportunity": {
+            "displayName": "Opportunity",
+            "dataType": {
+              "type": "object",
+              "objectApiName": "Opportunity",
+              "objectTypeApiName": "Opportunity"
+            },
+            "required": true
+          },
+          "discountPct": {
+            "displayName": "Discount percent",
+            "dataType": {
+              "type": "double"
+            },
+            "required": true,
+            "validation": {
+              "defaultValidation": {
+                "allowedValues": {
+                  "type": "range",
+                  "gte": {
+                    "type": "static",
+                    "value": 0
+                  },
+                  "lte": {
+                    "type": "static",
+                    "value": 50
+                  }
+                }
+              }
+            }
+          }
+        },
+        "rid": "ri.ontology.local.action-type.apply-discount",
+        "operations": [
+          {
+            "type": "modifyObject",
+            "objectTypeApiName": "Opportunity"
+          }
+        ]
+      },
+      "fullLogicRules": [
+        {
+          "type": "modifyObject",
+          "objectToModify": "opportunity",
+          "structPropertyArguments": {},
+          "propertyArguments": {
+            "discountPct": {
+              "type": "parameterId",
+              "parameterId": "discountPct"
+            }
+          }
+        }
+      ],
+      "x-localSubmissionCriteria": [
+        {
+          "operator": "any",
+          "conditions": [
+            {
+              "type": "currentUser",
+              "field": "userId",
+              "operator": "is",
+              "value": {
+                "parameterId": "opportunity",
+                "property": "ownerId"
+              }
+            },
+            {
+              "type": "currentUser",
+              "field": "groupIds",
+              "operator": "includesAny",
+              "value": {
+                "static": [
+                  "sales-manager"
+                ]
+              }
+            }
+          ],
+          "failureMessage": "Only the record owner or a sales manager can do this."
+        },
+        {
+          "operator": "any",
+          "conditions": [
+            {
+              "type": "parameter",
+              "parameterId": "discountPct",
+              "operator": "isLessThan",
+              "value": {
+                "static": 20
+              }
+            },
+            {
+              "type": "currentUser",
+              "field": "groupIds",
+              "operator": "includesAny",
+              "value": {
+                "static": [
+                  "sales-manager"
+                ]
+              }
+            }
+          ],
+          "failureMessage": "A discount of 20% or more needs a sales manager."
+        }
+      ]
+    },
+    "close-opportunity-won": {
+      "actionType": {
+        "apiName": "close-opportunity-won",
+        "displayName": "Close opportunity as won",
+        "description": "Close a negotiated opportunity that has a signed contract.",
+        "status": "ACTIVE",
+        "parameters": {
+          "opportunity": {
+            "displayName": "Opportunity",
+            "dataType": {
+              "type": "object",
+              "objectApiName": "Opportunity",
+              "objectTypeApiName": "Opportunity"
+            },
+            "required": true
+          }
+        },
+        "rid": "ri.ontology.local.action-type.close-opportunity-won",
+        "operations": [
+          {
+            "type": "modifyObject",
+            "objectTypeApiName": "Opportunity"
+          }
+        ],
+        "toolDescription": "Close an opportunity as won. Billing is notified after the commit; check its status before telling the user billing is done."
+      },
+      "fullLogicRules": [
+        {
+          "type": "modifyObject",
+          "objectToModify": "opportunity",
+          "structPropertyArguments": {},
+          "propertyArguments": {
+            "stage": {
+              "type": "staticValue",
+              "value": "closedWon"
+            },
+            "probability": {
+              "type": "staticValue",
+              "value": 1.0
+            },
+            "closedAt": {
+              "type": "currentTime"
+            }
+          }
+        }
+      ],
+      "x-localSubmissionCriteria": [
+        {
+          "operator": "any",
+          "conditions": [
+            {
+              "type": "currentUser",
+              "field": "userId",
+              "operator": "is",
+              "value": {
+                "parameterId": "opportunity",
+                "property": "ownerId"
+              }
+            },
+            {
+              "type": "currentUser",
+              "field": "groupIds",
+              "operator": "includesAny",
+              "value": {
+                "static": [
+                  "sales-manager"
+                ]
+              }
+            }
+          ],
+          "failureMessage": "Only the record owner or a sales manager can do this."
+        },
+        {
+          "operator": "all",
+          "conditions": [
+            {
+              "type": "parameter",
+              "parameterId": "opportunity",
+              "property": "stage",
+              "operator": "is",
+              "value": {
+                "static": "negotiation"
+              }
+            }
+          ],
+          "failureMessage": "Only an opportunity in 'negotiation' can close as won."
+        },
+        {
+          "operator": "all",
+          "conditions": [
+            {
+              "type": "parameter",
+              "parameterId": "opportunity",
+              "property": "contractSigned",
+              "operator": "is",
+              "value": {
+                "static": true
+              }
+            }
+          ],
+          "failureMessage": "The e-signature system has no signed contract for this opportunity."
+        }
+      ],
+      "x-localSideEffects": [
+        {
+          "type": "webhook",
+          "name": "notifyBilling",
+          "timing": "afterEdits",
+          "idempotencyKey": {
+            "parameterId": "opportunity",
+            "property": "opportunityId"
+          },
+          "inputs": {
+            "opportunityId": {
+              "type": "objectParameterPropertyValue",
+              "parameterId": "opportunity",
+              "propertyTypeApiName": "opportunityId"
+            },
+            "amount": {
+              "type": "objectParameterPropertyValue",
+              "parameterId": "opportunity",
+              "propertyTypeApiName": "amount"
+            }
+          },
+          "note": "Runs after the edits commit. It can fail after the user sees success (report section 6.3); the key prevents a duplicate invoice on retry."
+        }
+      ]
+    },
+    "log-activity": {
+      "actionType": {
+        "apiName": "log-activity",
+        "displayName": "Log activity",
+        "description": "Record a call, email, meeting or note against a contact.",
+        "status": "ACTIVE",
+        "parameters": {
+          "contact": {
+            "displayName": "Contact",
+            "dataType": {
+              "type": "object",
+              "objectApiName": "Contact",
+              "objectTypeApiName": "Contact"
+            },
+            "required": true
+          },
+          "opportunity": {
+            "displayName": "Opportunity",
+            "dataType": {
+              "type": "object",
+              "objectApiName": "Opportunity",
+              "objectTypeApiName": "Opportunity"
+            },
+            "required": false
+          },
+          "activityType": {
+            "displayName": "Type",
+            "dataType": {
+              "type": "string"
+            },
+            "required": true,
+            "validation": {
+              "defaultValidation": {
+                "allowedValues": {
+                  "type": "oneOf",
+                  "otherValuesAllowed": false,
+                  "options": [
+                    {
+                      "displayName": "call",
+                      "value": "call"
+                    },
+                    {
+                      "displayName": "email",
+                      "value": "email"
+                    },
+                    {
+                      "displayName": "meeting",
+                      "value": "meeting"
+                    },
+                    {
+                      "displayName": "note",
+                      "value": "note"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "subject": {
+            "displayName": "Subject",
+            "dataType": {
+              "type": "string"
+            },
+            "required": true,
+            "validation": {
+              "defaultValidation": {
+                "allowedValues": {
+                  "type": "text",
+                  "gte": 1,
+                  "lte": 200
+                }
+              }
+            }
+          },
+          "notes": {
+            "displayName": "Notes",
+            "dataType": {
+              "type": "string"
+            },
+            "required": false
+          }
+        },
+        "rid": "ri.ontology.local.action-type.log-activity",
+        "operations": [
+          {
+            "type": "createObject",
+            "objectTypeApiName": "Activity"
+          }
+        ]
+      },
+      "fullLogicRules": [
+        {
+          "type": "createObject",
+          "objectTypeApiName": "Activity",
+          "structPropertyArguments": {},
+          "propertyArguments": {
+            "activityId": {
+              "type": "uniqueIdentifier"
+            },
+            "activityType": {
+              "type": "parameterId",
+              "parameterId": "activityType"
+            },
+            "subject": {
+              "type": "parameterId",
+              "parameterId": "subject"
+            },
+            "notes": {
+              "type": "parameterId",
+              "parameterId": "notes"
+            },
+            "occurredAt": {
+              "type": "currentTime"
+            },
+            "loggedBy": {
+              "type": "currentUser"
+            },
+            "contactId": {
+              "type": "objectParameterPropertyValue",
+              "parameterId": "contact",
+              "propertyTypeApiName": "contactId"
+            },
+            "opportunityId": {
+              "type": "objectParameterPropertyValue",
+              "parameterId": "opportunity",
+              "propertyTypeApiName": "opportunityId"
+            }
+          }
+        }
+      ],
+      "x-localSubmissionCriteria": [
+        {
+          "operator": "all",
+          "conditions": [
+            {
+              "type": "currentUser",
+              "field": "groupIds",
+              "operator": "includesAny",
+              "value": {
+                "static": [
+                  "sales-rep",
+                  "sales-manager"
+                ]
+              }
+            }
+          ],
+          "failureMessage": "Only sales users can do this."
+        }
+      ]
+    },
+    "add-contact-to-opportunity": {
+      "actionType": {
+        "apiName": "add-contact-to-opportunity",
+        "displayName": "Add contact to opportunity",
+        "description": "Link a contact to an opportunity (many-to-many).",
+        "status": "ACTIVE",
+        "parameters": {
+          "contact": {
+            "displayName": "Contact",
+            "dataType": {
+              "type": "object",
+              "objectApiName": "Contact",
+              "objectTypeApiName": "Contact"
+            },
+            "required": true
+          },
+          "opportunity": {
+            "displayName": "Opportunity",
+            "dataType": {
+              "type": "object",
+              "objectApiName": "Opportunity",
+              "objectTypeApiName": "Opportunity"
+            },
+            "required": true
+          }
+        },
+        "rid": "ri.ontology.local.action-type.add-contact-to-opportunity",
+        "operations": [
+          {
+            "type": "createLink",
+            "linkTypeApiNameAtoB": "opportunities",
+            "linkTypeApiNameBtoA": "contacts",
+            "aSideObjectTypeApiName": "Contact",
+            "bSideObjectTypeApiName": "Opportunity"
+          }
+        ]
+      },
+      "fullLogicRules": [
+        {
+          "type": "createLink",
+          "linkTypeApiName": "opportunities",
+          "sourceObject": "contact",
+          "targetObject": "opportunity"
+        }
+      ],
+      "x-localSubmissionCriteria": [
+        {
+          "operator": "any",
+          "conditions": [
+            {
+              "type": "currentUser",
+              "field": "userId",
+              "operator": "is",
+              "value": {
+                "parameterId": "opportunity",
+                "property": "ownerId"
+              }
+            },
+            {
+              "type": "currentUser",
+              "field": "groupIds",
+              "operator": "includesAny",
+              "value": {
+                "static": [
+                  "sales-manager"
+                ]
+              }
+            }
+          ],
+          "failureMessage": "Only the record owner or a sales manager can do this."
+        }
+      ]
+    }
+  },
+  "queryTypes": {},
+  "interfaceTypes": {
+    "OwnedRecord": {
+      "rid": "ri.ontology.local.interface-type.OwnedRecord",
+      "apiName": "OwnedRecord",
+      "displayName": "Owned record",
+      "description": "A record that one sales rep owns. Used for 'my records' views and owner checks.",
+      "properties": {
+        "recordOwnerId": {
+          "rid": "ri.ontology.local.shared-property-type.recordOwnerId",
+          "apiName": "recordOwnerId",
+          "displayName": "Record owner",
+          "description": "The SalesRep that owns the record.",
+          "dataType": {
+            "type": "string"
+          },
+          "required": true,
+          "type": "interfaceSharedPropertyType"
+        }
+      },
+      "allProperties": {
+        "recordOwnerId": {
+          "rid": "ri.ontology.local.shared-property-type.recordOwnerId",
+          "apiName": "recordOwnerId",
+          "displayName": "Record owner",
+          "description": "The SalesRep that owns the record.",
+          "dataType": {
+            "type": "string"
+          },
+          "required": true,
+          "type": "interfaceSharedPropertyType"
+        }
+      },
+      "propertiesV2": {
+        "recordOwnerId": {
+          "rid": "ri.ontology.local.shared-property-type.recordOwnerId",
+          "apiName": "recordOwnerId",
+          "displayName": "Record owner",
+          "description": "The SalesRep that owns the record.",
+          "dataType": {
+            "type": "string"
+          },
+          "required": true,
+          "type": "interfaceSharedPropertyType"
+        }
+      },
+      "allPropertiesV2": {
+        "recordOwnerId": {
+          "rid": "ri.ontology.local.interface-property-type.OwnedRecord.recordOwnerId",
+          "apiName": "recordOwnerId",
+          "displayName": "Record owner",
+          "description": "The SalesRep that owns the record.",
+          "dataType": {
+            "type": "string"
+          },
+          "requireImplementation": true
+        }
+      },
+      "extendsInterfaces": [],
+      "allExtendsInterfaces": [],
+      "implementedByObjectTypes": [
+        "Account",
+        "Lead",
+        "Opportunity"
+      ],
+      "links": {
+        "owner": {
+          "rid": "ri.ontology.local.interface-link-type.OwnedRecord.owner",
+          "apiName": "owner",
+          "displayName": "Owner",
+          "linkedEntityApiName": {
+            "type": "objectTypeApiName",
+            "apiName": "SalesRep"
+          },
+          "cardinality": "ONE",
+          "required": true
+        }
+      },
+      "allLinks": {
+        "owner": {
+          "rid": "ri.ontology.local.interface-link-type.OwnedRecord.owner",
+          "apiName": "owner",
+          "displayName": "Owner",
+          "linkedEntityApiName": {
+            "type": "objectTypeApiName",
+            "apiName": "SalesRep"
+          },
+          "cardinality": "ONE",
+          "required": true
+        }
+      }
+    }
+  },
+  "sharedPropertyTypes": {
+    "recordOwnerId": {
+      "rid": "ri.ontology.local.shared-property-type.recordOwnerId",
+      "apiName": "recordOwnerId",
+      "displayName": "Record owner",
+      "description": "The SalesRep that owns the record.",
+      "dataType": {
+        "type": "string"
+      }
+    }
+  },
+  "valueTypes": {},
+  "x-local": {
+    "note": "Every key that starts with 'x-local' is local design. Remove them all to get Palantir's OntologyFullMetadata shape. RIDs are local placeholders.",
+    "datasets": {
+      "ri.foundry.local.dataset.sales-reps": "data/sales-reps.csv",
+      "ri.foundry.local.dataset.accounts": "data/accounts.csv",
+      "ri.foundry.local.dataset.contacts": "data/contacts.csv",
+      "ri.foundry.local.dataset.leads": "data/leads.csv",
+      "ri.foundry.local.dataset.opportunities": "data/opportunities.csv",
+      "ri.foundry.local.dataset.esign-contracts": "data/esign-contracts.csv",
+      "ri.foundry.local.dataset.opportunity-contacts": "data/opportunity-contacts.csv"
+    },
+    "linkDatasources": {
+      "ri.ontology.local.link-type.contact-opportunity": {
+        "datasetRid": "ri.foundry.local.dataset.opportunity-contacts",
+        "columns": {
+          "Contact": "contactId",
+          "Opportunity": "opportunityId"
+        }
+      }
+    },
+    "functions": {
+      "ri.function-registry.local.function.assignLead": {
+        "version": "1.0.0",
+        "entryPoint": "functions.py:assign_lead"
+      },
+      "ri.function-registry.local.function.convertLead": {
+        "version": "1.0.0",
+        "entryPoint": "functions.py:convert_lead"
+      }
+    },
+    "users": [
+      {
+        "userId": "rep-ana",
+        "displayName": "Ana (rep)",
+        "groupIds": [
+          "sales-rep"
+        ]
+      },
+      {
+        "userId": "rep-ben",
+        "displayName": "Ben (rep)",
+        "groupIds": [
+          "sales-rep"
+        ]
+      },
+      {
+        "userId": "rep-eli",
+        "displayName": "Eli (rep)",
+        "groupIds": [
+          "sales-rep"
+        ]
+      },
+      {
+        "userId": "rep-fay",
+        "displayName": "Fay (rep)",
+        "groupIds": [
+          "sales-rep"
+        ]
+      },
+      {
+        "userId": "mgr-cara",
+        "displayName": "Cara (manager)",
+        "groupIds": [
+          "sales-manager"
+        ]
+      },
+      {
+        "userId": "viewer-dan",
+        "displayName": "Dan (viewer)",
+        "groupIds": [
+          "viewer"
+        ]
+      }
+    ]
+  }
+}
