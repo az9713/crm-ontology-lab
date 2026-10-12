@@ -41,6 +41,15 @@
   details.fc summary { cursor: pointer; color: var(--text); font-weight: 600; }
   details.fc[open] summary { color: var(--orange); }
   @media (max-width: 640px) { nav.toc { columns: 1; } td:first-child { white-space: normal; } }
+  .q h4 { color: var(--text); margin: 4px 0 10px; font-size: 1rem; }
+  .q textarea { width: 100%; background: #0b1222; color: var(--text); border: 1px solid var(--border); border-radius: 6px; padding: 8px; font: inherit; }
+  .q details { margin-top: 8px; }
+  .q summary { cursor: pointer; color: var(--teal); }
+  ul.chk { list-style: none; padding-left: 0; }
+  ul.chk input { accent-color: var(--teal); }
+  .verdict { margin: 6px 0 0; font-weight: 600; }
+  .verdict.real { color: var(--teal); } .verdict.partial { color: var(--orange); }
+  button { background: var(--card); color: var(--text); border: 1px solid var(--teal); border-radius: 6px; padding: 6px 12px; font: inherit; cursor: pointer; }
 </style>
 </head>
 <body>
@@ -63,7 +72,17 @@
   <a href="#l7">9. Layer 7 — Platform and culture (25)</a>
   <a href="#interview">10. The FDSE interview loop</a>
   <a href="#traps">11. Traps: renames and wrong ideas</a>
-  <a href="#drills">Drills</a>
+  <a href="#practice">12. Self-graded drills</a>
+  <a href="#d1">&nbsp;&nbsp;Drill 1: ten things you built</a>
+  <a href="#d2">&nbsp;&nbsp;Drill 2: Layer 1 — Data</a>
+  <a href="#d3">&nbsp;&nbsp;Drill 3: Layer 2 — Ontology (semantic)</a>
+  <a href="#d4">&nbsp;&nbsp;Drill 4: Layer 3 — Kinetic</a>
+  <a href="#d5">&nbsp;&nbsp;Drill 5: Layer 4 — Applications</a>
+  <a href="#d6">&nbsp;&nbsp;Drill 6: Layer 5 — AIP</a>
+  <a href="#d7">&nbsp;&nbsp;Drill 7: Layer 6 — Security and governance</a>
+  <a href="#d8">&nbsp;&nbsp;Drill 8: Layer 7 — Platform and culture</a>
+  <a href="#mock">&nbsp;&nbsp;Final test: mock FDSE conversation</a>
+  <a href="#drills">Flashcards</a>
   <a href="#sources">Sources and confidence</a>
 </nav>
 
@@ -538,8 +557,876 @@
 <li><strong>Reddit and Hacker News.</strong> Searches did not return usable threads. Culture rows rely on Lever postings, Palantir blog snippets, Blind, and prep sites.</li>
 </ol></div>
 
-<h2 id="drills">Drills</h2>
-<h3>Drill 3: Layer 1 — Data</h3>
+<h2 id="practice">12. Self-graded drills</h2>
+<div class="card">
+<ol>
+<li>Write your answer in the box, in your own words, before you open the model answer.</li>
+<li>Open the model answer. Tick each "Real" marker that your answer contains.</li>
+<li>All markers ticked = <b>real</b>. Some ticked = <b>partial</b>: study that term and do the question again on another day.</li>
+<li>The final test passes when 9 of 11 questions are real, said aloud in less than 2 minutes each, with this page closed.</li>
+</ol>
+<p>This browser saves your answers and ticks. To get a second opinion, click "Copy all answers" and paste the text to a reviewer or an AI assistant.</p>
+<p><button type="button" id="copy">Copy all answers</button> <button type="button" id="reset">Clear all answers</button> <span id="copied" class="muted"></span></p>
+</div>
+<h3 id="d1">Drill 1: ten things you built <span class="score muted" data-d="d1"></span></h3>
+<div class="card q" data-q="d1-1" data-n="3">
+<h4>1. What is the difference between a backing datasource and a multi-datasource object type? Use Opportunity as the example.</h4>
+<label class="lbl" for="a-d1-1">Your answer</label>
+<textarea id="a-d1-1" rows="3"></textarea>
+<details><summary>Show the model answer and grade yourself</summary>
+<p>A backing datasource is the dataset whose rows become objects of a type. A multi-datasource object type (MDO) has more than one datasource, and Foundry joins them column-wise on the same primary key. Opportunity gets most properties from <code>opportunities</code> and <code>contractSigned</code>/<code>contractSignedOn</code> from <code>esign-contracts</code>, joined on <code>opportunityId</code>; an opportunity with no e-sign row has null in those properties. MDOs need Object Storage v2.</p>
+<p class="lbl">Real if you said</p><ul class="chk"><li><label><input type="checkbox" data-q="d1-1"> Says column-wise: each datasource gives different properties for the same primary key</label></li><li><label><input type="checkbox" data-q="d1-1"> Names both datasets and the join key <code>opportunityId</code></label></li><li><label><input type="checkbox" data-q="d1-1"> Says what happens when one source has no row (nulls), or names the OSv2 requirement</label></li></ul>
+<p class="lbl">Faked if</p><p>Says "an MDO has several datasources" but cannot say what joins them or what a missing e-sign row gives.</p>
+<p class="muted">Terms: Backing datasource, Multi-datasource object type (MDO)</p></details>
+<p class="verdict" id="v-d1-1"></p>
+</div>
+<div class="card q" data-q="d1-2" data-n="3">
+<h4>2. Contact ↔ Opportunity and SalesRep → Lead are both link types. How are they stored differently? Which action rule changes each one?</h4>
+<label class="lbl" for="a-d1-2">Your answer</label>
+<textarea id="a-d1-2" rows="3"></textarea>
+<details><summary>Show the model answer and grade yourself</summary>
+<p>Contact ↔ Opportunity is many-to-many, so a join dataset (<code>opportunity-contacts</code>) holds one column per side's primary key; <code>add-contact-to-opportunity</code> changes it with a Create link rule. SalesRep → Lead is a foreign key link: Lead's <code>ownerId</code> holds the SalesRep primary key. You change it by editing <code>ownerId</code> (a Modify object rule, or the <code>assignLead</code> function). Create link and Delete link rules work only on many-to-many links.</p>
+<p class="lbl">Real if you said</p><ul class="chk"><li><label><input type="checkbox" data-q="d1-2"> Join dataset with two key columns vs a key property on one object</label></li><li><label><input type="checkbox" data-q="d1-2"> Create link rule for many-to-many; Modify object (or a function) on <code>ownerId</code> for the foreign key</label></li><li><label><input type="checkbox" data-q="d1-2"> States that link rules do not work on foreign key links</label></li></ul>
+<p class="lbl">Faked if</p><p>Says both are "links in the ontology" and names a rule without the reason the other rule cannot work.</p>
+<p class="muted">Terms: Join table dataset (many-to-many), Foreign key link, Create link / Delete link rule, Modify object(s) rule</p></details>
+<p class="verdict" id="v-d1-2"></p>
+</div>
+<div class="card q" data-q="d1-3" data-n="3">
+<h4>3. Why did you put the owner check in submission criteria and not inside a function?</h4>
+<label class="lbl" for="a-d1-3">Your answer</label>
+<textarea id="a-d1-3" rows="3"></textarea>
+<details><summary>Show the model answer and grade yourself</summary>
+<p>4 of the owner-checked actions (advance stage, close won, add contact, apply discount) use plain Modify object or Create link rules, so no function runs. Submission criteria are conditions on parameters and the user that the action checks before submit, and anyone can read them in the action type. Criteria cannot follow a link, so each action takes an <code>owner</code> SalesRep parameter: the first condition binds it to the record's <code>ownerId</code>, the second binds <code>owner.foundryUserId</code> to the current user; members of <code>sales-manager</code> pass without it.</p>
+<p class="lbl">Real if you said</p><ul class="chk"><li><label><input type="checkbox" data-q="d1-3"> The rule is visible and declarative in the action type, not hidden in code</label></li><li><label><input type="checkbox" data-q="d1-3"> Explains the <code>owner</code> object parameter and why it cannot be faked (bound to <code>ownerId</code>)</label></li><li><label><input type="checkbox" data-q="d1-3"> Names the manager bypass through the <code>sales-manager</code> group</label></li></ul>
+<p class="lbl">Faked if</p><p>Says "criteria are the Palantir way" but cannot say how the action knows who the owner is.</p>
+<p class="muted">Terms: Submission criteria, Parameter, Group</p></details>
+<p class="verdict" id="v-d1-3"></p>
+</div>
+<div class="card q" data-q="d1-4" data-n="3">
+<h4>4. Your transforms built on <code>master</code>, and your ontology merged to <code>main</code>. Why the two names?</h4>
+<label class="lbl" for="a-d1-4">Your answer</label>
+<textarea id="a-d1-4" rows="3"></textarea>
+<details><summary>Show the model answer and grade yourself</summary>
+<p>They are two branching systems. A dataset branch points to the latest transaction of one dataset, and the default root branch is <code>master</code>. Global Branching spans pipelines, ontology, functions and actions, and a proposal merges a global branch into <code>main</code>. Dataset branches cannot be merged: code merges, and the data is built again.</p>
+<p class="lbl">Real if you said</p><ul class="chk"><li><label><input type="checkbox" data-q="d1-4"> Dataset branches and global branches are different systems</label></li><li><label><input type="checkbox" data-q="d1-4"> Dataset branches cannot be merged; data is rebuilt from merged code</label></li><li><label><input type="checkbox" data-q="d1-4"> A proposal merges a global branch into <code>main</code></label></li></ul>
+<p class="lbl">Faked if</p><p>Says "one is the old name for the other", as in Git.</p>
+<p class="muted">Terms: Dataset branch, Global Branching, Proposal</p></details>
+<p class="verdict" id="v-d1-4"></p>
+</div>
+<div class="card q" data-q="d1-5" data-n="3">
+<h4>5. Your proposal merges the CRM ontology to <code>main</code>. What does it merge, and what does it leave on the branch?</h4>
+<label class="lbl" for="a-d1-5">Your answer</label>
+<textarea id="a-d1-5" rows="3"></textarea>
+<details><summary>Show the model answer and grade yourself</summary>
+<p>It merges definitions and code: the object types, link types, action types with their criteria, and the <code>crm-functions</code> repository, so the functions are published on <code>main</code>. The object edits that branch tests wrote stay on the branch: a test that closes opp-014 on the branch leaves opp-014 at stage <code>negotiation</code> on <code>main</code>. The test plan depends on this rule: tests write freely on the branch, and the merge moves only definitions.</p>
+<p class="lbl">Real if you said</p><ul class="chk"><li><label><input type="checkbox" data-q="d1-5"> Definitions and code merged (ontology entities, functions)</label></li><li><label><input type="checkbox" data-q="d1-5"> Test edits stay on the branch, with a concrete example (opp-014)</label></li><li><label><input type="checkbox" data-q="d1-5"> States the general rule: a merge moves definitions, not branch data</label></li></ul>
+<p class="lbl">Faked if</p><p>Says "it merged everything on the branch".</p>
+<p class="muted">Terms: Proposal, Global Branching, Branching functions</p></details>
+<p class="verdict" id="v-d1-5"></p>
+</div>
+<div class="card q" data-q="d1-6" data-n="3">
+<h4>6. Your transform has a primary-key check. What fails when two rows share a key: the build, or the object type?</h4>
+<label class="lbl" for="a-d1-6">Your answer</label>
+<textarea id="a-d1-6" rows="3"></textarea>
+<details><summary>Show the model answer and grade yourself</summary>
+<p>The build fails. A data expectation on the transform output fails the build, so the bad output never reaches the ontology. Without that check, a duplicate key would fail the Funnel batch pipeline in OSv2, and the object type would stop updating instead.</p>
+<p class="lbl">Real if you said</p><ul class="chk"><li><label><input type="checkbox" data-q="d1-6"> The build fails because of a data expectation</label></li><li><label><input type="checkbox" data-q="d1-6"> Without the check, the failure moves to indexing (Funnel) in OSv2</label></li><li><label><input type="checkbox" data-q="d1-6"> Prefers the earlier, cheaper failure point</label></li></ul>
+<p class="lbl">Faked if</p><p>Says "Foundry rejects duplicates" but cannot say where or when.</p>
+<p class="muted">Terms: Data expectations, Primary key</p></details>
+<p class="verdict" id="v-d1-6"></p>
+</div>
+<div class="card q" data-q="d1-7" data-n="3">
+<h4>7. <code>Activity</code> has no dataset. Where do its objects live, and what does that cost you?</h4>
+<label class="lbl" for="a-d1-7">Your answer</label>
+<textarea id="a-d1-7" rows="3"></textarea>
+<details><summary>Show the model answer and grade yourself</summary>
+<p>An object type can have no backing datasource when actions create all its objects. Activity objects exist only as user edits: OSv2 applies them to the index at once and later writes them to Funnel-owned datasets. The cost: no source system, no pipeline history, and no rebuild from source. You cannot directly undo one edit; you make more edits. For analytics, export the edits to a dataset.</p>
+<p class="lbl">Real if you said</p><ul class="chk"><li><label><input type="checkbox" data-q="d1-7"> Objects live as user edits in the object storage, created only by <code>log-activity</code></label></li><li><label><input type="checkbox" data-q="d1-7"> Names at least one cost: no pipeline history or lineage, no rebuild, no direct undo</label></li><li><label><input type="checkbox" data-q="d1-7"> Names the fix for analytics: export to a dataset, or the action log</label></li></ul>
+<p class="lbl">Faked if</p><p>Says "they are stored in the ontology" and names no cost.</p>
+<p class="muted">Terms: User edits (Edits toggle), Object type, Action log</p></details>
+<p class="verdict" id="v-d1-7"></p>
+</div>
+<div class="card q" data-q="d1-8" data-n="3">
+<h4>8. Your actions point at the "1.0.0 range" of the function, not at one fixed tag. What did that give you at merge time?</h4>
+<label class="lbl" for="a-d1-8">Your answer</label>
+<textarea id="a-d1-8" rows="3"></textarea>
+<details><summary>Show the model answer and grade yourself</summary>
+<p>A branch build publishes a preview version such as <code>1.0.0-branch-…</code>, and at merge Foundry publishes the version target on <code>main</code>. The range includes that new version, so <code>assign-lead</code> and <code>convert-lead</code> used the function on <code>main</code> with no manual repoint. A fixed version is safer against an unexpected change; a range is easier across branches.</p>
+<p class="lbl">Real if you said</p><ul class="chk"><li><label><input type="checkbox" data-q="d1-8"> Branch builds give preview versions; the version target is published on <code>main</code> at merge</label></li><li><label><input type="checkbox" data-q="d1-8"> The range picks up the <code>main</code> version with no manual repoint</label></li><li><label><input type="checkbox" data-q="d1-8"> Names the trade-off: fixed version = stability, range = less manual work</label></li></ul>
+<p class="lbl">Faked if</p><p>Says "the range always uses the latest" and cannot say what the branch tag is.</p>
+<p class="muted">Terms: Branching functions, Function versioning, Function-backed action</p></details>
+<p class="verdict" id="v-d1-8"></p>
+</div>
+<div class="card q" data-q="d1-9" data-n="3">
+<h4>9. What does <code>VALIDATE_ONLY</code> do, and why did you test with it?</h4>
+<label class="lbl" for="a-d1-9">Your answer</label>
+<textarea id="a-d1-9" rows="3"></textarea>
+<details><summary>Show the model answer and grade yourself</summary>
+<p>It is a mode of the Apply Action API: it checks the parameters and submission criteria and does not run the action. The default mode is <code>VALIDATE_AND_EXECUTE</code>. A 200 status does not mean success; you read the <code>validation</code> result. I used it to run a 14-case criteria matrix (owner, not owner, manager, discount 60) with no change to data.</p>
+<p class="lbl">Real if you said</p><ul class="chk"><li><label><input type="checkbox" data-q="d1-9"> Checks criteria without writing edits</label></li><li><label><input type="checkbox" data-q="d1-9"> Read the <code>validation</code> result, not the HTTP status</label></li><li><label><input type="checkbox" data-q="d1-9"> Used it to test the criteria matrix with no change to data</label></li></ul>
+<p class="lbl">Faked if</p><p>Says "it is a dry run" but cannot say how to read the result.</p>
+<p class="muted">Terms: Apply Action API + <code>VALIDATE_ONLY</code></p></details>
+<p class="verdict" id="v-d1-9"></p>
+</div>
+<div class="card q" data-q="d1-10" data-n="3">
+<h4>10. You used <code>foundry-platform-sdk</code>. How is that different from the OSDK?</h4>
+<label class="lbl" for="a-d1-10">Your answer</label>
+<textarea id="a-d1-10" rows="3"></textarea>
+<details><summary>Show the model answer and grade yourself</summary>
+<p>The Platform SDK is one generic library for all Foundry APIs; you pass ids as strings, such as <code>&lt;namespace&gt;.opportunity</code>. The OSDK is generated from your own ontology for one Developer Console application, with typed classes such as <code>Lead</code>. The OSDK is not branchable, so the Platform SDK with a <code>branch</code> parameter was the tool for branch tests and for admin jobs such as group changes.</p>
+<p class="lbl">Real if you said</p><ul class="chk"><li><label><input type="checkbox" data-q="d1-10"> Generic and untyped vs generated and typed from your ontology</label></li><li><label><input type="checkbox" data-q="d1-10"> OSDK is not branchable, so the branch tests needed the Platform SDK</label></li><li><label><input type="checkbox" data-q="d1-10"> Names the right use for each: admin/governance jobs vs app reads and writes on ontology data</label></li></ul>
+<p class="lbl">Faked if</p><p>Says "OSDK is the newer SDK".</p>
+<p class="muted">Terms: Platform SDK (<code>foundry-platform-sdk</code>), Ontology SDK (OSDK)</p></details>
+<p class="verdict" id="v-d1-10"></p>
+</div>
+<h3 id="d2">Drill 2: Layer 1 — Data <span class="score muted" data-d="d2"></span></h3>
+<div class="card q" data-q="d2-1" data-n="3">
+<h4>1. The Activity log grows every day. When would you make the Activity transform incremental instead of a <code>SNAPSHOT</code> rebuild? What must stay true upstream?</h4>
+<label class="lbl" for="a-d2-1">Your answer</label>
+<textarea id="a-d2-1" rows="3"></textarea>
+<details><summary>Show the model answer and grade yourself</summary>
+<p>An incremental transform reads only the new input since the last build, so it suits a growing Activity log. The raw sync must stay <code>APPEND</code>-only, because a <code>SNAPSHOT</code> replaces the full view. The docs warn that incremental pipelines add development and maintenance cost.</p>
+<p class="lbl">Real if you said</p><ul class="chk"><li><label><input type="checkbox" data-q="d2-1"> says the raw input must stay <code>APPEND</code>-only</label></li><li><label><input type="checkbox" data-q="d2-1"> names the extra development and maintenance cost</label></li><li><label><input type="checkbox" data-q="d2-1"> says input and output must be different datasets</label></li></ul>
+<p class="lbl">Faked if</p><p>Says "incremental is faster" but cannot name the upstream transaction type that breaks it.</p>
+<p class="muted">Terms: Incremental transform, <code>SNAPSHOT</code> transaction, <code>APPEND</code> transaction</p></details>
+<p class="verdict" id="v-d2-1"></p>
+</div>
+<div class="card q" data-q="d2-2" data-n="3">
+<h4>2. A new sync starts to commit <code>UPDATE</code> transactions on the raw Activity dataset. What happens to the incremental transforms downstream? What do you change?</h4>
+<label class="lbl" for="a-d2-2">Your answer</label>
+<textarea id="a-d2-2" rows="3"></textarea>
+<details><summary>Show the model answer and grade yourself</summary>
+<p>An <code>UPDATE</code> that overwrites files breaks incrementality, so each downstream incremental transform falls back to a full rebuild. An <code>UPDATE</code> that only adds files does not break it. Set the sync to commit <code>APPEND</code>, because an <code>APPEND</code> that overwrites a file fails.</p>
+<p class="lbl">Real if you said</p><ul class="chk"><li><label><input type="checkbox" data-q="d2-2"> separates an <code>UPDATE</code> that overwrites from an <code>UPDATE</code> that only adds</label></li><li><label><input type="checkbox" data-q="d2-2"> names the full rebuild as the cost</label></li><li><label><input type="checkbox" data-q="d2-2"> asks for <code>APPEND</code> on the sync</label></li></ul>
+<p class="lbl">Faked if</p><p>Says "<code>UPDATE</code> is bad" but cannot say which kind of <code>UPDATE</code> breaks incrementality.</p>
+<p class="muted">Terms: <code>UPDATE</code> transaction, <code>APPEND</code> transaction, Incremental transform</p></details>
+<p class="verdict" id="v-d2-2"></p>
+</div>
+<div class="card q" data-q="d2-3" data-n="3">
+<h4>3. The customer wants to free storage from old raw Activity files. Do you use a <code>DELETE</code> transaction or a retention policy? Why?</h4>
+<label class="lbl" for="a-d2-3">Your answer</label>
+<textarea id="a-d2-3" rows="3"></textarea>
+<details><summary>Show the model answer and grade yourself</summary>
+<p>A <code>DELETE</code> transaction removes file references from the current dataset view, but the bytes stay in storage. A retention policy removes old transaction data from storage. The retention row is medium confidence, and viewing retention policies on a dataset is Beta.</p>
+<p class="lbl">Real if you said</p><ul class="chk"><li><label><input type="checkbox" data-q="d2-3"> says <code>DELETE</code> changes only the view, not the bytes</label></li><li><label><input type="checkbox" data-q="d2-3"> picks the retention policy to free storage</label></li><li><label><input type="checkbox" data-q="d2-3"> flags the Beta status or the medium confidence</label></li></ul>
+<p class="lbl">Faked if</p><p>Says "delete the files" and does not separate the dataset view from the stored bytes.</p>
+<p class="muted">Terms: <code>DELETE</code> transaction, Retention policy, Dataset view</p></details>
+<p class="verdict" id="v-d2-3"></p>
+</div>
+<div class="card q" data-q="d2-4" data-n="3">
+<h4>4. The customer wants Salesforce data every hour instead of hand-uploaded CSVs. What do you build in Data Connection? Where does the cleaning happen?</h4>
+<label class="lbl" for="a-d2-4">Your answer</label>
+<textarea id="a-d2-4" rows="3"></textarea>
+<details><summary>Show the model answer and grade yourself</summary>
+<p>Create a CRM source with an API-token credential on a Foundry worker, and add an egress policy for the CRM API host. Add a table batch sync that lands Opportunities as a raw dataset every hour. Palantir's rule is to ingest as-is and transform inside Foundry.</p>
+<p class="lbl">Real if you said</p><ul class="chk"><li><label><input type="checkbox" data-q="d2-4"> names source, sync, and egress policy in that order</label></li><li><label><input type="checkbox" data-q="d2-4"> picks a table batch sync</label></li><li><label><input type="checkbox" data-q="d2-4"> keeps the cleaning in Foundry transforms, not in the sync</label></li></ul>
+<p class="lbl">Faked if</p><p>Says "connect Salesforce" but cannot name the source, the sync type, or the egress policy.</p>
+<p class="muted">Terms: Data Connection, Source, Sync, Foundry worker vs agent worker, Egress policy</p></details>
+<p class="verdict" id="v-d2-4"></p>
+</div>
+<div class="card q" data-q="d2-5" data-n="3">
+<h4>5. The CRM is SaaS, but the ERP is on-premises. Which system needs an agent? Which worker do you pick for a new source?</h4>
+<label class="lbl" for="a-d2-5">Your answer</label>
+<textarea id="a-d2-5" rows="3"></textarea>
+<details><summary>Show the model answer and grade yourself</summary>
+<p>An agent runs inside the customer network and reaches systems that Foundry cannot reach directly, so the on-premises ERP needs an agent proxy. The SaaS CRM needs no agent. Put new sources on Foundry worker, because agent worker is Legacy and code cannot use it.</p>
+<p class="lbl">Real if you said</p><ul class="chk"><li><label><input type="checkbox" data-q="d2-5"> gives the agent only to the on-premises ERP</label></li><li><label><input type="checkbox" data-q="d2-5"> says agent worker is Legacy</label></li><li><label><input type="checkbox" data-q="d2-5"> mentions the agent proxy egress policy</label></li></ul>
+<p class="lbl">Faked if</p><p>Says "install an agent" for every source and cannot say when Foundry worker is enough.</p>
+<p class="muted">Terms: Agent, Foundry worker vs agent worker, Egress policy</p></details>
+<p class="verdict" id="v-d2-5"></p>
+</div>
+<div class="card q" data-q="d2-6" data-n="3">
+<h4>6. The schedule on the clean datasets shows "Succeeded", but the Account objects are old. What do you check? What alert do you add?</h4>
+<label class="lbl" for="a-d2-6">Your answer</label>
+<textarea id="a-d2-6" rows="3"></textarea>
+<details><summary>Show the model answer and grade yourself</summary>
+<p>A Succeeded schedule run only means the build started. Check the job state in the build, for example <code>FAILED</code>. Add a freshness health check on <code>accounts</code>, or a monitoring view on the CRM project to catch failed builds.</p>
+<p class="lbl">Real if you said</p><ul class="chk"><li><label><input type="checkbox" data-q="d2-6"> says Succeeded means only that the build started</label></li><li><label><input type="checkbox" data-q="d2-6"> checks the job state, not the schedule state</label></li><li><label><input type="checkbox" data-q="d2-6"> adds a freshness check or a monitoring view</label></li></ul>
+<p class="lbl">Faked if</p><p>Trusts the Succeeded label and cannot say what it does not prove.</p>
+<p class="muted">Terms: Schedule, Build, Job / JobSpec, Health check, Data Health / monitoring views</p></details>
+<p class="verdict" id="v-d2-6"></p>
+</div>
+<div class="card q" data-q="d2-7" data-n="3">
+<h4>7. A duplicate <code>opportunityId</code> reaches the data. Where do you stop it? How do you show the interviewer every input that feeds Opportunity?</h4>
+<label class="lbl" for="a-d2-7">Your answer</label>
+<textarea id="a-d2-7" rows="3"></textarea>
+<details><summary>Show the model answer and grade yourself</summary>
+<p>Put a primary-key data expectation on <code>opportunityId</code>, so the duplicate fails the build and not the index. In OSv2 a duplicate key fails the Funnel batch pipeline. Open Data Lineage on <code>opportunities</code> to show both raw inputs and the object type.</p>
+<p class="lbl">Real if you said</p><ul class="chk"><li><label><input type="checkbox" data-q="d2-7"> puts the expectation in the transform output</label></li><li><label><input type="checkbox" data-q="d2-7"> says the alternative is a failed Funnel batch pipeline</label></li><li><label><input type="checkbox" data-q="d2-7"> uses Data Lineage for the inputs</label></li></ul>
+<p class="lbl">Faked if</p><p>Says "add a check" but cannot say which stage fails or why the build is the better place.</p>
+<p class="muted">Terms: Data expectations, Primary key, Data Lineage</p></details>
+<p class="verdict" id="v-d2-7"></p>
+</div>
+<div class="card q" data-q="d2-8" data-n="3">
+<h4>8. You cleaned the CRM in Code Repositories. A teammate asks why not Pipeline Builder. What do you say, and what limits a shared scoring function?</h4>
+<label class="lbl" for="a-d2-8">Your answer</label>
+<textarea id="a-d2-8" rows="3"></textarea>
+<details><summary>Show the model answer and grade yourself</summary>
+<p>Pipeline Builder is the main point-and-click tool, and most FDSE teams start cleaning there. Code Repositories is a web IDE over Git with branches and pull requests. Python functions are the only function language that runs inside Pipeline Builder.</p>
+<p class="lbl">Real if you said</p><ul class="chk"><li><label><input type="checkbox" data-q="d2-8"> says FDSE teams usually start in Pipeline Builder</label></li><li><label><input type="checkbox" data-q="d2-8"> names Git features as the reason for Code Repositories</label></li><li><label><input type="checkbox" data-q="d2-8"> says only Python functions run in Pipeline Builder</label></li></ul>
+<p class="lbl">Faked if</p><p>Says "code is more flexible" and cannot name what each tool gives the team.</p>
+<p class="muted">Terms: Pipeline Builder, Code Repositories, Python functions</p></details>
+<p class="verdict" id="v-d2-8"></p>
+</div>
+<h3 id="d3">Drill 3: Layer 2 — Ontology (semantic) <span class="score muted" data-d="d3"></span></h3>
+<div class="card q" data-q="d3-1" data-n="3">
+<h4>1. The customer wants one action that works on both Account and Contact. Do you use an interface or a shared property type? What blocks it in your repo?</h4>
+<label class="lbl" for="a-d3-1">Your answer</label>
+<textarea id="a-d3-1" rows="3"></textarea>
+<details><summary>Show the model answer and grade yourself</summary>
+<p>Use a <code>Party</code> interface, because an interface gives polymorphism and interface rules act on any type that implements it. A shared property type shares only metadata. TS v1 and Python functions do not support interfaces, so the function needs TS v2.</p>
+<p class="lbl">Real if you said</p><ul class="chk"><li><label><input type="checkbox" data-q="d3-1"> says a shared property type shares only metadata</label></li><li><label><input type="checkbox" data-q="d3-1"> names TS v1 as the blocker</label></li><li><label><input type="checkbox" data-q="d3-1"> mentions interface rules or that interface action type constraints are Beta</label></li></ul>
+<p class="lbl">Faked if</p><p>Says "interfaces are like inheritance" and cannot say what stops them in the current TS v1 repo.</p>
+<p class="muted">Terms: Interface, Shared property type, Interface rules, TypeScript v2 functions</p></details>
+<p class="verdict" id="v-d3-1"></p>
+</div>
+<div class="card q" data-q="d3-2" data-n="3">
+<h4>2. Contact emails arrive in bad formats. You want one rule for the pipeline and for actions. What do you build? What could stop it?</h4>
+<label class="lbl" for="a-d3-2">Your answer</label>
+<textarea id="a-d3-2" rows="3"></textarea>
+<details><summary>Show the model answer and grade yourself</summary>
+<p>Build an <code>Email</code> value type with a regex, because a value type can also constrain action parameters. Value types are scoped to a space. The Default ontology does not support value types, so check which ontology you use.</p>
+<p class="lbl">Real if you said</p><ul class="chk"><li><label><input type="checkbox" data-q="d3-2"> uses one value type for the pipeline and the action parameter</label></li><li><label><input type="checkbox" data-q="d3-2"> names the Default ontology restriction</label></li><li><label><input type="checkbox" data-q="d3-2"> says value types are scoped to a space</label></li></ul>
+<p class="lbl">Faked if</p><p>Says "add validation" and cannot say how one definition reaches both the pipeline and the action.</p>
+<p class="muted">Terms: Value type, Parameter</p></details>
+<p class="verdict" id="v-d3-2"></p>
+</div>
+<div class="card q" data-q="d3-3" data-n="3">
+<h4>3. The customer wants the billing address on Account. Do you add one struct property or several plain properties? What limits do you accept?</h4>
+<label class="lbl" for="a-d3-3">Your answer</label>
+<textarea id="a-d3-3" rows="3"></textarea>
+<details><summary>Show the model answer and grade yourself</summary>
+<p>One struct property holds street, city, and postal code as named fields, and one struct column backs it. You cannot nest structs. A query checks each field independently.</p>
+<p class="lbl">Real if you said</p><ul class="chk"><li><label><input type="checkbox" data-q="d3-3"> says one struct column backs it</label></li><li><label><input type="checkbox" data-q="d3-3"> says structs cannot nest</label></li><li><label><input type="checkbox" data-q="d3-3"> says each field is checked independently in a query</label></li></ul>
+<p class="lbl">Faked if</p><p>Says "a struct is a JSON object" and cannot name a limit.</p>
+<p class="muted">Terms: Struct property</p></details>
+<p class="verdict" id="v-d3-3"></p>
+</div>
+<div class="card q" data-q="d3-4" data-n="3">
+<h4>4. A sales manager wants <code>openLeadCount</code> on Account. Do you add a pipeline column or a derived property? What is the risk?</h4>
+<label class="lbl" for="a-d3-4">Your answer</label>
+<textarea id="a-d3-4" rows="3"></textarea>
+<details><summary>Show the model answer and grade yourself</summary>
+<p>A derived property computes the value at query time from links, so the pipeline does not change. Ontology-defined derived properties are Beta and allow at most 3 link traversals. Runtime-defined ones are GA, and actions and functions cannot edit either kind.</p>
+<p class="lbl">Real if you said</p><ul class="chk"><li><label><input type="checkbox" data-q="d3-4"> says it is computed at query time, not stored</label></li><li><label><input type="checkbox" data-q="d3-4"> names the Beta status and the 3-traversal limit</label></li><li><label><input type="checkbox" data-q="d3-4"> says actions cannot edit it</label></li></ul>
+<p class="lbl">Faked if</p><p>Calls it a "calculated field" and does not know it is Beta or read-only.</p>
+<p class="muted">Terms: Derived property</p></details>
+<p class="verdict" id="v-d3-4"></p>
+</div>
+<div class="card q" data-q="d3-5" data-n="3">
+<h4>5. Your Opportunity has two datasources. What makes that valid? The customer now wants rows from two regions combined. What do you use?</h4>
+<label class="lbl" for="a-d3-5">Your answer</label>
+<textarea id="a-d3-5" rows="3"></textarea>
+<details><summary>Show the model answer and grade yourself</summary>
+<p>Opportunity is a column-wise MDO: each datasource gives different properties for the same <code>opportunityId</code>, and MDOs need OSv2. Row-wise MDOs do not exist. A View resource can union same-schema datasets, and restricted views handle row-level access.</p>
+<p class="lbl">Real if you said</p><ul class="chk"><li><label><input type="checkbox" data-q="d3-5"> says column-wise, joined on one primary key</label></li><li><label><input type="checkbox" data-q="d3-5"> names OSv2 as the requirement</label></li><li><label><input type="checkbox" data-q="d3-5"> picks a View or a restricted view for rows</label></li></ul>
+<p class="lbl">Faked if</p><p>Says "we joined two sources" and cannot say why a row-wise union fails as an MDO.</p>
+<p class="muted">Terms: Multi-datasource object type (MDO), Object Storage v2 (OSv2), View (resource), Restricted view</p></details>
+<p class="verdict" id="v-d3-5"></p>
+</div>
+<div class="card q" data-q="d3-6" data-n="3">
+<h4>6. The <code>opportunities</code> dataset gets a new build. Describe how the change reaches a Workshop table. Name each service.</h4>
+<label class="lbl" for="a-d3-6">Your answer</label>
+<textarea id="a-d3-6" rows="3"></textarea>
+<details><summary>Show the model answer and grade yourself</summary>
+<p>Funnel, the OSv2 write service, reads the datasource and reindexes Opportunity with a batch pipeline. OMS holds the Opportunity definition, and the object databases hold the rows. Each Workshop list of Opportunities is a query to the Object Set Service.</p>
+<p class="lbl">Real if you said</p><ul class="chk"><li><label><input type="checkbox" data-q="d3-6"> names Funnel for writes and OSS for reads</label></li><li><label><input type="checkbox" data-q="d3-6"> separates OMS definitions from the indexed rows</label></li><li><label><input type="checkbox" data-q="d3-6"> says batch pipeline because the input is a batch dataset</label></li></ul>
+<p class="lbl">Faked if</p><p>Says "the Ontology syncs automatically" and cannot name the write service or the read service.</p>
+<p class="muted">Terms: Object Data Funnel ("Funnel"), Indexing / Funnel pipelines, Ontology Metadata Service (OMS), Object Set Service (OSS)</p></details>
+<p class="verdict" id="v-d3-6"></p>
+</div>
+<div class="card q" data-q="d3-7" data-n="3">
+<h4>7. A manager wants a saved list, "Open Opportunities over $50k", that stays current. Is it a static or a dynamic object set? What limit applies in OSDK?</h4>
+<label class="lbl" for="a-d3-7">Your answer</label>
+<textarea id="a-d3-7" rows="3"></textarea>
+<details><summary>Show the model answer and grade yourself</summary>
+<p>It is a dynamic object set, because it saves the filter and changes with the data. A static set saves a list of primary keys. The default OSS threshold for <code>.all()</code> in OSDK is 100,000 objects.</p>
+<p class="lbl">Real if you said</p><ul class="chk"><li><label><input type="checkbox" data-q="d3-7"> says dynamic saves the filter, static saves keys</label></li><li><label><input type="checkbox" data-q="d3-7"> gives the 100,000-object <code>.all()</code> threshold</label></li><li><label><input type="checkbox" data-q="d3-7"> mentions that temporary sets expire within 24 hours</label></li></ul>
+<p class="lbl">Faked if</p><p>Says "a saved filter" but cannot say what a static set stores instead.</p>
+<p class="muted">Terms: Object set (static / dynamic), Object Set Service (OSS)</p></details>
+<p class="verdict" id="v-d3-7"></p>
+</div>
+<div class="card q" data-q="d3-8" data-n="3">
+<h4>8. Reps change stages through actions. A downstream pipeline needs the new stages, and audit needs every change. What do you turn on?</h4>
+<label class="lbl" for="a-d3-8">Your answer</label>
+<textarea id="a-d3-8" rows="3"></textarea>
+<details><summary>Show the model answer and grade yourself</summary>
+<p>Turn on Edits so actions can write, and materialize Opportunity to get a dataset with datasource data plus edits. Turn on edit history to record every edit from any source. Writeback datasets are an OSv1 idea.</p>
+<p class="lbl">Real if you said</p><ul class="chk"><li><label><input type="checkbox" data-q="d3-8"> uses a materialization for the pipeline</label></li><li><label><input type="checkbox" data-q="d3-8"> uses edit history for audit</label></li><li><label><input type="checkbox" data-q="d3-8"> says writeback datasets belong to OSv1</label></li></ul>
+<p class="lbl">Faked if</p><p>Says "the edits go back to the dataset" and cannot name materialization or edit history.</p>
+<p class="muted">Terms: User edits (Edits toggle), Materialization, Edit history, Writeback dataset</p></details>
+<p class="verdict" id="v-d3-8"></p>
+</div>
+<h3 id="d4">Drill 4: Layer 3 — Kinetic <span class="score muted" data-d="d4"></span></h3>
+<div class="card q" data-q="d4-1" data-n="3">
+<h4>1. An external dashboard needs the pipeline value per Account. Do you expose a query function or an action? Why?</h4>
+<label class="lbl" for="a-d4-1">Your answer</label>
+<textarea id="a-d4-1" rows="3"></textarea>
+<details><summary>Show the model answer and grade yourself</summary>
+<p>Expose a query function such as <code>getPipelineValue</code>, because it is read-only and the API gateway can serve it by an API name. A query function cannot have side effects. For edits through the API, use an action.</p>
+<p class="lbl">Real if you said</p><ul class="chk"><li><label><input type="checkbox" data-q="d4-1"> says query functions are read-only</label></li><li><label><input type="checkbox" data-q="d4-1"> names the API gateway and an API name</label></li><li><label><input type="checkbox" data-q="d4-1"> keeps edits in actions</label></li></ul>
+<p class="lbl">Faked if</p><p>Says "call a function from the dashboard" and cannot say why it must not edit data.</p>
+<p class="muted">Terms: Query function, Action</p></details>
+<p class="verdict" id="v-d4-1"></p>
+</div>
+<div class="card q" data-q="d4-2" data-n="3">
+<h4>2. An FDSE asks: "Are your functions FOO?" How do you reply? What separates FOO, edit functions, and query functions?</h4>
+<label class="lbl" for="a-d4-2">Your answer</label>
+<textarea id="a-d4-2" rows="3"></textarea>
+<details><summary>Show the model answer and grade yourself</summary>
+<p>FOO is an informal name for functions that read objects, and the docs have no formal FOO category. An Ontology edit function returns edits for a function-backed action. A query function is read-only and can have an API name.</p>
+<p class="lbl">Real if you said</p><ul class="chk"><li><label><input type="checkbox" data-q="d4-2"> says FOO has no formal docs meaning</label></li><li><label><input type="checkbox" data-q="d4-2"> ties edit functions to function-backed actions</label></li><li><label><input type="checkbox" data-q="d4-2"> says query functions cannot edit</label></li></ul>
+<p class="lbl">Faked if</p><p>Treats FOO as an official function type with its own rules.</p>
+<p class="muted">Terms: Functions on objects (FOO), Ontology edit function, Query function, Function-backed action</p></details>
+<p class="verdict" id="v-d4-2"></p>
+</div>
+<div class="card q" data-q="d4-3" data-n="3">
+<h4>3. A closed deal must go to the ERP. If the ERP call fails, the close must not happen. Which webhook do you use?</h4>
+<label class="lbl" for="a-d4-3">Your answer</label>
+<textarea id="a-d4-3" rows="3"></textarea>
+<details><summary>Show the model answer and grade yourself</summary>
+<p>Use a writeback webhook, because it runs before the edits and can fail the action. A side-effect webhook runs after the edits, so the user can see success before the failure. The webhook itself is a Data Connection concept.</p>
+<p class="lbl">Real if you said</p><ul class="chk"><li><label><input type="checkbox" data-q="d4-3"> says writeback runs before edits and can block the close</label></li><li><label><input type="checkbox" data-q="d4-3"> says a side-effect failure can come after success</label></li><li><label><input type="checkbox" data-q="d4-3"> links webhooks to a Data Connection source</label></li></ul>
+<p class="lbl">Faked if</p><p>Says "add a webhook" and cannot say whether it runs before or after the edits.</p>
+<p class="muted">Terms: Webhook (writeback vs side effect), Side effect, Data Connection</p></details>
+<p class="verdict" id="v-d4-3"></p>
+</div>
+<div class="card q" data-q="d4-4" data-n="3">
+<h4>4. Close Opportunity notifies the Account owner. The email shows the old stage. Why? What do you tell the customer?</h4>
+<label class="lbl" for="a-d4-4">Your answer</label>
+<textarea id="a-d4-4" rows="3"></textarea>
+<details><summary>Show the model answer and grade yourself</summary>
+<p>The platform sends a notification after the edits apply, but the content uses the Ontology state from before the edits. So the email shows the old stage. Parameters can set the notification content and recipients.</p>
+<p class="lbl">Real if you said</p><ul class="chk"><li><label><input type="checkbox" data-q="d4-4"> says the content uses the state before the edits</label></li><li><label><input type="checkbox" data-q="d4-4"> separates send time from content state</label></li><li><label><input type="checkbox" data-q="d4-4"> uses a parameter to put the new stage in the message</label></li></ul>
+<p class="lbl">Faked if</p><p>Calls it a bug or a delay and cannot say which Ontology state fills the message.</p>
+<p class="muted">Terms: Notification, Side effect, Parameter</p></details>
+<p class="verdict" id="v-d4-4"></p>
+</div>
+<div class="card q" data-q="d4-5" data-n="3">
+<h4>5. A manager wants stale Opportunities flagged each Monday at 9. She also wants an alert when a $100k deal enters Negotiation. What do you build?</h4>
+<label class="lbl" for="a-d4-5">Your answer</label>
+<textarea id="a-d4-5" rows="3"></textarea>
+<details><summary>Show the model answer and grade yourself</summary>
+<p>Build two automations in Automate: a time condition that runs Flag Stale Opportunity, and an object set condition on the Negotiation set. Object Monitors are Sunset, so do not start new ones. Pickup of object changes is usually within minutes.</p>
+<p class="lbl">Real if you said</p><ul class="chk"><li><label><input type="checkbox" data-q="d4-5"> uses a time condition and an object set condition</label></li><li><label><input type="checkbox" data-q="d4-5"> says Object Monitors are Sunset</label></li><li><label><input type="checkbox" data-q="d4-5"> says object-change pickup takes minutes, not seconds</label></li></ul>
+<p class="lbl">Faked if</p><p>Proposes a cron job or Object Monitors and does not know Automate replaced them.</p>
+<p class="muted">Terms: Automate, Condition (object set / time), Object Monitors</p></details>
+<p class="verdict" id="v-d4-5"></p>
+</div>
+<div class="card q" data-q="d4-6" data-n="3">
+<h4>6. Data science wants an Opportunity scoring function that also runs in Pipeline Builder. Do you write it in TS v1, TS v2, or Python?</h4>
+<label class="lbl" for="a-d4-6">Your answer</label>
+<textarea id="a-d4-6" rows="3"></textarea>
+<details><summary>Show the model answer and grade yourself</summary>
+<p>Write it in Python with <code>@function</code>, because Python is the only function language usable in Pipeline Builder. Python functions do not support interfaces; only TS v2 does. TS v1 also lacks interfaces and OSDK.</p>
+<p class="lbl">Real if you said</p><ul class="chk"><li><label><input type="checkbox" data-q="d4-6"> picks Python for Pipeline Builder</label></li><li><label><input type="checkbox" data-q="d4-6"> names the interface gap in Python</label></li><li><label><input type="checkbox" data-q="d4-6"> contrasts the three runtimes by one capability each</label></li></ul>
+<p class="lbl">Faked if</p><p>Picks a language by preference and cannot name what each runtime can or cannot do.</p>
+<p class="muted">Terms: Python functions, TypeScript v2 functions, TypeScript v1 functions, Pipeline Builder</p></details>
+<p class="verdict" id="v-d4-6"></p>
+</div>
+<div class="card q" data-q="d4-7" data-n="3">
+<h4>7. An FDSE asks why <code>convertLead</code> is TS v1. What does v1 lack, what does it keep, and what changes in v2?</h4>
+<label class="lbl" for="a-d4-7">Your answer</label>
+<textarea id="a-d4-7" rows="3"></textarea>
+<details><summary>Show the model answer and grade yourself</summary>
+<p>TS v1 lacks interfaces, OSDK, deployed mode, staged writes, and first-class platform-SDK auth, so the docs recommend v2. It keeps the fullest media and direct-webhook support. In v2 the edit uses <code>createEditBatch</code> from <code>@osdk/functions</code>.</p>
+<p class="lbl">Real if you said</p><ul class="chk"><li><label><input type="checkbox" data-q="d4-7"> names at least two gaps such as interfaces and OSDK</label></li><li><label><input type="checkbox" data-q="d4-7"> names what v1 still does best</label></li><li><label><input type="checkbox" data-q="d4-7"> names <code>createEditBatch</code> or one <code>export default</code> per file</label></li></ul>
+<p class="lbl">Faked if</p><p>Says "v1 is old" and cannot name one gap or one migration change.</p>
+<p class="muted">Terms: TypeScript v1 functions, TypeScript v2 functions, Ontology edit function</p></details>
+<p class="verdict" id="v-d4-7"></p>
+</div>
+<div class="card q" data-q="d4-8" data-n="3">
+<h4>8. <code>assignLead</code> must also link a Contact to an Opportunity and change the Account. Can you add link rules beside its function rule?</h4>
+<label class="lbl" for="a-d4-8">Your answer</label>
+<textarea id="a-d4-8" rows="3"></textarea>
+<details><summary>Show the model answer and grade yourself</summary>
+<p>No: a function rule allows no other rule, so the function must return every edit. Outside a function, a Create link rule works only on many-to-many links such as Contact ↔ Opportunity. A new Account needs a Modify object rule on <code>accountId</code>.</p>
+<p class="lbl">Real if you said</p><ul class="chk"><li><label><input type="checkbox" data-q="d4-8"> says a function rule excludes all other rules</label></li><li><label><input type="checkbox" data-q="d4-8"> limits link rules to many-to-many</label></li><li><label><input type="checkbox" data-q="d4-8"> changes the foreign key <code>accountId</code> for the Account link</label></li></ul>
+<p class="lbl">Faked if</p><p>Says "add a Create link rule" for both links and misses the foreign-key case.</p>
+<p class="muted">Terms: Function rule, Create link / Delete link rule, Modify object(s) rule, Foreign key link</p></details>
+<p class="verdict" id="v-d4-8"></p>
+</div>
+<h3 id="d5">Drill 5: Layer 4 — Applications <span class="score muted" data-d="d5"></span></h3>
+<div class="card q" data-q="d5-1" data-n="3">
+<h4>1. A sales manager wants a pipeline dashboard with open Opportunity value and a weekly trend. What do you build, and with which tool?</h4>
+<label class="lbl" for="a-d5-1">Your answer</label>
+<textarea id="a-d5-1" rows="3"></textarea>
+<details><summary>Show the model answer and grade yourself</summary>
+<p>I build a sales-manager Workshop module with a metric card widget for open Opportunity value. I build the weekly pipeline chart in Quiver and embed it in that module. Contour is for data that is not mapped in the Ontology, and my Opportunity data is in the Ontology.</p>
+<p class="lbl">Real if you said</p><ul class="chk"><li><label><input type="checkbox" data-q="d5-1"> Picks Quiver (objects) over Contour (datasets) because Opportunity is in the Ontology</label></li><li><label><input type="checkbox" data-q="d5-1"> Names the Workshop module as the container and a widget such as a metric card</label></li><li><label><input type="checkbox" data-q="d5-1"> Keeps the sales-manager module separate from the sales-rep module</label></li></ul>
+<p class="lbl">Faked if</p><p>The answer lists Quiver, Contour, and Workshop but does not say why Ontology data decides the tool.</p>
+<p class="muted">Terms: Quiver, Workshop module, Widget, Contour</p></details>
+<p class="verdict" id="v-d5-1"></p>
+</div>
+<div class="card q" data-q="d5-2" data-n="3">
+<h4>2. A sales rep wants one screen: select a Lead, see its Account and Activities, then assign it. How do the Workshop parts connect?</h4>
+<label class="lbl" for="a-d5-2">Your answer</label>
+<textarea id="a-d5-2" rows="3"></textarea>
+<details><summary>Show the model answer and grade yourself</summary>
+<p>I put an Object Table widget filtered to Status = New in the left column of a two-column section. Row selection sets an object-set variable, and the right panel reads that variable to show the Account. A row-select event opens a drawer with the Lead's Activities, and assign-lead runs from a right-click action.</p>
+<p class="lbl">Real if you said</p><ul class="chk"><li><label><input type="checkbox" data-q="d5-2"> Says a variable carries the selected Lead between widgets</label></li><li><label><input type="checkbox" data-q="d5-2"> Names an event for the row-select behavior</label></li><li><label><input type="checkbox" data-q="d5-2"> Names the layout parts: two-column section, drawer</label></li></ul>
+<p class="lbl">Faked if</p><p>The answer says the widgets 'talk to each other' and does not name a variable or an event.</p>
+<p class="muted">Terms: Object Table widget, Variable (Workshop), Event (Workshop), Layout (Workshop)</p></details>
+<p class="verdict" id="v-d5-2"></p>
+</div>
+<div class="card q" data-q="d5-3" data-n="3">
+<h4>3. A rep edits an Opportunity cell directly in a Workshop table. Do your sales-rep and sales-manager submission criteria still apply? Which widget do you use for close-opportunity-won?</h4>
+<label class="lbl" for="a-d5-3">Your answer</label>
+<textarea id="a-d5-3" rows="3"></textarea>
+<details><summary>Show the model answer and grade yourself</summary>
+<p>Yes. Inline cell edits in an Object Table save through an Ontology Action, so my submission criteria still run. For close-opportunity-won I use a Button Group or an Inline Action widget, because the docs list no widget named 'Form'.</p>
+<p class="lbl">Real if you said</p><ul class="chk"><li><label><input type="checkbox" data-q="d5-3"> States that the edit goes through an Action, so submission criteria apply</label></li><li><label><input type="checkbox" data-q="d5-3"> Uses the names Inline Action or Button Group, not 'Form'</label></li><li><label><input type="checkbox" data-q="d5-3"> Connects the answer to his own groups <code>sales-rep</code> and <code>sales-manager</code></label></li></ul>
+<p class="lbl">Faked if</p><p>The answer says 'Workshop has security' and does not say that the edit runs through the Action.</p>
+<p class="muted">Terms: Object Table widget, Inline Action widget / Button Group (action forms)</p></details>
+<p class="verdict" id="v-d5-3"></p>
+</div>
+<div class="card q" data-q="d5-4" data-n="3">
+<h4>4. Marketing wants a public web form that creates a Lead. The sales team wants a pixel-perfect pipeline board. Which builder do you pick for each, and why?</h4>
+<label class="lbl" for="a-d5-4">Your answer</label>
+<textarea id="a-d5-4" rows="3"></textarea>
+<details><summary>Show the model answer and grade yourself</summary>
+<p>The public web form is Slate, because Slate can make public apps for users without Foundry accounts. The pixel-perfect board is an OSDK React application that Developer Console hosts on a Foundry subdomain. Workshop stays the default for internal no-code object apps.</p>
+<p class="lbl">Real if you said</p><ul class="chk"><li><label><input type="checkbox" data-q="d5-4"> Uses 'users without Foundry accounts' as the reason for Slate</label></li><li><label><input type="checkbox" data-q="d5-4"> Places OSDK React as the option when Workshop and Slate are not enough</label></li><li><label><input type="checkbox" data-q="d5-4"> Mentions Developer Console hosting</label></li></ul>
+<p class="lbl">Faked if</p><p>The answer names three tools and gives no condition that selects each one.</p>
+<p class="muted">Terms: Slate, OSDK React application, Workshop, Developer Console</p></details>
+<p class="verdict" id="v-d5-4"></p>
+</div>
+<div class="card q" data-q="d5-5" data-n="3">
+<h4>5. Your scripts use <code>foundry-platform-sdk</code>. What do you move to the OSDK, what do you keep, and why?</h4>
+<label class="lbl" for="a-d5-5">Your answer</label>
+<textarea id="a-d5-5" rows="3"></textarea>
+<details><summary>Show the model answer and grade yourself</summary>
+<p>I move Lead and Opportunity reads and action calls to an OSDK from Developer Console, with typed classes like <code>Lead</code> and calls like <code>assignLead</code>. I keep <code>foundry-platform-sdk</code> for admin jobs such as group and marking changes. Both call the same Ontologies endpoints of the Platform API.</p>
+<p class="lbl">Real if you said</p><ul class="chk"><li><label><input type="checkbox" data-q="d5-5"> Says the OSDK is generated per Developer Console application, for the resources added</label></li><li><label><input type="checkbox" data-q="d5-5"> Splits the work: Ontology CRUD to OSDK, admin automation to Platform SDK</label></li><li><label><input type="checkbox" data-q="d5-5"> Knows 'Ontology API' is the Ontologies namespace, not a separate product</label></li></ul>
+<p class="lbl">Faked if</p><p>The answer says 'OSDK is better' and gives no split by type of work.</p>
+<p class="muted">Terms: Platform SDK (<code>foundry-platform-sdk</code>), Ontology SDK (OSDK), Developer Console, Platform API vs "Ontology API"</p></details>
+<p class="verdict" id="v-d5-5"></p>
+</div>
+<div class="card q" data-q="d5-6" data-n="3">
+<h4>6. Lead scoring needs a Python ML library that Functions cannot load. Unassigned Leads must also get an owner after 24 hours. Where does each part run?</h4>
+<label class="lbl" for="a-d5-6">Your answer</label>
+<textarea id="a-d5-6" rows="3"></textarea>
+<details><summary>Show the model answer and grade yourself</summary>
+<p>I wrap the scoring library in a Compute Module, a Docker container that Foundry runs serverless and calls as a function. An admin must enable Compute Modules in Control Panel first. I use Automate to run assign-lead when a Lead stays unassigned for 24 hours and to notify the sales-manager group.</p>
+<p class="lbl">Real if you said</p><ul class="chk"><li><label><input type="checkbox" data-q="d5-6"> Gives the reason for Compute Modules: a library that Functions cannot load</label></li><li><label><input type="checkbox" data-q="d5-6"> Mentions the Control Panel enablement step</label></li><li><label><input type="checkbox" data-q="d5-6"> Uses Automate with a time or data condition on Lead</label></li></ul>
+<p class="lbl">Faked if</p><p>The answer says 'run a Python script' and does not say where it runs or what starts it.</p>
+<p class="muted">Terms: Compute Modules, Automate, Control Panel</p></details>
+<p class="verdict" id="v-d5-6"></p>
+</div>
+<div class="card q" data-q="d5-7" data-n="3">
+<h4>7. Before any app exists, a manager wants to fix every Lead with no SalesRep. Later an analyst wants to trace which Accounts went quiet before a loss. Which tool for each?</h4>
+<label class="lbl" for="a-d5-7">Your answer</label>
+<textarea id="a-d5-7" rows="3"></textarea>
+<details><summary>Show the model answer and grade yourself</summary>
+<p>I use Object Explorer first: it needs minimal setup, finds every Lead with no SalesRep, and can bulk-run assign-lead. For the loss analysis I use Insight, which chains link traversals from Account to Opportunity to Activity. Object Explorer is for discovery; Insight is for analysts who already know the data.</p>
+<p class="lbl">Real if you said</p><ul class="chk"><li><label><input type="checkbox" data-q="d5-7"> Uses bulk Actions in Object Explorer as the no-app fix</label></li><li><label><input type="checkbox" data-q="d5-7"> Separates discovery (Object Explorer) from known-data analysis (Insight)</label></li><li><label><input type="checkbox" data-q="d5-7"> Names the link chain Account to Opportunity to Activity</label></li></ul>
+<p class="lbl">Faked if</p><p>The answer says both tools 'explore data' and does not say which user or task each one serves.</p>
+<p class="muted">Terms: Object Explorer, Insight</p></details>
+<p class="verdict" id="v-d5-7"></p>
+</div>
+<div class="card q" data-q="d5-8" data-n="3">
+<h4>8. You want to rename <code>Opportunity.stage</code>, and another team wants a copy of your CRM. How do you control the change and the handover?</h4>
+<label class="lbl" for="a-d5-8">Your answer</label>
+<textarea id="a-d5-8" rows="3"></textarea>
+<details><summary>Show the model answer and grade yourself</summary>
+<p>Before the rename I open Workflow Lineage to see which actions, functions, and modules depend on <code>Opportunity.stage</code>. I test the change on a branch before merge. For the other team I package the ontology and Workshop modules as a Foundry Marketplace product that they install, with optional auto-upgrades.</p>
+<p class="lbl">Real if you said</p><ul class="chk"><li><label><input type="checkbox" data-q="d5-8"> Uses Workflow Lineage for impact analysis before a schema change</label></li><li><label><input type="checkbox" data-q="d5-8"> Mentions a branch test before merge</label></li><li><label><input type="checkbox" data-q="d5-8"> Describes Marketplace as a packaged product that installs into a project</label></li></ul>
+<p class="lbl">Faked if</p><p>The answer says 'check dependencies' and 'share it' and names no tool.</p>
+<p class="muted">Terms: Workflow Lineage, Foundry Marketplace</p></details>
+<p class="verdict" id="v-d5-8"></p>
+</div>
+<h3 id="d6">Drill 6: Layer 5 — AIP <span class="score muted" data-d="d6"></span></h3>
+<div class="card q" data-q="d6-1" data-n="3">
+<h4>1. How would you let an LLM assign Leads safely?</h4>
+<label class="lbl" for="a-d6-1">Your answer</label>
+<textarea id="a-d6-1" rows="3"></textarea>
+<details><summary>Show the model answer and grade yourself</summary>
+<p>I write an AIP Logic function that reads the Lead and calls the assign-lead Action as a tool. I stage the edit for human review instead of automatic apply, and Automate can trigger the function. Before I ship, I test it with AIP Evals cases built from real Leads.</p>
+<p class="lbl">Real if you said</p><ul class="chk"><li><label><input type="checkbox" data-q="d6-1"> Uses staged review (human approval) as the safety control</label></li><li><label><input type="checkbox" data-q="d6-1"> Writes through the existing assign-lead Action as a tool</label></li><li><label><input type="checkbox" data-q="d6-1"> Adds Evals because LLM output is non-deterministic</label></li></ul>
+<p class="lbl">Faked if</p><p>The answer says 'add guardrails' and names no staging, Action, or test.</p>
+<p class="muted">Terms: AIP Logic, Tools (for LLMs), Automate, AIP Evals</p></details>
+<p class="verdict" id="v-d6-1"></p>
+</div>
+<div class="card q" data-q="d6-2" data-n="3">
+<h4>2. Sales managers want a deal-desk assistant that answers questions about Opportunities and can close a deal. What do you build, and how do you control the write?</h4>
+<label class="lbl" for="a-d6-2">Your answer</label>
+<textarea id="a-d6-2" rows="3"></textarea>
+<details><summary>Show the model answer and grade yourself</summary>
+<p>I build the chatbot in AIP Chatbot Studio, the new name for Agent Studio. It gets an Object query tool on Opportunity and an Action tool for close-opportunity-won with user confirmation on. Ontology retrieval context adds each Account's open Opportunities, and the AIP Chatbot widget embeds it in the sales-manager module.</p>
+<p class="lbl">Real if you said</p><ul class="chk"><li><label><input type="checkbox" data-q="d6-2"> Uses the current name Chatbot Studio and knows 'Agent' is the old name</label></li><li><label><input type="checkbox" data-q="d6-2"> Separates tools (model chooses) from retrieval context (runs on every message)</label></li><li><label><input type="checkbox" data-q="d6-2"> Turns on user confirmation for the write Action</label></li></ul>
+<p class="lbl">Faked if</p><p>The answer says 'connect the LLM to the data' and does not separate tools from retrieval context.</p>
+<p class="muted">Terms: AIP Chatbot Studio (formerly AIP Agent Studio), AIP Chatbot (formerly "AIP Agent"), Tools (for LLMs), Retrieval context</p></details>
+<p class="verdict" id="v-d6-2"></p>
+</div>
+<div class="card q" data-q="d6-3" data-n="3">
+<h4>3. For the deal-desk chatbot, when do you put Account data in retrieval context, and when do you give the model an Object query tool?</h4>
+<label class="lbl" for="a-d6-3">Your answer</label>
+<textarea id="a-d6-3" rows="3"></textarea>
+<details><summary>Show the model answer and grade yourself</summary>
+<p>Retrieval context runs on every message, so I use it for data each answer needs, like an Account's open Opportunities. Tools run only when the model chooses them, so I use an Object query tool for less common lookups. My TypeScript v1 work fits function-backed context, which uses custom TypeScript v1 retrieval functions.</p>
+<p class="lbl">Real if you said</p><ul class="chk"><li><label><input type="checkbox" data-q="d6-3"> States deterministic (every message) versus model-chosen</label></li><li><label><input type="checkbox" data-q="d6-3"> Links function-backed context to his TypeScript v1 functions</label></li><li><label><input type="checkbox" data-q="d6-3"> Can name the prompted and native tool-calling modes</label></li></ul>
+<p class="lbl">Faked if</p><p>The answer treats tools and retrieval context as two words for 'giving the model data'.</p>
+<p class="muted">Terms: Retrieval context, Tools (for LLMs)</p></details>
+<p class="verdict" id="v-d6-3"></p>
+</div>
+<div class="card q" data-q="d6-4" data-n="3">
+<h4>4. You used palantir-mcp from Claude Code. Now the sales team wants Claude to assign Leads. Do you give them the same server?</h4>
+<label class="lbl" for="a-d6-4">Your answer</label>
+<textarea id="a-d6-4" rows="3"></textarea>
+<details><summary>Show the model answer and grade yourself</summary>
+<p>Palantir MCP is the builder server I used, so I do not give it to them; it can change ontology types but cannot write objects. For the sales team I generate an Ontology MCP server from a Developer Console application and allow only assign-lead. The OMCP row is medium confidence, and a search snippet warned that non-AIP LLMs expose data to an external client.</p>
+<p class="lbl">Real if you said</p><ul class="chk"><li><label><input type="checkbox" data-q="d6-4"> Splits structure changes (Palantir MCP) from data writes (OMCP)</label></li><li><label><input type="checkbox" data-q="d6-4"> Limits OMCP to approved Actions such as assign-lead</label></li><li><label><input type="checkbox" data-q="d6-4"> Flags the data-exposure risk with a non-AIP LLM client</label></li></ul>
+<p class="lbl">Faked if</p><p>The answer says 'MCP connects Claude to Foundry' and does not separate the two servers.</p>
+<p class="muted">Terms: Palantir MCP, Ontology MCP (OMCP), Developer Console</p></details>
+<p class="verdict" id="v-d6-4"></p>
+</div>
+<div class="card q" data-q="d6-5" data-n="3">
+<h4>5. A sales manager asks today: 'which Accounts had no Activity in 30 days?' No app exists. What do you offer before you build Workshop UI?</h4>
+<label class="lbl" for="a-d6-5">Your answer</label>
+<textarea id="a-d6-5" rows="3"></textarea>
+<details><summary>Show the model answer and grade yourself</summary>
+<p>I point the manager to AIP Analyst, which builds object sets and charts from a natural-language question with no app. If a deal-desk chatbot exists, the manager can use it from AIP Threads. Both depend on the enrollment: Analyst availability can differ, and Threads needs AIP and 'AIP custom workflows' enabled.</p>
+<p class="lbl">Real if you said</p><ul class="chk"><li><label><input type="checkbox" data-q="d6-5"> Chooses a no-build option before a Workshop module</label></li><li><label><input type="checkbox" data-q="d6-5"> Knows Threads is where users pick an existing chatbot</label></li><li><label><input type="checkbox" data-q="d6-5"> Checks enablement or availability first</label></li></ul>
+<p class="lbl">Faked if</p><p>The answer says 'use AI to ask questions' and names no specific AIP product.</p>
+<p class="muted">Terms: AIP Analyst, AIP Threads, Control Panel</p></details>
+<p class="verdict" id="v-d6-5"></p>
+</div>
+<div class="card q" data-q="d6-6" data-n="3">
+<h4>6. Which LLM should the deal-desk chatbot use, and how do you change the model later without breaking it?</h4>
+<label class="lbl" for="a-d6-6">Your answer</label>
+<textarea id="a-d6-6" rows="3"></textarea>
+<details><summary>Show the model answer and grade yourself</summary>
+<p>I check the AIP Model Catalog to see which Palantir-provided LLMs my enrollment can use, and I test them in its playground. To change the model later, I compare versions against my AIP Evals suite. AIP Evolve can propose a cheaper model with Evals as the goal, but that row is medium confidence.</p>
+<p class="lbl">Real if you said</p><ul class="chk"><li><label><input type="checkbox" data-q="d6-6"> Says model availability differs by enrollment</label></li><li><label><input type="checkbox" data-q="d6-6"> Uses an Evals suite as the gate for a model change</label></li><li><label><input type="checkbox" data-q="d6-6"> Knows Evolve needs Evals to be useful</label></li></ul>
+<p class="lbl">Faked if</p><p>The answer names a preferred model and gives no way to compare or test it.</p>
+<p class="muted">Terms: AIP Model Catalog, AIP Evals, AIP Evolve</p></details>
+<p class="verdict" id="v-d6-6"></p>
+</div>
+<div class="card q" data-q="d6-7" data-n="3">
+<h4>7. An interviewer says: 'AI FDE can now build your CRM. Why do we need you?' How do you answer?</h4>
+<label class="lbl" for="a-d6-7">Your answer</label>
+<textarea id="a-d6-7" rows="3"></textarea>
+<details><summary>Show the model answer and grade yourself</summary>
+<p>AI FDE can draft pipelines, ontology edits, and functions, and it runs with the user's own permissions. It does not decide what the sales team needs; a human Delta does that with the customer. The DevCon 3 launch comes from a third-party summary, so I do not state that date as fact.</p>
+<p class="lbl">Real if you said</p><ul class="chk"><li><label><input type="checkbox" data-q="d6-7"> Knows AI FDE runs with the user's permissions, so security still holds</label></li><li><label><input type="checkbox" data-q="d6-7"> Separates draft work from the decision about what to build</label></li><li><label><input type="checkbox" data-q="d6-7"> Hedges the launch source</label></li></ul>
+<p class="lbl">Faked if</p><p>The answer says 'AI is just a tool' and shows no knowledge of what AI FDE does.</p>
+<p class="muted">Terms: AI FDE, "Delta"</p></details>
+<p class="verdict" id="v-d6-7"></p>
+</div>
+<div class="card q" data-q="d6-8" data-n="3">
+<h4>8. A prospect gives you two days and their own CRM data. Plan the bootcamp.</h4>
+<label class="lbl" for="a-d6-8">Your answer</label>
+<textarea id="a-d6-8" rows="3"></textarea>
+<details><summary>Show the model answer and grade yourself</summary>
+<p>Day 1 builds the ontology on the prospect's own CRM data. Day 2 builds lead triage with AIP Logic and ends with a sales VP demo. The 1-to-5-day range and Karp's 'officially two days' come from the Q3 2023 earnings call, so the 2026 format may differ.</p>
+<p class="lbl">Real if you said</p><ul class="chk"><li><label><input type="checkbox" data-q="d6-8"> Uses the prospect's own data, not a demo set</label></li><li><label><input type="checkbox" data-q="d6-8"> Builds an AIP workflow on top of the ontology, not only a schema</label></li><li><label><input type="checkbox" data-q="d6-8"> Dates the figures to 2023</label></li></ul>
+<p class="lbl">Faked if</p><p>The answer says 'a bootcamp is a session to show AI' and gives no build plan or dates.</p>
+<p class="muted">Terms: AIP Bootcamp, AIP Logic, Customer bootcamp</p></details>
+<p class="verdict" id="v-d6-8"></p>
+</div>
+<h3 id="d7">Drill 7: Layer 6 — Security and governance <span class="score muted" data-d="d7"></span></h3>
+<div class="card q" data-q="d7-1" data-n="3">
+<h4>1. How would you hide EU Contacts from US sales reps?</h4>
+<label class="lbl" for="a-d7-1">Your answer</label>
+<textarea id="a-d7-1" rows="3"></textarea>
+<details><summary>Show the model answer and grade yourself</summary>
+<p>I add an object security policy on Contact whose granular policy compares a user attribute with the Contact's region property. I write a positive match, because the docs warn against NOT conditions on group membership. A restricted view is the older pattern, and neither control covers exports.</p>
+<p class="lbl">Real if you said</p><ul class="chk"><li><label><input type="checkbox" data-q="d7-1"> Names the object security policy and the granular policy inside it</label></li><li><label><input type="checkbox" data-q="d7-1"> Compares a user attribute or group with a Contact property</label></li><li><label><input type="checkbox" data-q="d7-1"> States that the policy does not cover exports</label></li></ul>
+<p class="lbl">Faked if</p><p>The answer says 'set permissions so US reps cannot see EU data' and names no mechanism.</p>
+<p class="muted">Terms: Object security policy (row-level), Granular policy, Group, Restricted view</p></details>
+<p class="verdict" id="v-d7-1"></p>
+</div>
+<div class="card q" data-q="d7-2" data-n="3">
+<h4>2. Sales reps must see every Opportunity but not <code>discountPercent</code>. How do you do it, and what must exist first?</h4>
+<label class="lbl" for="a-d7-2">Your answer</label>
+<textarea id="a-d7-2" rows="3"></textarea>
+<details><summary>Show the model answer and grade yourself</summary>
+<p>I add a property security policy on <code>discountPercent</code>, so a sales rep sees null for that value but still sees the Opportunity. It needs an object security policy on Opportunity first. The primary key cannot be in it, and each non-key property can be in only one property policy.</p>
+<p class="lbl">Real if you said</p><ul class="chk"><li><label><input type="checkbox" data-q="d7-2"> Says the user sees null, not an error or a missing row</label></li><li><label><input type="checkbox" data-q="d7-2"> Knows the object security policy is a prerequisite</label></li><li><label><input type="checkbox" data-q="d7-2"> Mentions the primary-key or one-policy-per-property limit</label></li></ul>
+<p class="lbl">Faked if</p><p>The answer says 'hide the column' and does not say what the rep sees or what must exist first.</p>
+<p class="muted">Terms: Property security policy (column-level), Object security policy (row-level)</p></details>
+<p class="verdict" id="v-d7-2"></p>
+</div>
+<div class="card q" data-q="d7-3" data-n="3">
+<h4>3. Contact phone and email are PII. How do you keep them away from people outside the sales groups, also in derived datasets?</h4>
+<label class="lbl" for="a-d7-3">Your answer</label>
+<textarea id="a-d7-3" rows="3"></textarea>
+<details><summary>Show the model answer and grade yourself</summary>
+<p>I put a PII marking on the Contact source data, and a user must hold every marking to get access. The marking follows the data into every derived dataset, but Project roles apply only to resources inside that Project. Removal needs the marking's 'Expand Access' permission; I have not built markings yet.</p>
+<p class="lbl">Real if you said</p><ul class="chk"><li><label><input type="checkbox" data-q="d7-3"> States that a user must hold every marking</label></li><li><label><input type="checkbox" data-q="d7-3"> Knows markings follow the data downstream</label></li><li><label><input type="checkbox" data-q="d7-3"> Says honestly that he has not built markings</label></li></ul>
+<p class="lbl">Faked if</p><p>The answer calls a marking 'a tag' and does not say it travels with the data or that access needs all markings.</p>
+<p class="muted">Terms: Markings, Project</p></details>
+<p class="verdict" id="v-d7-3"></p>
+</div>
+<div class="card q" data-q="d7-4" data-n="3">
+<h4>4. Set up access for the CRM: reps and managers use it, and only you change the object types. Your groups appear only in submission criteria today. What do you change?</h4>
+<label class="lbl" for="a-d7-4">Your answer</label>
+<textarea id="a-d7-4" rows="3"></textarea>
+<details><summary>Show the model answer and grade yourself</summary>
+<p>I put the CRM pipelines, ontology resources, and modules in one Project, the main security boundary. The <code>sales-rep</code> and <code>sales-manager</code> groups get Viewer on it, and I keep Owner on the object types. Today my groups appear only in submission criteria; they need Project roles too.</p>
+<p class="lbl">Real if you said</p><ul class="chk"><li><label><input type="checkbox" data-q="d7-4"> Names the Project as the main security boundary</label></li><li><label><input type="checkbox" data-q="d7-4"> Gives roles to groups, not to individual users</label></li><li><label><input type="checkbox" data-q="d7-4"> Knows roles inherit down the folder tree</label></li></ul>
+<p class="lbl">Faked if</p><p>The answer says 'give everyone access' or lists the roles without saying who gets which.</p>
+<p class="muted">Terms: Project, Roles: Owner / Editor / Viewer / Discoverer, Group</p></details>
+<p class="verdict" id="v-d7-4"></p>
+</div>
+<div class="card q" data-q="d7-5" data-n="3">
+<h4>5. A manager wants to export all Contacts in bulk. How do you govern the export before and after it happens?</h4>
+<label class="lbl" for="a-d7-5">Your answer</label>
+<textarea id="a-d7-5" rows="3"></textarea>
+<details><summary>Show the model answer and grade yourself</summary>
+<p>Before the export, a Checkpoint makes the user type a justification, and each answer becomes a reviewable record. Checkpoints is the confirmed feature behind purpose-based access; the purpose-based access blog returned 403, so that row is medium confidence. After the export, audit.3 logs show who did it and when.</p>
+<p class="lbl">Real if you said</p><ul class="chk"><li><label><input type="checkbox" data-q="d7-5"> Uses a Checkpoint with a justification before the step</label></li><li><label><input type="checkbox" data-q="d7-5"> Knows Checkpoints are set per Organization or per Space</label></li><li><label><input type="checkbox" data-q="d7-5"> Adds audit.3 as the record after the step</label></li></ul>
+<p class="lbl">Faked if</p><p>The answer says 'log it' and does not separate the prompt before the step from the log after it.</p>
+<p class="muted">Terms: Checkpoints, Purpose-based access / justifications, Audit logs (audit.3)</p></details>
+<p class="verdict" id="v-d7-5"></p>
+</div>
+<div class="card q" data-q="d7-6" data-n="3">
+<h4>6. A customer asks for a GDPR delete of one Contact. Separately, raw Activity imports keep growing. How do you handle each?</h4>
+<label class="lbl" for="a-d7-6">Your answer</label>
+<textarea id="a-d7-6" rows="3"></textarea>
+<details><summary>Show the model answer and grade yourself</summary>
+<p>For the GDPR delete I use Data Lifetime, because it also deletes the Contact from downstream datasets. For old raw Activity imports I set a Custom retention policy in the Space settings, for example delete after 2 years. Legacy retention policies are deprecated, so I do not use them.</p>
+<p class="lbl">Real if you said</p><ul class="chk"><li><label><input type="checkbox" data-q="d7-6"> Separates one-record deletion (Data Lifetime) from age-based deletion (retention)</label></li><li><label><input type="checkbox" data-q="d7-6"> Knows deletion must follow lineage downstream</label></li><li><label><input type="checkbox" data-q="d7-6"> Knows Space admins manage retention in Space settings</label></li></ul>
+<p class="lbl">Faked if</p><p>The answer says 'delete it from the dataset' and ignores the derived datasets.</p>
+<p class="muted">Terms: Data Lifetime, Data retention (Retention policies), Space</p></details>
+<p class="verdict" id="v-d7-6"></p>
+</div>
+<div class="card q" data-q="d7-7" data-n="3">
+<h4>7. A sales VP asks who closed a large deal last month. Also, where does your script's token come from?</h4>
+<label class="lbl" for="a-d7-7">Your answer</label>
+<textarea id="a-d7-7" rows="3"></textarea>
+<details><summary>Show the model answer and grade yourself</summary>
+<p>I pull audit.3 logs to show who ran close-opportunity-won, when, and on which resource. audit.3 data arrives in about 15 minutes, uses the scope <code>api:audit-read</code>, and has no backfill before enablement. My script gets its token from <code>/multipass/api/oauth2/token</code>; that Multipass row is medium confidence.</p>
+<p class="lbl">Real if you said</p><ul class="chk"><li><label><input type="checkbox" data-q="d7-7"> Uses audit.3, not audit.2</label></li><li><label><input type="checkbox" data-q="d7-7"> Knows there is no backfill, so logging must be on before the event</label></li><li><label><input type="checkbox" data-q="d7-7"> Connects Multipass to the OAuth token call in your scripts</label></li></ul>
+<p class="lbl">Faked if</p><p>The answer says 'check the history' and names no log version or limit.</p>
+<p class="muted">Terms: Audit logs (audit.3), Multipass</p></details>
+<p class="verdict" id="v-d7-7"></p>
+</div>
+<div class="card q" data-q="d7-8" data-n="3">
+<h4>8. A reseller partner needs CRM access, and finance wants its own Ontology. Where do you draw each boundary?</h4>
+<label class="lbl" for="a-d7-8">Your answer</label>
+<textarea id="a-d7-8" rows="3"></textarea>
+<details><summary>Show the model answer and grade yourself</summary>
+<p>My Organization-based submission criteria work for one company, but a reseller needs its own Organization, a mandatory wall that travels with the data. Reseller users can get guest access to my Organization. Finance gets a separate Space if it needs a separate Ontology, because the Projects in one Space share one Ontology.</p>
+<p class="lbl">Real if you said</p><ul class="chk"><li><label><input type="checkbox" data-q="d7-8"> Uses Organization as the hard boundary between companies</label></li><li><label><input type="checkbox" data-q="d7-8"> Mentions guest access as the cross-Organization path</label></li><li><label><input type="checkbox" data-q="d7-8"> Ties a Space to one shared Ontology</label></li></ul>
+<p class="lbl">Faked if</p><p>The answer says 'make a new folder for them' and mixes up Project, Space, and Organization.</p>
+<p class="muted">Terms: Organization, Space</p></details>
+<p class="verdict" id="v-d7-8"></p>
+</div>
+<h3 id="d8">Drill 8: Layer 7 — Platform and culture <span class="score muted" data-d="d8"></span></h3>
+<div class="card q" data-q="d8-1" data-n="3">
+<h4>1. Decomposition round: 'Build a CRM for a sales team.' How do you start?</h4>
+<label class="lbl" for="a-d8-1">Your answer</label>
+<textarea id="a-d8-1" rows="3"></textarea>
+<details><summary>Show the model answer and grade yourself</summary>
+<p>I scope one use case, lead-to-cash for a 20-rep team. I draw the workflow first: who touches a Lead, which decision they make, which Action records it. Then I state trade-offs and a buildable first version; the round names come from prep sites, not an official Palantir page.</p>
+<p class="lbl">Real if you said</p><ul class="chk"><li><label><input type="checkbox" data-q="d8-1"> Scopes one use case before naming tools</label></li><li><label><input type="checkbox" data-q="d8-1"> Maps each human decision to an Action</label></li><li><label><input type="checkbox" data-q="d8-1"> States trade-offs and a first buildable scope</label></li></ul>
+<p class="lbl">Faked if</p><p>The answer lists every Foundry product and never narrows the problem.</p>
+<p class="muted">Terms: FDSE interview process, Decomposition, Use case, Workflow</p></details>
+<p class="verdict" id="v-d8-1"></p>
+</div>
+<div class="card q" data-q="d8-2" data-n="3">
+<h4>2. Why does your close-opportunity-won Action matter more to Palantir than your pipeline chart?</h4>
+<label class="lbl" for="a-d8-2">Your answer</label>
+<textarea id="a-d8-2" rows="3"></textarea>
+<details><summary>Show the model answer and grade yourself</summary>
+<p>Close-opportunity-won changes the real world, so it is an operational decision; the pipeline chart only reports. The docs say the Ontology represents the decisions in an enterprise, not simply the data. I quote that docs line, because the exact word 'decision-centric' came only from a blog snippet.</p>
+<p class="lbl">Real if you said</p><ul class="chk"><li><label><input type="checkbox" data-q="d8-2"> Classifies a specific CRM Action as an operational decision</label></li><li><label><input type="checkbox" data-q="d8-2"> Cites the docs line about decisions, not data</label></li><li><label><input type="checkbox" data-q="d8-2"> Says the Action encodes who may decide what</label></li></ul>
+<p class="lbl">Faked if</p><p>The answer says 'Palantir is about decisions' and gives no CRM example.</p>
+<p class="muted">Terms: Operational decisions, Decision-centric</p></details>
+<p class="verdict" id="v-d8-2"></p>
+</div>
+<div class="card q" data-q="d8-3" data-n="3">
+<h4>3. Place your CRM on Palantir's platforms. What runs where?</h4>
+<label class="lbl" for="a-d8-3">Your answer</label>
+<textarea id="a-d8-3" rows="3"></textarea>
+<details><summary>Show the model answer and grade yourself</summary>
+<p>My object types, actions, and functions are Foundry, and AIP is the AI layer that sits with Foundry, not instead of it. Apollo deploys and upgrades the stack with zero downtime. Rubix, a hardened Kubernetes whose nodes live at most 48 hours, runs my functions.</p>
+<p class="lbl">Real if you said</p><ul class="chk"><li><label><input type="checkbox" data-q="d8-3"> Says 'AIP and Foundry', not 'AIP instead of Foundry'</label></li><li><label><input type="checkbox" data-q="d8-3"> Places Apollo as delivery and Rubix as the runtime</label></li><li><label><input type="checkbox" data-q="d8-3"> Applies 'enterprise operating system' to the three platforms, not to the Ontology</label></li></ul>
+<p class="lbl">Faked if</p><p>The answer calls everything 'Palantir' and cannot place the CRM on one platform.</p>
+<p class="muted">Terms: Foundry, AIP (as a platform name), Apollo, Rubix</p></details>
+<p class="verdict" id="v-d8-3"></p>
+</div>
+<div class="card q" data-q="d8-4" data-n="3">
+<h4>4. An interviewer asks if you work 'ontology-first' and if the Ontology is 'the operating system'. How do you answer without slogans?</h4>
+<label class="lbl" for="a-d8-4">Your answer</label>
+<textarea id="a-d8-4" rows="3"></textarea>
+<details><summary>Show the model answer and grade yourself</summary>
+<p>Because Lead, Account, and assign-lead already exist, a Workshop app on top is simple; that is the idea behind 'ontology-first'. No Palantir page I found uses that phrase, so it is low confidence. The docs apply 'enterprise operating system' to Foundry, AIP, and Apollo together, not to the Ontology.</p>
+<p class="lbl">Real if you said</p><ul class="chk"><li><label><input type="checkbox" data-q="d8-4"> Gives the concrete benefit instead of the slogan</label></li><li><label><input type="checkbox" data-q="d8-4"> Knows 'ontology-first' is not a docs term</label></li><li><label><input type="checkbox" data-q="d8-4"> Knows which thing the docs call the operating system</label></li></ul>
+<p class="lbl">Faked if</p><p>The answer repeats 'the Ontology is the operating system' as a fact with no source.</p>
+<p class="muted">Terms: Ontology-first, "The Ontology as the operating system"</p></details>
+<p class="verdict" id="v-d8-4"></p>
+</div>
+<div class="card q" data-q="d8-5" data-n="3">
+<h4>5. On a real CRM rollout, who does what: the Delta, the Echo, and the Dev?</h4>
+<label class="lbl" for="a-d8-5">Your answer</label>
+<textarea id="a-d8-5" rows="3"></textarea>
+<details><summary>Show the model answer and grade yourself</summary>
+<p>As the Delta I own the CRM build; the Echo, a Deployment Strategist, owns the sales VP relationship and the rollout plan. The tags are on Lever postings, but the meanings come from search snippets, and 'Dev' for a product engineer is low confidence and community-sourced.</p>
+<p class="lbl">Real if you said</p><ul class="chk"><li><label><input type="checkbox" data-q="d8-5"> Maps each role to a CRM responsibility</label></li><li><label><input type="checkbox" data-q="d8-5"> Knows the Delta and Echo roles often blur</label></li><li><label><input type="checkbox" data-q="d8-5"> Hedges the meanings that come from 403 blog posts</label></li></ul>
+<p class="lbl">Faked if</p><p>The answer states the NATO-alphabet origin of the names as confirmed fact.</p>
+<p class="muted">Terms: "Delta", "Echo", "Dev", Deployment Strategist</p></details>
+<p class="verdict" id="v-d8-5"></p>
+</div>
+<div class="card q" data-q="d8-6" data-n="3">
+<h4>6. What does the Developer Tier limit, and how do you know the limit is current?</h4>
+<label class="lbl" for="a-d8-6">Your answer</label>
+<textarea id="a-d8-6" rows="3"></textarea>
+<details><summary>Show the model answer and grade yourself</summary>
+<p>A Developer Tier enrollment shows its capacity caps in Control Panel under 'Your Plan'. A 2024 thread says it allows only the Authorization Code grant; if that still holds, a server script needs a personal token, not a client-credentials service user. Beta apps need a support Issue, and the auth limit may have changed since 2024.</p>
+<p class="lbl">Real if you said</p><ul class="chk"><li><label><input type="checkbox" data-q="d8-6"> Names the missing client-credentials grant and its effect on scripts</label></li><li><label><input type="checkbox" data-q="d8-6"> Knows where the limits show: Control Panel 'Your Plan'</label></li><li><label><input type="checkbox" data-q="d8-6"> Dates the evidence (2024 thread)</label></li></ul>
+<p class="lbl">Faked if</p><p>The answer says 'the free tier has limits' and names none.</p>
+<p class="muted">Terms: Developer Tier, Enrollment, Control Panel</p></details>
+<p class="verdict" id="v-d8-6"></p>
+</div>
+<div class="card q" data-q="d8-7" data-n="3">
+<h4>7. Why does Palantir put engineers with one customer instead of selling software and leaving?</h4>
+<label class="lbl" for="a-d8-7">Your answer</label>
+<textarea id="a-d8-7" rows="3"></textarea>
+<details><summary>Show the model answer and grade yourself</summary>
+<p>An FDSE works with one customer to turn the hardest problem into a working deployment, like owning the CRM from data to the VP's trust. Sankar wrote that Palantir did not charge for implementation, to 'internalize the cost and the pain'. Other quotes attributed to him come only from snippets, so I do not repeat them as fact.</p>
+<p class="lbl">Real if you said</p><ul class="chk"><li><label><input type="checkbox" data-q="d8-7"> Uses one customer, end to end, as the FDSE definition</label></li><li><label><input type="checkbox" data-q="d8-7"> Uses the 'internalize the cost and the pain' quote with its source</label></li><li><label><input type="checkbox" data-q="d8-7"> Does not repeat unverified quotes</label></li></ul>
+<p class="lbl">Faked if</p><p>The answer quotes 'FDEs eat pain and excrete product' as Sankar's confirmed words.</p>
+<p class="muted">Terms: FDSE / Forward Deployed Software Engineer, Shyam Sankar's FDE essays</p></details>
+<p class="verdict" id="v-d8-7"></p>
+</div>
+<div class="card q" data-q="d8-8" data-n="3">
+<h4>8. How did the CRM build prepare you for the Learning and Re-engineering rounds?</h4>
+<label class="lbl" for="a-d8-8">Your answer</label>
+<textarea id="a-d8-8" rows="3"></textarea>
+<details><summary>Show the model answer and grade yourself</summary>
+<p>The Learning round has me learn an unfamiliar library or API live, as I did with <code>foundry-platform-sdk</code>. The Re-engineering round, informally 'debugging', has me fix or extend 200 to 500 lines of unfamiliar code. A search snippet says AI use is prohibited in interviews, so I practice without Claude Code.</p>
+<p class="lbl">Real if you said</p><ul class="chk"><li><label><input type="checkbox" data-q="d8-8"> Names the rounds by their reported names</label></li><li><label><input type="checkbox" data-q="d8-8"> Knows 'debugging' is slang for Re-engineering</label></li><li><label><input type="checkbox" data-q="d8-8"> Plans practice without AI because AI use is likely prohibited</label></li></ul>
+<p class="lbl">Faked if</p><p>The answer describes a generic algorithm-puzzle loop and does not name Decomposition, Learning, or Re-engineering.</p>
+<p class="muted">Terms: FDSE interview process, Learning, Re-engineering (the "debugging" round)</p></details>
+<p class="verdict" id="v-d8-8"></p>
+</div>
+<h3 id="mock">Final test: mock FDSE conversation <span class="score muted" data-d="mock"></span></h3>
+<div class="card q" data-q="mock-1" data-n="3">
+<h4>1. Walk me through your CRM ontology in two minutes.</h4>
+<label class="lbl" for="a-mock-1">Your answer</label>
+<textarea id="a-mock-1" rows="3"></textarea>
+<details><summary>Show the model answer and grade yourself</summary>
+<p>Start from the customer problem, then the layers: 7 raw exports (201 rows) land untouched; one transform per dataset cleans them, with a primary-key check on each output; 6 object types and 9 link types sit on the clean datasets; 8 action types carry the business rules in submission criteria; 2 TypeScript functions handle the logic that rules cannot. All of it was built on a global branch and shipped through one proposal.</p>
+<p class="lbl">Real if you said</p><ul class="chk"><li><label><input type="checkbox" data-q="mock-1"> Gives the layers in order: raw → clean → objects and links → actions → functions</label></li><li><label><input type="checkbox" data-q="mock-1"> Uses numbers (6 object types, 9 link types, 8 actions)</label></li><li><label><input type="checkbox" data-q="mock-1"> Ends with how it shipped: branch and proposal</label></li></ul>
+<p class="lbl">Faked if</p><p>Lists object types only, with no flow and no decision.</p>
+<p class="muted">Terms: Object type, Link type, Action type, Proposal</p></details>
+<p class="verdict" id="v-mock-1"></p>
+</div>
+<div class="card q" data-q="mock-2" data-n="3">
+<h4>2. Why did you back Opportunity with two datasources instead of joining them in the pipeline?</h4>
+<label class="lbl" for="a-mock-2">Your answer</label>
+<textarea id="a-mock-2" rows="3"></textarea>
+<details><summary>Show the model answer and grade yourself</summary>
+<p>Each source system keeps its own lineage, and the e-sign data does not couple to the CRM pipeline. The cost is the OSv2 requirement and null properties for opportunities with no e-sign row. A single joined dataset is simpler for the ontology but couples two source systems in one pipeline.</p>
+<p class="lbl">Real if you said</p><ul class="chk"><li><label><input type="checkbox" data-q="mock-2"> Lineage per source / no coupling</label></li><li><label><input type="checkbox" data-q="mock-2"> Names the cost: nulls and OSv2</label></li><li><label><input type="checkbox" data-q="mock-2"> Names the alternative and when it is better</label></li></ul>
+<p class="lbl">Faked if</p><p>Says "Foundry supports it" with no trade-off.</p>
+<p class="muted">Terms: Multi-datasource object type (MDO)</p></details>
+<p class="verdict" id="v-mock-2"></p>
+</div>
+<div class="card q" data-q="mock-3" data-n="3">
+<h4>3. How do you stop a rep from closing another rep's deal?</h4>
+<label class="lbl" for="a-mock-3">Your answer</label>
+<textarea id="a-mock-3" rows="3"></textarea>
+<details><summary>Show the model answer and grade yourself</summary>
+<p>Submission criteria on <code>close-opportunity-won</code>: the caller passes an <code>owner</code> SalesRep parameter; the criteria require <code>owner.salesRepId</code> = the record's <code>ownerId</code> and <code>owner.foundryUserId</code> = the current user. Members of <code>sales-manager</code> pass without the owner check. The mapping from rep to platform user is data in the pipeline.</p>
+<p class="lbl">Real if you said</p><ul class="chk"><li><label><input type="checkbox" data-q="mock-3"> Owner parameter bound to the record</label></li><li><label><input type="checkbox" data-q="mock-3"> Current user check through <code>foundryUserId</code></label></li><li><label><input type="checkbox" data-q="mock-3"> Manager bypass through a group</label></li></ul>
+<p class="lbl">Faked if</p><p>Says "with permissions" without naming criteria or the owner binding.</p>
+<p class="muted">Terms: Submission criteria, Group</p></details>
+<p class="verdict" id="v-mock-3"></p>
+</div>
+<div class="card q" data-q="mock-4" data-n="3">
+<h4>4. Two managers assign leads to the same rep at the same time. What happens?</h4>
+<label class="lbl" for="a-mock-4">Your answer</label>
+<textarea id="a-mock-4" rows="3"></textarea>
+<details><summary>Show the model answer and grade yourself</summary>
+<p>Without a guard, both can read "2 of 3 open leads" and both succeed: write skew, because each transaction reads a set but writes outside it. <code>assignLead</code> also writes <code>lastLeadAssignedAt</code> on the SalesRep, so the two assignments write the same object and one conflicts. Say honestly: the concurrency test is not built yet.</p>
+<p class="lbl">Real if you said</p><ul class="chk"><li><label><input type="checkbox" data-q="mock-4"> Names write skew and why the cap check alone fails</label></li><li><label><input type="checkbox" data-q="mock-4"> The guard write on the rep object</label></li><li><label><input type="checkbox" data-q="mock-4"> States that the concurrency test is not built</label></li></ul>
+<p class="lbl">Faked if</p><p>Says "Foundry handles concurrency".</p>
+<p class="muted">Terms: Ontology edit function</p></details>
+<p class="verdict" id="v-mock-4"></p>
+</div>
+<div class="card q" data-q="mock-5" data-n="2">
+<h4>5. Who writes <code>openLeadCount</code>?</h4>
+<label class="lbl" for="a-mock-5">Your answer</label>
+<textarea id="a-mock-5" rows="3"></textarea>
+<details><summary>Show the model answer and grade yourself</summary>
+<p>Only the transform. If actions also edited it, the next build and the user edits would conflict. So <code>assign-lead</code> counts the leads at run time and the pipeline owns the column.</p>
+<p class="lbl">Real if you said</p><ul class="chk"><li><label><input type="checkbox" data-q="mock-5"> One writer per derived property</label></li><li><label><input type="checkbox" data-q="mock-5"> Actions compute live instead of trusting the stored number</label></li></ul>
+<p class="lbl">Faked if</p><p>Says "the action updates it".</p>
+<p class="muted">Terms: User edits (Edits toggle)</p></details>
+<p class="verdict" id="v-mock-5"></p>
+</div>
+<div class="card q" data-q="mock-6" data-n="3">
+<h4>6. How did you ship changes safely?</h4>
+<label class="lbl" for="a-mock-6">Your answer</label>
+<textarea id="a-mock-6" rows="3"></textarea>
+<details><summary>Show the model answer and grade yourself</summary>
+<p>All ontology, transform and function changes went on one global branch. I validated every action against branch data with <code>VALIDATE_ONLY</code>, then merged through one proposal. The actions use a function version range, so they used the function published on <code>main</code> after the merge.</p>
+<p class="lbl">Real if you said</p><ul class="chk"><li><label><input type="checkbox" data-q="mock-6"> Global branch + proposal</label></li><li><label><input type="checkbox" data-q="mock-6"> Tests on branch data without writes</label></li><li><label><input type="checkbox" data-q="mock-6"> Version range for function-backed actions</label></li></ul>
+<p class="lbl">Faked if</p><p>Says "I tested it and merged".</p>
+<p class="muted">Terms: Global Branching, Proposal, Apply Action API + <code>VALIDATE_ONLY</code>, Branching functions</p></details>
+<p class="verdict" id="v-mock-6"></p>
+</div>
+<div class="card q" data-q="mock-7" data-n="3">
+<h4>7. Why are your functions on TypeScript v1?</h4>
+<label class="lbl" for="a-mock-7">Your answer</label>
+<textarea id="a-mock-7" rows="3"></textarea>
+<details><summary>Show the model answer and grade yourself</summary>
+<p>For anything new I would use TypeScript v2, which the docs recommend. v1 has no interfaces, no OSDK, no staged writes and no deployed mode. An <code>OwnedRecord</code> interface is the next step for this model, and it needs v2.</p>
+<p class="lbl">Real if you said</p><ul class="chk"><li><label><input type="checkbox" data-q="mock-7"> Accepts the limit without excuses</label></li><li><label><input type="checkbox" data-q="mock-7"> Names at least 2 v1 limits</label></li><li><label><input type="checkbox" data-q="mock-7"> Links the limit to a next step (the interface)</label></li></ul>
+<p class="lbl">Faked if</p><p>Defends v1 as "simpler".</p>
+<p class="muted">Terms: TypeScript v1 functions, Interface</p></details>
+<p class="verdict" id="v-mock-7"></p>
+</div>
+<div class="card q" data-q="mock-8" data-n="3">
+<h4>8. The source sends a duplicate <code>opportunityId</code> tomorrow. What breaks?</h4>
+<label class="lbl" for="a-mock-8">Your answer</label>
+<textarea id="a-mock-8" rows="3"></textarea>
+<details><summary>Show the model answer and grade yourself</summary>
+<p>The primary-key expectation fails the build, so the clean dataset keeps its last good version and the ontology does not change. Someone must fix the source or the cleaning rule. Without the check, the OSv2 Funnel batch pipeline would fail instead.</p>
+<p class="lbl">Real if you said</p><ul class="chk"><li><label><input type="checkbox" data-q="mock-8"> Build fails, last good data stays</label></li><li><label><input type="checkbox" data-q="mock-8"> Names the action for a human (fix source or rule)</label></li><li><label><input type="checkbox" data-q="mock-8"> Knows the failure point without the check</label></li></ul>
+<p class="lbl">Faked if</p><p>Says "the data is cleaned automatically".</p>
+<p class="muted">Terms: Data expectations, Primary key</p></details>
+<p class="verdict" id="v-mock-8"></p>
+</div>
+<div class="card q" data-q="mock-9" data-n="3">
+<h4>9. The sales team will use this every day. What do you build next?</h4>
+<label class="lbl" for="a-mock-9">Your answer</label>
+<textarea id="a-mock-9" rows="3"></textarea>
+<details><summary>Show the model answer and grade yourself</summary>
+<p>A Workshop app: a lead queue, the selected Lead's Account, and an <code>assign-lead</code> button. The actions already enforce the rules, so the app adds no rule logic. Configure the Opportunity Object View for stage, amount, owner and Activities. Build an OSDK React app only when Workshop is not enough.</p>
+<p class="lbl">Real if you said</p><ul class="chk"><li><label><input type="checkbox" data-q="mock-9"> Workshop first, OSDK app only for a special need</label></li><li><label><input type="checkbox" data-q="mock-9"> The app reuses the action types, so the rules stay in one place</label></li><li><label><input type="checkbox" data-q="mock-9"> Names a concrete screen for the users</label></li></ul>
+<p class="lbl">Faked if</p><p>Says "a dashboard" with no tool and no write path.</p>
+<p class="muted">Terms: Workshop, Object Views (full / panel), OSDK React application</p></details>
+<p class="verdict" id="v-mock-9"></p>
+</div>
+<div class="card q" data-q="mock-10" data-n="3">
+<h4>10. How would you let an LLM help here safely?</h4>
+<label class="lbl" for="a-mock-10">Your answer</label>
+<textarea id="a-mock-10" rows="3"></textarea>
+<details><summary>Show the model answer and grade yourself</summary>
+<p>Give an AIP Chatbot tools: an Object query tool on Lead and an Action tool for <code>assign-lead</code>, with user confirmation on. The LLM calls the same action type, so the submission criteria still apply. For outside agents, use Ontology MCP with only the approved actions.</p>
+<p class="lbl">Real if you said</p><ul class="chk"><li><label><input type="checkbox" data-q="mock-10"> The LLM writes only through action types</label></li><li><label><input type="checkbox" data-q="mock-10"> Criteria and user confirmation still apply</label></li><li><label><input type="checkbox" data-q="mock-10"> Names the right product: Chatbot Studio or Ontology MCP</label></li></ul>
+<p class="lbl">Faked if</p><p>Says "give the LLM access to the data".</p>
+<p class="muted">Terms: Tools (for LLMs), AIP Chatbot Studio (formerly AIP Agent Studio), Ontology MCP (OMCP)</p></details>
+<p class="verdict" id="v-mock-10"></p>
+</div>
+<div class="card q" data-q="mock-11" data-n="2">
+<h4>11. What would you do differently?</h4>
+<label class="lbl" for="a-mock-11">Your answer</label>
+<textarea id="a-mock-11" rows="3"></textarea>
+<details><summary>Show the model answer and grade yourself</summary>
+<p>Add the <code>OwnedRecord</code> interface on TypeScript v2. Keep money in a decimal type end to end, not <code>double</code>. Build the concurrency test for <code>assign-lead</code>. Get the rep-to-user mapping from an identity provider sync, not a hand-written table.</p>
+<p class="lbl">Real if you said</p><ul class="chk"><li><label><input type="checkbox" data-q="mock-11"> At least 3 concrete changes</label></li><li><label><input type="checkbox" data-q="mock-11"> Each change has a reason</label></li></ul>
+<p class="lbl">Faked if</p><p>Says "nothing major" or gives general wishes.</p>
+<p class="muted">Terms: Interface, Base type</p></details>
+<p class="verdict" id="v-mock-11"></p>
+</div>
+
+<h2 id="drills">Flashcards</h2>
+<h3>Cards 3: Layer 1 — Data</h3>
 <p class="muted">Say the meaning and one sentence about your CRM aloud. Then open the card.</p>
 <details class="fc"><summary>Dataset <span class="tag built">built</span></summary><p>A wrapper around a set of files in a backing file system. It adds permissions, schema, version control, and updates over time.</p><div class="say">Your raw <code>crm_accounts</code> upload and your clean <code>accounts</code> output are both datasets; the Ontology reads the clean one.</div></details>
 <details class="fc"><summary>Transaction</summary><p>One atomic change to a dataset's files. It starts <code>OPEN</code>, then becomes <code>COMMITTED</code> or <code>ABORTED</code>. The docs compare it to a Git commit.</p><div class="say">Each run of your clean-accounts transform committed one transaction on <code>master</code>.</div></details>
@@ -583,7 +1470,7 @@
 <details class="fc"><summary>Development lifecycle phases</summary><p>The labels on every docs page: Beta, GA, Legacy, Sunset, Planned deprecation, Deprecated. Each label sets availability and support.</p><div class="say">That page is tagged Sunset, so existing customers only—don't build new on it.</div></details>
 <details class="fc"><summary>Upgrade Assistant</summary><p>Shows coming platform changes and the resources each change affects, with fix steps and owners.</p><div class="say">Check Upgrade Assistant for the OSv1-to-OSv2 intervention.</div></details>
 <details class="fc"><summary>Developer Tier limits</summary><p>Caps on the free tier, for example on action types, object types, and users. Control Panel → "Your Plan" shows the current values.</p><div class="say">You're on Developer Tier, so check Your Plan before you add more action types.</div></details>
-<h3>Drill 4: Layer 2 — Ontology (semantic)</h3>
+<h3>Cards 4: Layer 2 — Ontology (semantic)</h3>
 <p class="muted">Say the meaning and one sentence about your CRM aloud. Then open the card.</p>
 <details class="fc"><summary>Ontology <span class="tag built">built</span></summary><p>An operational layer on top of datasets, virtual tables, and models. It connects them to real-world things such as customers, orders, and equipment.</p><div class="say">Your six object types, nine link types, and eight action types are your CRM ontology.</div></details>
 <details class="fc"><summary>Digital twin</summary><p>Palantir's own phrase for the Ontology: a model of the organization that maps data to real-world objects.</p><div class="say">The Ontology is the digital twin of the sales team—Accounts, Opportunities, and the actions reps take.</div></details>
@@ -633,7 +1520,7 @@
 <details class="fc"><summary>Object Explorer</summary><p>The application to search objects and explore results.</p><div class="say">Search Opportunities by stage in Object Explorer to check your index.</div></details>
 <details class="fc"><summary>RID <span class="tag built">built</span></summary><p>The resource identifier that names any Foundry resource, in the form <code>ri.&lt;service&gt;.&lt;instance&gt;.&lt;type&gt;.&lt;id&gt;</code>.</p><div class="say">Paste the RID of the Opportunity type, not its display name.</div></details>
 <details class="fc"><summary>Ontology proposal / ontology branch [Legacy]</summary><p>An ontology proposal tracks ontology changes inside a Global Branching proposal. Separate ontology branches are the older feature.</p><div class="say">You did not use an ontology branch; your ontology proposal came from the global proposal.</div></details>
-<h3>Drill 5: Layer 3 — Kinetic: actions, functions, automation</h3>
+<h3>Cards 5: Layer 3 — Kinetic: actions, functions, automation</h3>
 <p class="muted">Say the meaning and one sentence about your CRM aloud. Then open the card.</p>
 <details class="fc"><summary>Action <span class="tag built">built</span></summary><p>One transaction that changes one or more objects with defined logic.</p><div class="say">Each time a rep closes a deal, one action commits all the edits together.</div></details>
 <details class="fc"><summary>Action type <span class="tag built">built</span></summary><p>The definition of a set of edits a user can make at once, plus its side effects.</p><div class="say">You have eight action types, for example Create Opportunity and Close Opportunity.</div></details>
@@ -672,7 +1559,7 @@
 <details class="fc"><summary>Foundry Rules</summary><p>A low-code tool to author rules (sets of conditions) over datasets, objects, and time series, for example for alerts.</p><div class="say">Ops could keep discount-approval rules in Foundry Rules instead of code.</div></details>
 <details class="fc"><summary>Apply Action API + <code>VALIDATE_ONLY</code> <span class="tag built">built</span></summary><p>The REST call <code>POST /api/v2/ontologies/{ontology}/actions/{action}/apply</code>. With <code>options.mode = VALIDATE_ONLY</code> it checks the action without running it.</p><div class="say">Your SDK script sent <code>VALIDATE_ONLY</code> to test submission criteria without writing to Opportunity.</div></details>
 <details class="fc"><summary>Foundry platform SDK <span class="tag built">built</span></summary><p>The general Foundry API client: <code>foundry-platform-sdk</code> (Python) or <code>@osdk/foundry</code> (TypeScript). Different from a generated OSDK.</p><div class="say">You applied actions through <code>foundry-platform-sdk</code>, not through a generated OSDK.</div></details>
-<h3>Drill 6: Layer 4 — Applications</h3>
+<h3>Cards 6: Layer 4 — Applications</h3>
 <p class="muted">Say the meaning and one sentence about your CRM aloud. Then open the card.</p>
 <details class="fc"><summary>Workshop</summary><p>Palantir's no-code/low-code builder for operational apps. It reads object types and links, and writes back through Actions and Functions.</p><div class="say">Your next step is a Workshop app: a lead queue on the left, the selected Lead's Account on the right, and an assign-lead button.</div></details>
 <details class="fc"><summary>Workshop module</summary><p>One Workshop application. A module is the unit you build, save, share, and embed.</p><div class="say">Build one module for SalesReps (my leads) and one for sales-managers (pipeline review).</div></details>
@@ -702,7 +1589,7 @@
 <details class="fc"><summary>Foundry Marketplace</summary><p>A store for packaged "products" (ontology, pipelines, apps) that you install into a project, with optional auto-upgrades.</p><div class="say">Package the CRM ontology plus its Workshop modules as a Marketplace product so another team can install it.</div></details>
 <details class="fc"><summary>Automate</summary><p>Rules that watch time or object data and then run Actions, Functions, AIP Logic, or send notifications.</p><div class="say">Use Automate: when a Lead sits unassigned for 24 hours, run assign-lead and notify the sales-manager group.</div></details>
 <details class="fc"><summary>Workflow Lineage</summary><p>A map of an application's objects, actions, functions, and dependencies, where you can test changes on a branch before merge.</p><div class="say">Open Workflow Lineage on the lead-to-cash workflow to see what breaks if you rename Opportunity.stage.</div></details>
-<h3>Drill 7: Layer 5 — AIP</h3>
+<h3>Cards 7: Layer 5 — AIP</h3>
 <p class="muted">Say the meaning and one sentence about your CRM aloud. Then open the card.</p>
 <details class="fc"><summary>AIP (Artificial Intelligence Platform)</summary><p>Palantir's set of AI capabilities that run on a Foundry enrollment and use the Ontology as the model's context and tools.</p><div class="say">AIP is not a separate system here: it reads your Lead objects and calls your assign-lead action as a tool.</div></details>
 <details class="fc"><summary>AIP Logic</summary><p>A no-code builder for LLM-powered functions: inputs (objects, text), LLM blocks with tools, outputs or Ontology edits.</p><div class="say">Write an AIP Logic function that reads a Lead's Activities and proposes a next step; stage the edit for a human to approve.</div></details>
@@ -723,7 +1610,7 @@
 <details class="fc"><summary>AIP Bootcamp</summary><p>A 1-to-5-day hands-on session where Palantir engineers build real AI workflows on a prospect's own data. Used as the main sales motion.</p><div class="say">A bootcamp version of your CRM would be: day 1 ontology, day 2 lead triage with AIP Logic, demo to the VP.</div></details>
 <details class="fc"><summary>AIP Now</summary><p>A Palantir site, launched March 2024, that showcases AIP use cases and lets people sign up and try workflows.</p><div class="say">Browse AIP Now for a sales-pipeline example before you design the CRM chatbot.</div></details>
 <details class="fc"><summary>AIP for Developers</summary><p>The DevCon 2024 launch label for Palantir's developer toolkit: OSDK 2.0, new Platform APIs, Workflow Builder.</p><div class="say">OSDK 2.0 came from the AIP for Developers launch, so older blog code may use the 1.x API.</div></details>
-<h3>Drill 8: Layer 6 — Security and governance</h3>
+<h3>Cards 8: Layer 6 — Security and governance</h3>
 <p class="muted">Say the meaning and one sentence about your CRM aloud. Then open the card.</p>
 <details class="fc"><summary>Organization <span class="tag built">built</span></summary><p>A mandatory wall between groups of users and resources. A user belongs to one Organization (guest access to others is possible).</p><div class="say">Your Organization-based submission criteria are fine for one company; a reseller would need its own Organization.</div></details>
 <details class="fc"><summary>Space</summary><p>A top-level container for Projects that share one Ontology and purpose across a set of Organizations.</p><div class="say">The CRM lives in one Space; finance gets a different Space if they need a separate Ontology.</div></details>
@@ -743,7 +1630,7 @@
 <details class="fc"><summary>Data Lifetime</summary><p>Lineage-aware deletion: deleting data in one dataset can also delete it in downstream datasets.</p><div class="say">For a GDPR delete of one Contact, Data Lifetime removes it from every derived dataset too.</div></details>
 <details class="fc"><summary>Audit logs (audit.3)</summary><p>The record of every user action: who, what, when, which resource. Use audit.3 for new work; audit.2 is legacy.</p><div class="say">Pull audit.3 logs to prove who ran close-opportunity-won on a large deal.</div></details>
 <details class="fc"><summary>Control Panel</summary><p>The admin app for enrollment- and Organization-level settings: AIP enablement, authentication, audit export, application access.</p><div class="say">Enable AIP and Compute Modules in Control Panel before you try the chatbot.</div></details>
-<h3>Drill 9: Layer 7 — Platform and culture</h3>
+<h3>Cards 9: Layer 7 — Platform and culture</h3>
 <p class="muted">Say the meaning and one sentence about your CRM aloud. Then open the card.</p>
 <details class="fc"><summary>Foundry</summary><p>Palantir's data-operations platform: data integration, the Ontology, apps, and AIP on top.</p><div class="say">Everything you built — object types, actions, functions — is Foundry.</div></details>
 <details class="fc"><summary>Gotham</summary><p>Palantir's first platform, built for defense and intelligence analysts; now also used for operations and mission planning.</p><div class="say">Gotham is the government sibling; your CRM work maps to Foundry, not Gotham.</div></details>
@@ -775,5 +1662,44 @@
 <div class="card"><p>Two research agents checked every term on 2026-10-11 and opened each cited page. 4 pages were opened a second time (Chatbot Studio, Ontology MCP, Rubix, a public FDSE job posting with the "Delta" tag); all 4 matched.</p><p>Each row above links to the page it was checked against.</p></div>
 
 </div>
+<script>
+// ponytail: localStorage only; the "Copy all answers" text is the durable export
+const K = 'speak-drills-v1', st = (() => { try { return JSON.parse(localStorage.getItem(K)) || {}; } catch { return {}; } })();
+const save = () => { try { localStorage.setItem(K, JSON.stringify(st)); } catch {} };
+function grade(card) {
+  const qid = card.dataset.q, n = +card.dataset.n, t = card.querySelectorAll('input:checked').length, v = document.getElementById('v-' + qid);
+  v.className = 'verdict ' + (t === n ? 'real' : t ? 'partial' : '');
+  v.textContent = t === n ? 'Real' : t ? `Partial: ${t} of ${n} markers` : '';
+  document.querySelectorAll('.score').forEach(s => {
+    const cs = [...document.querySelectorAll(`.q[data-q^="${s.dataset.d}-"]`)];
+    const r = cs.filter(c => c.querySelectorAll('input:checked').length === +c.dataset.n).length;
+    s.textContent = `(real: ${r} of ${cs.length})`;
+  });
+}
+document.querySelectorAll('.q').forEach(card => {
+  const qid = card.dataset.q, ta = card.querySelector('textarea'), boxes = [...card.querySelectorAll('input')];
+  const d = st[qid] || { a: '', t: [] };
+  ta.value = d.a; boxes.forEach((b, i) => b.checked = !!d.t[i]);
+  const upd = () => { st[qid] = { a: ta.value, t: boxes.map(b => b.checked) }; save(); grade(card); };
+  ta.addEventListener('input', upd); boxes.forEach(b => b.addEventListener('change', upd)); grade(card);
+});
+document.getElementById('copy').onclick = () => {
+  let out = '# Palantir-speak drill answers\n';
+  document.querySelectorAll('h3[id] .score').forEach(s => {
+    out += `\n## ${s.parentNode.firstChild.textContent.trim()}\n`;
+    document.querySelectorAll(`.q[data-q^="${s.dataset.d}-"]`).forEach(c => {
+      const a = c.querySelector('textarea').value.trim();
+      out += `\n${c.querySelector('h4').textContent}\nAnswer: ${a || '(none)'}\nSelf-grade: ${document.getElementById('v-' + c.dataset.q).textContent || 'not graded'}\n`;
+    });
+  });
+  const ok = () => document.getElementById('copied').textContent = 'Copied.';
+  navigator.clipboard.writeText(out).then(ok, () => { const w = window.open(); w.document.body.innerText = out; });
+};
+document.getElementById('reset').onclick = () => {
+  if (!window.confirm('Clear all answers and ticks?')) return;
+  try { localStorage.removeItem(K); } catch {}
+  location.reload();
+};
+</script>
 </body>
 </html>
