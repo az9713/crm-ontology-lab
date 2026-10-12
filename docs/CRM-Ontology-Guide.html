@@ -515,6 +515,34 @@
   <li><b>Relational database:</b> one application owns the data and needs multi-statement transactions.</li>
   <li><b>Ontology:</b> several source systems feed one model (here: the CRM and the e-signature system), and many users and applications change it through checked actions.</li>
 </ul>
+<h3 id="tradeoffs">Trade-offs: choose one, give up the other two</h3>
+<p>Each block below assumes that you use only one of the three. It lists what you get, and what you lose compared with each of the other two. The examples use this CRM.</p>
+
+<h4>Ontology only (no graph database, no SQL database)</h4>
+<ul>
+  <li><b>You get:</b> one model over several source systems (the CRM export and the e-signature export join into one <code>Opportunity</code>). Writes go only through checked actions, so the rule "close only with a signed contract" holds for every app. User edits stay when the build replaces the datasets. Lineage leads from each value back to its raw export.</li>
+  <li><b>You lose compared with a graph database:</b> pattern queries and paths of variable length. "Contacts 3 hops from <code>rep-ana</code>" becomes 3 Search Around steps in code. There are no shortest-path or centrality algorithms. A link cannot hold data; a relationship with data needs its own object type.</li>
+  <li><b>You lose compared with a SQL database:</b> ad hoc SQL over the live objects, and the large set of SQL tools. Freshness: the objects are only as new as the last build of the backing datasets. Portability and cost: the model lives in a commercial platform (here the free Developer Tier, with its limits); the portable copy of the model in this project is <code>ontology.json</code>.</li>
+  <li><b>Choose it when:</b> several systems feed the data, many users and apps change it, and the rules must hold for all of them.</li>
+</ul>
+
+<h4>Graph database only (no ontology, no SQL database)</h4>
+<ul>
+  <li><b>You get:</b> fast multi-hop queries, path algorithms, and properties on relationships (for example, the role of a contact on a deal on the link itself). The schema can change without a migration.</li>
+  <li><b>You lose compared with an ontology:</b> a governed write path. The rule "close only with a signed contract" must live in each application, and a client with write access can skip it. A reload from the source systems overwrites user changes unless you write merge logic. You must build lineage and per-action permissions yourself.</li>
+  <li><b>You lose compared with a SQL database:</b> the standard language for totals and reports ("pipeline amount by stage"); most reporting tools speak SQL, not Cypher. Weaker schema checks by default: a typo such as <code>negotation</code> in <code>stage</code> enters unless you add a constraint. Fewer people can read the queries.</li>
+  <li><b>Choose it when:</b> the main questions are about connections: who knows whom, account hierarchies, referral chains.</li>
+</ul>
+
+<h4>SQL database only (no ontology, no graph database)</h4>
+<ul>
+  <li><b>You get:</b> a mature, low-cost, standard store. Multi-statement ACID transactions. Strong constraints: <code>CHECK (stage IN (...))</code>, foreign keys, <code>NOT NULL</code>. Every reporting tool connects to it, and totals by stage or by rep are one query.</li>
+  <li><b>You lose compared with an ontology:</b> you write the business layer yourself: the action checks, the owner-or-manager permission, the merge of user edits with new source data, and the lineage. The rules spread across application code, and each app can apply them differently.</li>
+  <li><b>You lose compared with a graph database:</b> deep traversal. Each hop is one more join; any depth needs a recursive CTE, which is longer to write and slower as the depth grows.</li>
+  <li><b>Choose it when:</b> one application owns the CRM data, and reports and transactions matter more than relationship queries.</li>
+</ul>
+<p>The three are often combined: a SQL database as the source system, an ontology over the exported data for governed use, and a graph database for path analysis. This project uses two of the three roles: the raw CSV exports stand in for the source systems, and Foundry holds the ontology. It has no graph database.</p>
+
 <p class="muted">An ontology is not a type of database. It is a model with rules over data that other systems store. A graph database stores the graph itself. Sources: the public ontology notes in <code>research/palantir-public-model.md</code> and the build of this project.</p>
 
 
