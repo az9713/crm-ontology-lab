@@ -5,7 +5,7 @@ A small CRM (sales reps, accounts, contacts, leads, opportunities, activities) m
 1. **A local schema.** `crm_ontology/build_ontology.py` writes `ontology.json` in the public `OntologyFullMetadata` shape: 6 object types, 9 link types, 8 action types, 1 interface. `check_ontology.py` validates it against the open-source `foundry-platform-sdk` models.
 2. **A Foundry build.** The author's own transform code (`foundry/transforms/crm.py`) and function code (`foundry/functions/index.ts`) built the same model on a Foundry Developer Tier (AIP Now) enrollment.
 
-The full explanation, with four diagrams, is in `docs/CRM-Ontology-Guide.html`. Open it in a browser.
+The full explanation, with four diagrams, is in `docs/CRM-Ontology-Guide.html`. Read it live at **https://az9713.github.io/crm-ontology-lab/CRM-Ontology-Guide.html**.
 
 > **Not affiliated with Palantir.** This is an independent learning project. It is not affiliated with, endorsed by, or sponsored by Palantir Technologies. "Palantir" and "Foundry" are Palantir's trademarks. This repository contains no Palantir code, templates, documentation or screenshots.
 
@@ -18,7 +18,7 @@ The full explanation, with four diagrams, is in `docs/CRM-Ontology-Guide.html`. 
 | `foundry/transforms/crm.py` | 7 Foundry Python transforms. They import `clean_crm.py` (a copy of `crm_ontology/clean_crm.py`, placed at `myproject/clean_crm.py` in the Foundry repo). |
 | `foundry/functions/index.ts` | 2 TypeScript v1 edit functions: `assignLead`, `convertLead`. |
 | `research/palantir-public-model.md` | Notes on Palantir's public ontology API shape, with the source URL of each item. |
-| `docs/CRM-Ontology-Guide.html` | The project guide. |
+| `docs/CRM-Ontology-Guide.html` | The project guide, served by GitHub Pages from `docs/`. |
 
 ## Run the local part
 
