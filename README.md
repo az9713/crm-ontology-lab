@@ -19,7 +19,7 @@ The full explanation, with four diagrams, is in `docs/CRM-Ontology-Guide.html`. 
 | `foundry/functions/index.ts` | 2 TypeScript v1 edit functions: `assignLead`, `convertLead`. |
 | `research/palantir-public-model.md` | Notes on Palantir's public ontology API shape, with the source URL of each item. |
 | `docs/CRM-Ontology-Guide.html` | The project guide, served by GitHub Pages from `docs/`. |
-| `docs/palantir-speak.html` | Palantir-speak phrasebook: 217 Foundry and AIP terms in 7 layers, each tied to this CRM and linked to its public source, plus design stories, flashcards, and 77 self-graded drills with model answers (answers save in your browser). Live: https://az9713.github.io/crm-ontology-lab/palantir-speak.html |
+| `docs/foundry-aip-vocabulary.html` | Palantir-speak phrasebook: 217 Foundry and AIP terms in 7 layers, each tied to this CRM and linked to its public source, plus design stories, flashcards, and 77 self-graded drills with model answers (answers save in your browser). Live: https://az9713.github.io/crm-ontology-lab/foundry-aip-vocabulary.html |
 
 ## Run the local part
 

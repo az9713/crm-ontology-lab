@@ -382,7 +382,7 @@
 
 <!-- ============================================================ -->
 <h2 id="objects">4. Object types</h2>
-<p>All CRM ids in Foundry start with the namespace prefix <code>ea76tv21.</code> (for example <code>ea76tv21.opportunity</code>). Property ids are the camelCase names from <code>ontology.json</code>. Counts are on main today.</p>
+<p>All CRM ids in Foundry start with the namespace prefix <code>&lt;namespace&gt;.</code> (for example <code>&lt;namespace&gt;.opportunity</code>). Property ids are the camelCase names from <code>ontology.json</code>. Counts are on main today.</p>
 <div class="tbl"><table>
 <tr><th>Object type</th><th>Objects</th><th>Backing data</th><th>Properties</th></tr>
 <tr><td><b>Sales Rep</b></td><td>4</td><td><code>sales-reps</code></td><td><code>salesRepId</code> (key), <code>fullName</code>, <code>email</code>, <code>team</code>, <code>maxOpenLeads</code>, <code>openLeadCount</code>, <code>foundryUserId</code>, <code>lastLeadAssignedAt</code> (edit-only guard, written by "Assign lead")</td></tr>
@@ -398,15 +398,15 @@
 <p>Eight links are foreign keys (many-to-one). One link is many-to-many and reads the <code>opportunity-contacts</code> dataset as a join table.</p>
 <div class="tbl"><table>
 <tr><th>Display name in Foundry</th><th>Id</th><th>How it joins</th></tr>
-<tr><td>Owner - Account</td><td><code>ea76tv21.sales-rep-to-account</code></td><td><code>Account.ownerId</code> → <code>SalesRep</code></td></tr>
-<tr><td>Owner - Lead</td><td><code>ea76tv21.sales-rep-to-lead</code></td><td><code>Lead.ownerId</code> → <code>SalesRep</code></td></tr>
-<tr><td>Owner - Opportunity</td><td><code>ea76tv21.sales-rep-to-opportunity</code></td><td><code>Opportunity.ownerId</code> → <code>SalesRep</code></td></tr>
-<tr><td>Account - Contact</td><td><code>ea76tv21.account-to-contact</code></td><td><code>Contact.accountId</code> → <code>Account</code></td></tr>
-<tr><td>Account - Opportunity</td><td><code>ea76tv21.account-to-opportunity</code></td><td><code>Opportunity.accountId</code> → <code>Account</code></td></tr>
-<tr><td>Converted account - Source lead</td><td><code>ea76tv21.account-to-source-lead</code></td><td><code>Lead.convertedAccountId</code> → <code>Account</code></td></tr>
-<tr><td>Contact - Activity</td><td><code>ea76tv21.contact-to-activity</code></td><td><code>Activity.contactId</code> → <code>Contact</code></td></tr>
-<tr><td>Opportunity - Activity</td><td><code>ea76tv21.opportunity-to-activity</code></td><td><code>Activity.opportunityId</code> → <code>Opportunity</code></td></tr>
-<tr><td>Opportunity - Contact</td><td><code>ea76tv21.contact-opportunity</code></td><td>MANY_TO_MANY on <code>opportunity-contacts</code>. <code>onlyAllowPrivilegedEdits: true</code>; this did not block "Add contact to opportunity".</td></tr>
+<tr><td>Owner - Account</td><td><code>&lt;namespace&gt;.sales-rep-to-account</code></td><td><code>Account.ownerId</code> → <code>SalesRep</code></td></tr>
+<tr><td>Owner - Lead</td><td><code>&lt;namespace&gt;.sales-rep-to-lead</code></td><td><code>Lead.ownerId</code> → <code>SalesRep</code></td></tr>
+<tr><td>Owner - Opportunity</td><td><code>&lt;namespace&gt;.sales-rep-to-opportunity</code></td><td><code>Opportunity.ownerId</code> → <code>SalesRep</code></td></tr>
+<tr><td>Account - Contact</td><td><code>&lt;namespace&gt;.account-to-contact</code></td><td><code>Contact.accountId</code> → <code>Account</code></td></tr>
+<tr><td>Account - Opportunity</td><td><code>&lt;namespace&gt;.account-to-opportunity</code></td><td><code>Opportunity.accountId</code> → <code>Account</code></td></tr>
+<tr><td>Converted account - Source lead</td><td><code>&lt;namespace&gt;.account-to-source-lead</code></td><td><code>Lead.convertedAccountId</code> → <code>Account</code></td></tr>
+<tr><td>Contact - Activity</td><td><code>&lt;namespace&gt;.contact-to-activity</code></td><td><code>Activity.contactId</code> → <code>Contact</code></td></tr>
+<tr><td>Opportunity - Activity</td><td><code>&lt;namespace&gt;.opportunity-to-activity</code></td><td><code>Activity.opportunityId</code> → <code>Opportunity</code></td></tr>
+<tr><td>Opportunity - Contact</td><td><code>&lt;namespace&gt;.contact-opportunity</code></td><td>MANY_TO_MANY on <code>opportunity-contacts</code>. <code>onlyAllowPrivilegedEdits: true</code>; this did not block "Add contact to opportunity".</td></tr>
 </table></div>
 
 <!-- ============================================================ -->
