@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="color-scheme" content="dark">
-<title>Palantir-speak Phrasebook</title>
+<title>Foundry and AIP Vocabulary</title>
 <style>
   :root {
     --bg: #0f172a; --card: #1e293b; --text: #e2e8f0; --text2: #cbd5e1; --muted: #94a3b8;
@@ -55,7 +55,7 @@
 <body>
 <div class="wrap">
 
-<h1>Palantir-speak Phrasebook</h1>
+<h1>Foundry and AIP Vocabulary</h1>
 <p class="sub">Full-stack Foundry and AIP vocabulary, taught through the CRM ontology that you built. Written for someone preparing to talk with Forward Deployed Software Engineers. Checked against public sources on 2026-10-11. Companion to the <a href="CRM-Ontology-Guide.html">CRM Ontology Guide</a>.</p>
 <p class="sub">Independent learning project. Not affiliated with, endorsed by, or sponsored by Palantir Technologies. "Palantir", "Foundry" and "AIP" are Palantir's trademarks. Definitions are written in our own words; each links to its public source.</p>
 
@@ -1684,7 +1684,7 @@ document.querySelectorAll('.q').forEach(card => {
   ta.addEventListener('input', upd); boxes.forEach(b => b.addEventListener('change', upd)); grade(card);
 });
 document.getElementById('copy').onclick = () => {
-  let out = '# Palantir-speak drill answers\n';
+  let out = '# Foundry and AIP vocabulary drill answers\n';
   document.querySelectorAll('h3[id] .score').forEach(s => {
     out += `\n## ${s.parentNode.firstChild.textContent.trim()}\n`;
     document.querySelectorAll(`.q[data-q^="${s.dataset.d}-"]`).forEach(c => {
