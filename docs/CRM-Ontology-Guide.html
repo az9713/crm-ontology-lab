@@ -98,6 +98,7 @@
   <a href="#functions">7. The two functions</a>
   <a href="#identity">8. Who can do what (identity rules)</a>
   <a href="#deviations">9. Deviations and items not built</a>
+  <a href="#vsdb">Ontology, database, graph database</a>
 </nav>
 
 <!-- ============================================================ -->
@@ -476,6 +477,45 @@
 <tr><td>Concurrency test of Assign lead</td><td>It needs two calls at the same moment. Snapshot isolation and the guard write are configured, but no test proves the conflict.</td></tr>
 <tr><td><code>notifyBilling</code> webhook on Close opportunity as won</td><td>No billing system exists to call.</td></tr>
 </table></div>
+
+
+<!-- ============================================================ -->
+<h2 id="vsdb">Ontology, database, graph database: the differences</h2>
+<p><b>Short answer.</b> The data shape is the same as a property graph. This CRM fits into a graph database such as Neo4j, or into 7 relational tables, with no loss of data. The differences are in what surrounds the data: where the data is stored, which system is the source of truth, how a write happens, who can write, and how a reader follows the data back to its source.</p>
+
+<h3>What is the same</h3>
+<div class="tbl"><table>
+<tr><th>Ontology (this project)</th><th>Relational database</th><th>Graph database</th></tr>
+<tr><td>Object type <code>Opportunity</code></td><td>Table <code>opportunities</code></td><td>Node label <code>:Opportunity</code></td></tr>
+<tr><td>Property <code>stage</code></td><td>Column <code>stage</code></td><td>Node property <code>stage</code></td></tr>
+<tr><td>Primary key <code>opportunityId</code>; the transform Check fails the build on a duplicate</td><td><code>PRIMARY KEY</code></td><td>Uniqueness constraint</td></tr>
+<tr><td>Link type Account → Opportunity (one to many), by the foreign key <code>accountId</code></td><td>Foreign key <code>accountId</code></td><td>Relationship <code>(:Account)-[:HAS]-&gt;(:Opportunity)</code></td></tr>
+<tr><td>Link type Contact ↔ Opportunity (many to many), backed by the <code>opportunity-contacts</code> dataset</td><td>Join table</td><td>Relationship; no join table is necessary</td></tr>
+<tr><td>Interface <code>OwnedRecord</code></td><td>No direct equivalent (a view over several tables)</td><td>A second label on the node</td></tr>
+</table></div>
+
+<h3>What is different</h3>
+<div class="tbl"><table>
+<tr><th>Topic</th><th>Ontology (this project)</th><th>Relational database</th><th>Graph database</th></tr>
+<tr><td>Storage</td><td>The ontology is a layer over datasets. <code>Opportunity</code> is backed by 2 datasets, <code>opportunities</code> and <code>esign-contracts</code>, joined on <code>opportunityId</code>. Foundry indexes them for queries.</td><td>The database is the storage.</td><td>The database is the storage.</td></tr>
+<tr><td>Source of truth</td><td>Other systems. The transforms rebuild the clean datasets from the raw exports (<code>crm_opportunities</code>, <code>esign_envelopes</code>) at each build, and remove duplicates and mixed id formats on the way.</td><td>Usually the database itself (the system of record).</td><td>The database, after a load job.</td></tr>
+<tr><td>Writes</td><td>Only through action types: parameters, rules, submission criteria. <code>close-opportunity-won</code> refuses <code>opp-016</code> because <code>contractSigned</code> is false. Foundry stores edits apart from the datasets, and the edits stay after the next build.</td><td>Any client with an <code>UPDATE</code> grant can change any column. Constraints and triggers limit the change.</td><td>Any client with write access can run <code>CREATE</code>, <code>SET</code> or <code>DELETE</code>.</td></tr>
+<tr><td>Transaction unit</td><td>One action. It applies all its edits or none. <code>assign-lead</code> also writes <code>lastLeadAssignedAt</code> on the rep, so two parallel assignments to one rep conflict (configured, not tested; see section 9).</td><td>A multi-statement transaction (ACID).</td><td>A transaction (ACID in Neo4j).</td></tr>
+<tr><td>Business logic</td><td>Part of the model: action rules and the functions <code>assignLead</code> and <code>convertLead</code>, published and versioned with it.</td><td>Stored procedures, triggers, or application code.</td><td>Procedures or application code.</td></tr>
+<tr><td>Permissions</td><td>Per action and per user: "owner of the record or member of <code>sales-manager</code>". Dataset permissions apply under it.</td><td><code>GRANT</code> on tables; row-level security.</td><td>Roles; finer control in some products.</td></tr>
+<tr><td>Queries</td><td>Filter, aggregate, and follow a link one hop at a time ("Search Around"). The public API has no pattern language like Cypher and no built-in graph algorithms.</td><td>SQL joins; any depth with a recursive CTE.</td><td>Patterns (Cypher, Gremlin), paths of variable length, shortest path, centrality.</td></tr>
+<tr><td>Data on a relationship</td><td>A link type has no properties of its own. To store data on a relationship, back the link with an object type.</td><td>Columns on the join table.</td><td>Properties on the relationship.</td></tr>
+<tr><td>Lineage and versions</td><td>Each build makes a new dataset version. Lineage shows raw → transform → clean (Picture 4).</td><td>Not built in.</td><td>Not built in.</td></tr>
+<tr><td>Consumers</td><td>The object types are one shared interface for apps, the OSDK and AI agents.</td><td>Each application writes its own queries.</td><td>Each application writes its own queries.</td></tr>
+</table></div>
+
+<h3>Which one to use</h3>
+<ul>
+  <li><b>Graph database:</b> the main questions are about paths. Example: "which contacts are 3 hops from <code>rep-ana</code>". That is one Cypher query. In the ontology it is 3 Search Around steps.</li>
+  <li><b>Relational database:</b> one application owns the data and needs multi-statement transactions.</li>
+  <li><b>Ontology:</b> several source systems feed one model (here: the CRM and the e-signature system), and many users and applications change it through checked actions.</li>
+</ul>
+<p class="muted">An ontology is not a type of database. It is a model with rules over data that other systems store. A graph database stores the graph itself. Sources: the public ontology notes in <code>research/palantir-public-model.md</code> and the build of this project.</p>
 
 
 </div>
