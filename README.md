@@ -18,6 +18,8 @@ The full explanation, with four diagrams, is in `docs/CRM-Ontology-Guide.html`. 
 | `foundry/transforms/crm.py` | 7 Foundry Python transforms. They import `clean_crm.py` (a copy of `crm_ontology/clean_crm.py`, placed at `myproject/clean_crm.py` in the Foundry repo). |
 | `foundry/functions/index.ts` | 2 TypeScript v1 edit functions: `assignLead`, `convertLead`. |
 | `research/palantir-public-model.md` | Notes on Palantir's public ontology API shape, with the source URL of each item. |
+| `research/vocab-a-data-ontology-logic.md`, `research/vocab-b-apps-aip-security-culture.md` | The research tables behind the vocabulary page: every term with its definition, an example sentence, the public source URL, a confidence level and notes. Checked 2026-10-11. |
+| `mcp_launch.py` | Starts the `palantir-mcp` server for an AI IDE. It reads `PALANTIR_FOUNDRY_HOST` and `PALANTIR_FOUNDRY_TOKEN` from a `.env` file next to it (never committed) and passes them to the server as `FOUNDRY_HOST`/`FOUNDRY_TOKEN`. Point your `.mcp.json` at `python mcp_launch.py`. Windows (`npx.cmd`); use `npx` elsewhere. |
 | `docs/CRM-Ontology-Guide.html` | The project guide, served by GitHub Pages from `docs/`. |
 | `docs/foundry-aip-vocabulary.html` | Foundry and AIP vocabulary: 217 Foundry and AIP terms in 7 layers, each tied to this CRM and linked to its public source, plus design stories, flashcards, and 77 self-graded drills with model answers (answers save in your browser). Live: https://az9713.github.io/crm-ontology-lab/foundry-aip-vocabulary.html |
 
