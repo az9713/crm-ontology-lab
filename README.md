@@ -5,7 +5,17 @@ A small CRM (sales reps, accounts, contacts, leads, opportunities, activities) m
 1. **A local schema.** `crm_ontology/build_ontology.py` writes `ontology.json` in the public `OntologyFullMetadata` shape: 6 object types, 9 link types, 8 action types, 1 interface. `check_ontology.py` validates it against the open-source `foundry-platform-sdk` models.
 2. **A Foundry build.** The author's own transform code (`foundry/transforms/crm.py`) and function code (`foundry/functions/index.ts`) built the same model on a Foundry Developer Tier (AIP Now) enrollment.
 
-The full explanation, with four diagrams, is in `docs/CRM-Ontology-Guide.html`. Read it live at **https://az9713.github.io/crm-ontology-lab/CRM-Ontology-Guide.html**.
+The full explanation, with four diagrams, is in `docs/CRM-Ontology-Guide.html`.
+
+## Live pages
+
+GitHub Pages serves every HTML file in `docs/` from the `main` branch. Open them in a browser:
+
+| Page | Live URL | Source |
+|---|---|---|
+| **CRM Ontology Guide** — the project explained, with four diagrams | [az9713.github.io/crm-ontology-lab/CRM-Ontology-Guide.html](https://az9713.github.io/crm-ontology-lab/CRM-Ontology-Guide.html) | [`docs/CRM-Ontology-Guide.html`](docs/CRM-Ontology-Guide.html) |
+| **Foundry and AIP Vocabulary** — 217 terms, flashcards, 77 drills | [az9713.github.io/crm-ontology-lab/foundry-aip-vocabulary.html](https://az9713.github.io/crm-ontology-lab/foundry-aip-vocabulary.html) | [`docs/foundry-aip-vocabulary.html`](docs/foundry-aip-vocabulary.html) |
+| Site root (redirects to the guide) | [az9713.github.io/crm-ontology-lab/](https://az9713.github.io/crm-ontology-lab/) | [`docs/index.html`](docs/index.html) |
 
 > **Not affiliated with Palantir.** This is an independent learning project. It is not affiliated with, endorsed by, or sponsored by Palantir Technologies. "Palantir" and "Foundry" are Palantir's trademarks. This repository contains no Palantir code, templates, documentation or screenshots.
 
@@ -21,7 +31,7 @@ The full explanation, with four diagrams, is in `docs/CRM-Ontology-Guide.html`. 
 | `research/vocab-a-data-ontology-logic.md`, `research/vocab-b-apps-aip-security-culture.md` | The research tables behind the vocabulary page: every term with its definition, an example sentence, the public source URL, a confidence level and notes. Checked 2026-10-11. |
 | `mcp_launch.py` | Starts the `palantir-mcp` server for an AI IDE. It reads `PALANTIR_FOUNDRY_HOST` and `PALANTIR_FOUNDRY_TOKEN` from a `.env` file next to it (never committed) and passes them to the server as `FOUNDRY_HOST`/`FOUNDRY_TOKEN`. Point your `.mcp.json` at `python mcp_launch.py`. Windows (`npx.cmd`); use `npx` elsewhere. |
 | `docs/CRM-Ontology-Guide.html` | The project guide, served by GitHub Pages from `docs/`. |
-| `docs/foundry-aip-vocabulary.html` | Foundry and AIP vocabulary: 217 Foundry and AIP terms in 7 layers, each tied to this CRM and linked to its public source, plus design stories, flashcards, and 77 self-graded drills with model answers (answers save in your browser). Live: https://az9713.github.io/crm-ontology-lab/foundry-aip-vocabulary.html |
+| `docs/foundry-aip-vocabulary.html` | Foundry and AIP vocabulary: 217 Foundry and AIP terms in 7 layers, each tied to this CRM and linked to its public source, plus design stories, flashcards, and 77 self-graded drills with model answers (answers save in your browser). |
 
 ## Run the local part
 
